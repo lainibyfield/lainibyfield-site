@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Results | Laini Byfield</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/site.css" />
+  <script defer src="assets/js/results.js"></script>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-name">Laini Byfield</a>
+    <ul class="nav-links">
+      <li><a href="assessment.html">Assessment</a></li>
+      <li><a href="index.html#coaching">Coaching</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main class="page-shell">
+    <section class="page-hero">
+      <p class="eyebrow">Your results</p>
+      <h1 id="pageTitle">Your results suggest a <em>pattern</em>.</h1>
+      <p class="page-sub" id="pageIntro">This page is built to show one main result and only the add-ons that are relevant to it.</p>
+    </section>
+
+    <div id="noResultState" class="empty-state hidden-input">
+      <p>No assessment result was found.</p>
+      <a href="assessment.html" class="btn-primary no-animation">Take the Assessment</a>
+    </div>
+
+    <section id="resultSection" class="result-layout hidden-input">
+      <div class="result-main" id="resultMain"></div>
+      <aside class="result-side" id="resultSide"></aside>
+    </section>
+  </main>
+</body>
+</html>
