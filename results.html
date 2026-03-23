@@ -9,6 +9,55 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/site.css" />
   <script defer src="assets/js/results.js"></script>
+  <style>
+    .result-note {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-style: italic;
+      line-height: 1.65;
+      margin-top: 0.8rem;
+      padding-top: 0.8rem;
+      border-top: 1px solid var(--rule);
+    }
+    .result-description {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.97rem;
+      color: var(--ink-light);
+      line-height: 1.75;
+      margin-bottom: 0.8rem;
+      font-style: italic;
+    }
+    .resource-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid #d4c9b8;
+    }
+    .resource-item:last-child { border-bottom: none; }
+    .resource-link {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      color: #7a5c3e;
+      text-decoration: none;
+      font-weight: 400;
+    }
+    .resource-link:hover { text-decoration: underline; }
+    .resource-phone {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: #8a7f72;
+      letter-spacing: 0.05em;
+    }
+    .resource-note {
+      font-size: 0.78rem;
+      color: #8a7f72;
+      font-style: italic;
+    }
+    .resources-box {
+      background: #f5f0e8;
+    }
+  </style>
 </head>
 <body>
   <nav>
@@ -35,7 +84,6 @@
 
     <section id="resultSection" class="result-layout hidden-input">
       <div class="result-main" id="resultMain"></div>
-      <aside class="result-side" id="resultSide"></aside>
     </section>
   </main>
 </body>
