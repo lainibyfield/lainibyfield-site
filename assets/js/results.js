@@ -14,8 +14,8 @@ const resultCopy = {
     offTrack: 'Food becomes the easiest form of stimulation, especially when nothing else is immediately available or satisfying enough to compete with it.',
     toolsTitle: 'When you want something interesting or satisfying:',
     tools: [
-      'Do a 5–10 minute intensity shift; stairs, brisk walk, or a short flow',
-      'Change tasks completely; not just location'
+      'Do a 5\u201310 minute intensity shift before opening the fridge \u2014 stairs, a brisk walk, or anything that moves your body and genuinely changes your physical state. The goal is to give your brain the input it is actually looking for, not substitute food for it.',
+      'Change tasks completely, not just location \u2014 move from screen to something hands-on, go outside briefly, or pick up something that requires actual focus. Novelty is what your brain wants. A different room with the same phone in your hand is not novelty.'
     ],
     decide: 'Was I looking for stimulation or actually hungry?',
     eat: 'If you still want food, eat something with texture and substance; not something you will keep chasing.'
@@ -28,8 +28,8 @@ const resultCopy = {
     offTrack: 'Food becomes the fastest and most reliable form of comfort, so it gets used even when the real need is rest, relief, or decompression.',
     toolsTitle: 'When the day feels heavy and you want comfort:',
     tools: [
-      'Take a 5-minute reset before eating; sit, breathe, or step outside',
-      'Drink something warm first; tea, broth, or coffee, and then decide'
+      'Take a 5-minute reset before eating — sit down, breathe, or step outside briefly. Not as a technique, but as a pause long enough to notice whether you are actually hungry or just needing the day to slow down.',
+      'Drink something warm first — tea, broth, or coffee — then decide. Warmth does some of the same regulating work that food does. If you still want to eat after finishing it, eat. If the edge is off, you have your answer.'
     ],
     decide: 'Do I need relief or food?',
     eat: 'If you still want food after you settle, have a warm, intentional meal; not a snack eaten standing up.'
@@ -42,8 +42,8 @@ const resultCopy = {
     offTrack: 'Food gets absorbed into that same automatic flow, so it happens without much intention.',
     toolsTitle: 'When you catch yourself reaching for food without thinking:',
     tools: [
-      'Pause before the first bite',
-      'Plate it or leave the room'
+      'Before the first bite, stop and plate it — even if it is just a handful of something. Eating while standing at the counter or walking through a room is the pattern in action. Sitting down with a plate is the interruption.',
+      'If you catch yourself already eating, set it down and decide whether to continue. You do not have to stop — but the decision should be a decision, not just the continuation of something that started automatically.'
     ],
     decide: 'Did I plan to eat, or did I just arrive here?',
     eat: 'If you still want it, sit and eat it intentionally; not while doing something else.'
@@ -56,8 +56,8 @@ const resultCopy = {
     offTrack: 'When your day gets disrupted, eating can become reactive, scattered, or more frequent without you fully noticing why.',
     toolsTitle: 'When your day gets off track:',
     tools: [
-      'Eat a default meal you do not have to think about',
-      'Reset with your next planned eating time; not “later”'
+      'Eat a default meal you do not have to think about — something you can prepare without decisions, like the same breakfast you always make or a meal you keep on rotation. The goal is to remove choice from a moment when choice is the problem.',
+      'Reset with your next planned eating time, not “later” — pick a specific time, not a vague intention. If dinner is at 7, eat at 7. The structure you already have is the tool.'
     ],
     decide: 'Am I off schedule or actually hungry?',
     eat: 'If you still want food, eat at your next anchor time; not continuously throughout the gap.'
@@ -70,11 +70,26 @@ const resultCopy = {
     offTrack: 'By the time hunger shows up clearly, it is often stronger than expected, which can make later eating feel hard to manage.',
     toolsTitle: 'When you feel very hungry later in the day:',
     tools: [
-      'Eat earlier than you think you need to',
-      'Do not go more than 4–5 hours without eating'
+      'Eat earlier than you think you need to — not when you feel hungry, but on a schedule that prevents the deficit from building. By the time strong hunger shows up, you are already behind.',
+      'Do not go more than 4 to 5 hours without eating. Set a timer if you have to. The goal is to make catching up unnecessary, not to manage it better once it happens.'
     ],
     decide: 'Am I trying to control intake earlier and paying for it now?',
     eat: 'If you are hungry, eat a balanced meal; not a quick snack to hold you over.'
+  },
+  FUELING_HIGH_OUTPUT: {
+    title: 'Your results suggest a High-Output Fueling Pattern.',
+    subtitle: 'The amount you burn may be outpacing what you are taking in — and your body is collecting the difference.',
+    happening: 'High-intensity or high-volume exercise creates a significant caloric demand. When intake does not match output, the body compensates — often with urgent, high-volume, or hard-to-stop eating that feels disconnected from the workout that caused it. The drive home snack, the evening catch-up, the inability to stop once you start — these are not lapses. They are the bill coming due.',
+    strength: 'You are disciplined, structured, and willing to put in the work. The output side of your system is well-developed. The intake side may just need the same level of attention.',
+    offTrack: 'When output drops — injury, travel, schedule — the eating pattern does not automatically adjust. The behavior is established independently of the burn, which means slowing down tends to feel like losing control.',
+    toolsTitle: 'What tends to help:',
+    tools: [
+      'Eat in proportion to output — on hard training days, eat more. Not as a reward, but because the math requires it. Waiting until you feel hungry after a high-output morning is waiting too long.',
+      'Front-load intake earlier in the day, especially before or after intense sessions. If your hardest eating challenge happens at night, it is almost always a morning problem.',
+      'When eating feels urgent or hard to stop, pause and ask whether you fueled adequately that day before assuming it is a discipline problem. Nine times out of ten it is not.'
+    ],
+    decide: 'Did I fuel enough for what I asked my body to do today?',
+    eat: 'If you are hungry after a hard day, eat a full meal. Your body is not confused — it is doing the math.'
   },
   CLINICAL: {
     title: 'Your responses suggest a different starting point.',
@@ -85,12 +100,35 @@ const resultCopy = {
     toolsTitle: 'A grounded next step:',
     tools: [
       'Consider speaking with a licensed provider who works specifically with eating behaviors',
-      'Use this result as information, not as a reason to shame yourself'
+      'Use this result as information, not as a reason to shame yourself',
+      'If you are currently working with a physician on weight management, this result is worth sharing with them directly'
     ],
     decide: 'What kind of support would actually meet the full picture here?',
-    eat: 'You may still benefit from coaching later, but this pattern may deserve more specialized care first.'
+    eat: 'You may still benefit from coaching later, but this pattern may deserve more specialized care first.',
+    resources: [
+      { name: 'Alliance for Eating Disorders Awareness', url: 'https://www.allianceforeatingdisorders.com', phone: '1-866-662-1235', note: 'Helpline staffed by real people' },
+      { name: 'Find a therapist who specializes in eating behaviors', url: 'https://www.psychologytoday.com/us/therapists', phone: null, note: 'Filter by eating disorders, insurance, and location' }
+    ]
+  },
+  LOW: {
+    title: 'Based on your answers, eating patterns are not a major concern for you right now.',
+    subtitle: 'Based on your answers, unplanned or emotionally driven eating does not appear to be a significant concern right now.',
+    happening: 'That is genuinely useful information. Not everyone has a complicated relationship with food, and this assessment is designed to reflect that honestly.',
+    strength: 'You appear to have a relatively stable relationship with eating — consistent, intentional, and not heavily driven by stress or habit.',
+    offTrack: 'Patterns can shift with life changes, stress, or routine disruptions. If something changes down the road, this assessment will still be here.',
+    toolsTitle: 'If you are curious about eating patterns in general:',
+    tools: [
+      'The patterns identified here — stress-driven, routine-based, sensory, and structural — are common and worth understanding even if they do not apply to you now',
+      'Sharing this with someone who might find it useful is welcome'
+    ],
+    decide: 'Is there something specific that prompted you to take this assessment?',
+    eat: 'If eating is not currently a concern, trust that. You do not need a strategy for something that is not a problem.'
   }
 };
+
+function isLowScore(scores) {
+  return (scores.S + scores.O + scores.D + scores.T) <= 8;
+}
 
 function createBox(title, bodyHtml, extraClass = '') {
   return `
@@ -101,13 +139,66 @@ function createBox(title, bodyHtml, extraClass = '') {
   `;
 }
 
-function renderPrimaryBlock(copy, secondaryLabel) {
+
+const secondaryNotes = {
+  'S+O': 'Seeker patterns with Soother tendencies often show up as eating that starts with boredom or restlessness but intensifies when stress is present. The two reinforce each other — understimulation creates the opening, and emotional pressure turns it into something harder to stop.',
+  'S+D': 'Seeker patterns with Drifter tendencies often look like eating that starts as a conscious search for something interesting and then continues automatically. You may start with intention and lose track of how much or how long.',
+  'S+T': 'Seeker patterns with Stabilizer tendencies can create a push-pull dynamic — the routine provides some structure, but when that structure breaks, the pull toward stimulation through food becomes stronger. Disrupted days tend to be higher-risk.',
+  'O+S': 'Soother patterns with Seeker tendencies often show up as eating that is emotionally driven but also sensory -- comfort food that has to be the right texture or taste, not just any food. The emotional need and the sensory need overlap.',
+  'O+D': 'Soother patterns with Drifter tendencies often look like emotional eating that happens without a clear moment of decision. You may reach for food when stressed without fully noticing you did it until afterward.',
+  'O+T': 'Soother patterns with Stabilizer tendencies can mean that routine is being used as emotional regulation -- eating at the same time, the same foods, as a way of managing feelings rather than hunger. Disruptions to the routine can feel disproportionately stressful.',
+  'D+S': 'Drifter patterns with Seeker tendencies often show up as mindless eating that gravitates toward more stimulating or flavorful options. It is not just that eating happens automatically -- it tends toward specific textures or tastes once it starts.',
+  'D+O': 'Drifter patterns with Soother tendencies often look like eating that starts without awareness and then continues because it provides comfort. The automatic start and the emotional reinforcement make it harder to interrupt once it is underway.',
+  'D+T': 'Drifter patterns with Stabilizer tendencies often show up most clearly when routine breaks. When the day is structured, eating is more automatic but contained. When structure goes, awareness drops further and eating becomes more scattered.',
+  'T+S': 'Stabilizer patterns with Seeker tendencies can create a cycle where structure works well until boredom sets in -- then the routine itself becomes the thing being eaten around. Predictable days can paradoxically increase the pull toward food as stimulation.',
+  'T+O': 'Stabilizer patterns with Soother tendencies often show up as eating that is tied to emotional rhythm as much as time. Meals may feel like emotional anchors -- comforting as much as nutritional -- which makes disruption to the schedule feel more unsettling than it should.',
+  'T+D': 'Stabilizer patterns with Drifter tendencies often look like eating that follows a schedule but happens without much awareness within that schedule. Timing is consistent but mindfulness is low -- meals happen on time but often automatically.'
+};
+
+function getSecondaryNote(primaryCode, secondaryCode) {
+  const key = primaryCode + '+' + secondaryCode;
+  return secondaryNotes[key] || null;
+}
+
+const patternDescriptions = {
+  'S': 'A Seeker pattern means food has become your most reliable source of stimulation \u2014 a quick way to change your state when things feel flat or repetitive.',
+  'O': 'A Soother pattern means food has become your most reliable way to regulate emotional pressure \u2014 the thing you reach for when the day needs to soften.',
+  'D': 'A Drifter pattern means eating happens in the background of your day \u2014 folded into other activities without a clear moment of decision.',
+  'T': 'A Stabilizer pattern means your eating is strongly tied to the rhythm of your day \u2014 when structure holds, eating feels manageable; when it breaks, eating often follows.'
+};
+
+function renderPrimaryBlock(copy, secondaryLabel, payload) {
+  const primaryCode = payload ? payload.types.primaryCode : '';
+  const patternDesc = patternDescriptions[primaryCode] || '';
+  const resourcesHtml = copy.resources ? `
+    <div class="result-box resources-box">
+      <span class="result-kicker">Where to go next</span>
+      ${copy.resources.map(r => `
+        <div class="resource-item">
+          <a href="${r.url}" target="_blank" rel="noopener noreferrer" class="resource-link">${r.name}</a>
+          ${r.phone ? `<span class="resource-phone">${r.phone} &mdash; ${r.note}</span>` : `<span class="resource-note">${r.note}</span>`}
+        </div>
+      `).join('')}
+    </div>
+  ` : '';
+
+  const secondaryNote = secondaryLabel && payload
+    ? getSecondaryNote(payload.types.primaryCode, payload.types.secondaryCode)
+    : null;
+
+  const secondaryBlock = secondaryNote ? `
+    <div class="result-box secondary-pattern-callout">
+      <span class="result-kicker secondary-kicker">Your result identified a second pattern.</span>
+      <p class="secondary-pattern-name">${secondaryLabel}</p>
+      <p class="secondary-pattern-body">${secondaryNote}</p>
+      <p class="secondary-pattern-note">Most patterns have a secondary layer. This one shapes how your primary pattern shows up \u2014 and often explains why it is harder to interrupt than expected.</p>
+    </div>
+  ` : '';
+
   return `
     <div class="result-box">
       <span class="result-kicker">Primary result</span>
-      <h2 class="result-title">${copy.title}</h2>
-      <p class="result-subtitle">${copy.subtitle}</p>
-      ${secondaryLabel ? `<div class="badge-line"><span class="badge">Secondary pattern: ${secondaryLabel}</span></div>` : ''}
+      ${patternDesc ? `<p class="result-description">${patternDesc}</p>` : ''}
     </div>
 
     ${createBox('What is happening', `<p>${copy.happening}</p>`)}
@@ -120,6 +211,8 @@ function renderPrimaryBlock(copy, secondaryLabel) {
       <p><strong>Then decide:</strong> ${copy.decide}</p>
       <p><strong>If you still want food,</strong> ${copy.eat}</p>
     `)}
+    ${secondaryBlock}
+    ${resourcesHtml}
   `;
 }
 
@@ -132,6 +225,7 @@ function renderPerimenopauseBox() {
       <li>Watch for small calorie creep over time</li>
       <li>Prioritize protein and structure, especially earlier in the day</li>
     </ul>
+    <p class="result-note">If you have not already spoken with your doctor about these changes, it is worth doing. Hormonal shifts during this stage are treatable and manageable — and understanding what is happening physiologically makes the behavioral strategies here more effective, not less necessary.</p>
   `);
 }
 
@@ -142,7 +236,7 @@ function renderFuelingAddOn() {
   `);
 }
 
-function renderCTA() {
+function renderCTA(payload) {
   return `
     <div class="result-box cta-box">
       <span class="result-kicker">If this feels accurate</span>
@@ -150,26 +244,103 @@ function renderCTA() {
       <p class="result-subtitle">You need a strategy that fits your pattern.</p>
       <p>If you want support, you can choose to send your results and request a call.</p>
       <div class="result-actions">
-        <a class="btn-primary no-animation" id="sendResultsLink" href="#">Submit my results and receive a call</a>
+        <a class="btn-primary no-animation" id="sendResultsLink" href="#">Submit my results and request a call</a>
         <a class="btn-secondary" href="assessment.html">Retake the assessment</a>
       </div>
-      <p class="helper-text">Your quiz is anonymous unless you choose to share your results.</p>
+      <p class="helper-text"><a href="index.html" style="color: var(--muted); font-size: 0.78rem; font-family: 'DM Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none;">Return to lainibyfield.com</a></p>
+      <p class="helper-text">Your results are anonymous unless you choose to share them.</p>
     </div>
   `;
 }
 
-function renderSummaryCard(payload, primaryLabel, secondaryLabel) {
-  return `
-    <div class="summary-card">
-      <span class="card-kicker">Quick summary</span>
-      <h3>${payload.flags.clinical ? 'Different starting point' : payload.flags.fueling ? 'Fueling Pattern' : primaryLabel}</h3>
-      <div class="metric"><span class="metric-label">Primary</span><span class="metric-value">${payload.flags.clinical ? 'Clinical caution' : payload.flags.fueling ? 'Fueling' : primaryLabel}</span></div>
-      <div class="metric"><span class="metric-label">Secondary</span><span class="metric-value">${payload.flags.clinical || payload.flags.fueling ? '—' : secondaryLabel}</span></div>
-      <div class="metric"><span class="metric-label">Fueling signal</span><span class="metric-value">${payload.flags.fueling ? 'Strong' : 'Checked'}</span></div>
-      <div class="metric"><span class="metric-label">Perimenopause overlay</span><span class="metric-value">${payload.flags.perimenopause ? 'Present' : 'Not triggered'}</span></div>
-      
+
+
+function renderClinicalResult(payload) {
+  const hasProvider = payload.flags.hasProvider;
+  const severityHigh = payload.flags.severityHigh;
+  const primaryLabel = typeLabels[payload.types.primaryCode];
+  const secondaryLabel = typeLabels[payload.types.secondaryCode];
+
+  const primaryBox = `
+    <div class="result-box">
+      <span class="result-kicker">Primary result</span>
+      <p class="result-subtitle">Some of your responses point to patterns that involve loss of control, distress, or significant mental load around food — patterns that respond best to more than one kind of support.</p>
     </div>
   `;
+
+  const sharedBoxes = `
+    ${createBox('What this means', `<p>This does not mean something is wrong with you. It means the behavioral strategies in this program work best when there is also clinical support alongside them — not instead of them.</p>
+    <p>Coaching addresses the day-to-day behavioral piece: timing, structure, response strategies, and consistency. That work is more effective, not less, when it is part of a broader support picture.</p>`)}
+    ${createBox('What this says about you', '<p>You are self-aware enough to recognize that something is happening. That awareness is not a small thing. It is often what makes the difference between staying stuck and actually moving forward.</p>')}
+  `;
+
+  const nav = `
+    <p class="helper-text"><a href="index.html" style="color: var(--muted); font-size: 0.78rem; font-family: 'DM Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none;">Return to lainibyfield.com</a></p>
+  `;
+
+  if (hasProvider) {
+    const primaryDesc = patternDescriptions[payload.types.primaryCode] || '';
+    const secKey = payload.types.primaryCode + '+' + payload.types.secondaryCode;
+    const secondaryDesc = secondaryNotes[secKey] || '';
+    const patternContextHtml = `<p>${primaryDesc}</p>${secondaryDesc ? `<p style="margin-top:8px">${secondaryDesc}</p>` : ''}<p style="margin-top:10px">Some of the strategies in this program may already feel familiar — you may have tried versions of them on your own or alongside other support. What guided coaching adds is not new information. It is structure, accountability, and a process tailored specifically to your pattern over time. That is often what makes the difference between knowing something and actually being able to use it consistently.</p>`;
+    const patternContextBox = createBox('Your pattern context', patternContextHtml);
+
+    return primaryBox + sharedBoxes + patternContextBox + `
+      ${createBox('You are already working with someone', `<p>That matters. Coaching can work alongside your current support — not to replace it, but to address the behavioral layer that clinical work often does not cover in detail.</p>
+      <p>If your provider is aware of your eating patterns, that conversation is already open. If not, sharing your results with them is a reasonable next step.</p>`)}
+
+      <div class="result-box cta-box">
+        <span class="result-kicker">If this feels accurate</span>
+        <h2 class="result-title">Coaching can work alongside the support you already have.</h2>
+        <p class="result-subtitle">You are not starting from zero.</p>
+        <p>If you want to explore what that looks like, you can request a call. We can talk through whether this is the right fit right now.</p>
+        <div class="result-actions">
+          <a class="btn-primary no-animation" id="sendResultsLink" href="#">Submit my results and request a call</a>
+          <a class="btn-secondary" href="assessment.html">Retake the assessment</a>
+        </div>
+        ${nav}
+        <p class="helper-text">Your results are anonymous unless you choose to share them.</p>
+      </div>
+    \`;
+  } else {
+    const urgencyNote = severityHigh
+      ? '<p>Based on your responses, the frequency and impact of what you are experiencing suggests that connecting with a specialist sooner rather than later would be worth prioritizing.</p>'
+      : '<p>There is no urgency — but having that support in place before starting a coaching program tends to produce better outcomes.</p>';
+
+    return primaryBox + sharedBoxes + `
+      ${createBox('A grounded next step', `<p>Before starting a self-guided or coaching-based program, it may help to connect with someone who specializes in eating behaviors. This does not need to be a long-term commitment — even a few sessions can clarify what kind of support fits best.</p>
+      ${urgencyNote}`)}
+
+      <div class="result-box resources-box">
+        <span class="result-kicker">Where to go next</span>
+        <div class="resource-item">
+          <a href="https://www.allianceforeatingdisorders.com" target="_blank" rel="noopener noreferrer" class="resource-link">Alliance for Eating Disorders Awareness</a>
+          <span class="resource-phone">1-866-662-1235 &mdash; Helpline staffed by real people</span>
+        </div>
+        <div class="resource-item">
+          <a href="https://www.psychologytoday.com/us/therapists" target="_blank" rel="noopener noreferrer" class="resource-link">Find a therapist who specializes in eating behaviors</a>
+          <span class="resource-note">Filter by eating disorders, insurance, and location</span>
+        </div>
+        <div class="resource-item">
+          <span class="resource-link" style="color: var(--ink-light); cursor: default;">If you are working with a physician on weight management</span>
+          <span class="resource-note">This result is worth sharing with them directly</span>
+        </div>
+      </div>
+
+      <div class="result-box cta-box">
+        <span class="result-kicker">When you are ready</span>
+        <h2 class="result-title">Coaching will still be here.</h2>
+        <p class="result-subtitle">Once you have some support in place, the behavioral work becomes more effective — not less relevant.</p>
+        <p>If you want to talk through what that could look like, you are welcome to request a call at any point.</p>
+        <div class="result-actions">
+          <a class="btn-primary no-animation" id="sendResultsLink" href="#">Request a call</a>
+          <a class="btn-secondary" href="assessment.html">Retake the assessment</a>
+        </div>
+        ${nav}
+        <p class="helper-text">Your results are anonymous unless you choose to share them.</p>
+      </div>
+    `;
+  }
 }
 
 function buildGoogleFormUrl(payload, primaryLabel, secondaryLabel) {
@@ -197,12 +368,255 @@ function buildGoogleFormUrl(payload, primaryLabel, secondaryLabel) {
   return `${base}?usp=pp_url&${params.toString()}`;
 }
 
+
+function generatePatternCode(payload, primaryLabel) {
+  // Code format: [Primary][Secondary]-[S][O][D][T]-W[week]
+  // Example: SO-18-12-8-6-W14
+  // Human readable, copyable, encodes enough to match longitudinally
+  const p = payload.types.primaryCode || 'X';
+  const s = payload.types.secondaryCode || 'X';
+  const scores = payload.scores;
+  const S = scores.S || 0;
+  const O = scores.O || 0;
+  const D = scores.D || 0;
+  const T = scores.T || 0;
+
+  // Week of year
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 1);
+  const week = Math.ceil(((now - start) / 86400000 + start.getDay() + 1) / 7);
+
+  // For low score / no pattern use NN
+  const primary = payload.flags.clinical ? 'CL'
+    : payload.flags.fueling && payload.flags.highOutput ? 'HO'
+    : payload.flags.fueling ? 'FU'
+    : (scores.S + scores.O + scores.D + scores.T) <= 8 ? 'NN'
+    : p;
+
+  const secondary = payload.flags.clinical || payload.flags.fueling
+    || (scores.S + scores.O + scores.D + scores.T) <= 8 ? 'X' : s;
+
+  return `${primary}${secondary}-${S}-${O}-${D}-${T}-W${week}`;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DATA DESTINATION CONFIGURATION
+// Activate ONE or MORE of the three options below.
+// All three can run simultaneously — they are independent.
+// ─────────────────────────────────────────────────────────────────────────────
+
+// OPTION A — Airtable
+// 1. Create a free account at airtable.com
+// 2. Create a Base called "Assessment Results"
+// 3. Add these fields: Timestamp, PatternCode, Primary, Secondary,
+//    S, O, D, T, Fueling, Clinical, Perimenopause, Investment, SubmissionType
+// 4. Go to airtable.com/create/tokens → create a Personal Access Token
+//    with scopes: data.records:write, schema.bases:read
+// 5. Find your Base ID in the URL: airtable.com/[BASE_ID]/...
+// 6. Replace the placeholder values below
+const AIRTABLE_TOKEN   = 'YOUR_AIRTABLE_PERSONAL_ACCESS_TOKEN';
+const AIRTABLE_BASE_ID = 'YOUR_AIRTABLE_BASE_ID';
+const AIRTABLE_TABLE   = 'Assessment Results'; // must match your table name exactly
+
+// OPTION B — Google Sheets via Apps Script
+// 1. Create a Google Sheet with columns matching the Airtable fields above
+// 2. In the sheet: Extensions → Apps Script → paste the script from the
+//    comment block at the bottom of this file
+// 3. Deploy as web app: Execute as Me, Anyone can access
+// 4. Copy the web app URL and paste below
+const APPS_SCRIPT_URL  = 'YOUR_APPS_SCRIPT_WEB_APP_URL';
+
+// OPTION C — EmailJS to dedicated data inbox
+// Uses the same EmailJS account as the coaching request
+// Create a second template for anonymous data — no personal info, just scores
+// Route it to a dedicated address like data@lainibyfield.com
+const EMAILJS_DATA_SERVICE_ID  = 'YOUR_EMAILJS_SERVICE_ID';     // same as coaching
+const EMAILJS_DATA_TEMPLATE_ID = 'YOUR_EMAILJS_DATA_TEMPLATE_ID'; // separate template
+const EMAILJS_PUBLIC_KEY       = 'YOUR_EMAILJS_PUBLIC_KEY';      // same as coaching
+
+// ─────────────────────────────────────────────────────────────────────────────
+
+function buildAnonymousRecord(payload, primaryLabel, secondaryLabel, code) {
+  // Shared data structure used by all three destinations
+  const resultLabel = payload.flags.clinical
+    ? 'Different starting point'
+    : payload.flags.highOutput ? 'High-Output Fueling'
+    : payload.flags.fueling    ? 'Fueling Pattern'
+    : (payload.scores.S + payload.scores.O + payload.scores.D + payload.scores.T) <= 8
+      ? 'No Strong Pattern'
+      : primaryLabel;
+
+  return {
+    Timestamp:      new Date().toISOString(),
+    PatternCode:    code,
+    Primary:        resultLabel,
+    Secondary:      payload.flags.clinical || payload.flags.fueling ? '' : secondaryLabel,
+    S:              payload.scores.S,
+    O:              payload.scores.O,
+    D:              payload.scores.D,
+    T:              payload.scores.T,
+    Fueling:        payload.flags.fueling        ? 'Yes' : 'No',
+    Clinical:       payload.flags.clinical       ? 'Yes' : 'No',
+    Perimenopause:  payload.flags.perimenopause  ? 'Yes' : 'No',
+    Investment:     payload.investmentLevel || '',
+    SubmissionType: 'auto_result'
+  };
+}
+
+function submitToAirtable(record) {
+  // OPTION A — only runs if token is configured
+  if (AIRTABLE_TOKEN.includes('YOUR_')) return;
+
+  fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE)}`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
+      'Content-Type':  'application/json'
+    },
+    body: JSON.stringify({ fields: record })
+  }).catch(() => {}); // silent — never interrupts the user
+}
+
+function submitToGoogleSheet(record) {
+  // OPTION B — only runs if Apps Script URL is configured
+  if (APPS_SCRIPT_URL.includes('YOUR_')) return;
+
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode:   'no-cors', // Apps Script requires no-cors from external origins
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(record)
+  }).catch(() => {});
+}
+
+function submitToEmailJSData(record) {
+  // OPTION C — only runs if EmailJS data template is configured
+  if (EMAILJS_DATA_TEMPLATE_ID.includes('YOUR_')) return;
+  if (typeof emailjs === 'undefined') return;
+
+  emailjs.send(
+    EMAILJS_DATA_SERVICE_ID,
+    EMAILJS_DATA_TEMPLATE_ID,
+    {
+      pattern_code:   record.PatternCode,
+      primary:        record.Primary,
+      secondary:      record.Secondary,
+      score_s:        record.S,
+      score_o:        record.O,
+      score_d:        record.D,
+      score_t:        record.T,
+      fueling:        record.Fueling,
+      clinical:       record.Clinical,
+      perimenopause:  record.Perimenopause,
+      investment:     record.Investment,
+      timestamp:      record.Timestamp
+    },
+    EMAILJS_PUBLIC_KEY
+  ).catch(() => {});
+}
+
+function silentAnonymousSubmit(payload, primaryLabel, secondaryLabel) {
+  // Fires once when result renders — silent, no user action required
+  // Routes to whichever destinations are configured above
+  const code   = generatePatternCode(payload, primaryLabel);
+  const record = buildAnonymousRecord(payload, primaryLabel, secondaryLabel, code);
+
+  // Activate whichever destinations are configured above
+  // by uncommenting the corresponding line:
+  // submitToAirtable(record);      // Option A — uncomment when Airtable is configured
+  // submitToGoogleSheet(record);   // Option B — uncomment when Apps Script is deployed
+  // submitToEmailJSData(record);   // Option C — uncomment when EmailJS data template is ready
+}
+
+/*
+ * ─────────────────────────────────────────────────────────────────────────────
+ * OPTION B — GOOGLE APPS SCRIPT
+ * Copy everything between the dashes and paste into your Apps Script editor.
+ * ─────────────────────────────────────────────────────────────────────────────
+ *
+ * function doPost(e) {
+ *   try {
+ *     const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+ *     const data  = JSON.parse(e.postData.contents);
+ *
+ *     // Add header row if sheet is empty
+ *     if (sheet.getLastRow() === 0) {
+ *       sheet.appendRow([
+ *         'Timestamp','PatternCode','Primary','Secondary',
+ *         'S','O','D','T','Fueling','Clinical','Perimenopause',
+ *         'Investment','SubmissionType'
+ *       ]);
+ *     }
+ *
+ *     sheet.appendRow([
+ *       data.Timestamp, data.PatternCode, data.Primary, data.Secondary,
+ *       data.S, data.O, data.D, data.T, data.Fueling, data.Clinical,
+ *       data.Perimenopause, data.Investment, data.SubmissionType
+ *     ]);
+ *
+ *     return ContentService
+ *       .createTextOutput(JSON.stringify({ status: 'ok' }))
+ *       .setMimeType(ContentService.MimeType.JSON);
+ *   } catch(err) {
+ *     return ContentService
+ *       .createTextOutput(JSON.stringify({ status: 'error', message: err.message }))
+ *       .setMimeType(ContentService.MimeType.JSON);
+ *   }
+ * }
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
+
+
+
+function sendResultsEmail(email, payload, primaryLabel, secondaryLabel, patternCode) {
+  // EmailJS — configure YOUR_SERVICE_ID, YOUR_TEMPLATE_ID, YOUR_PUBLIC_KEY
+  // Template variables: to_email, pattern_name, pattern_code,
+  //                     pattern_description, secondary_name, scores_summary
+  // Uses the EmailJS constants defined at the top of this file
+  // YOUR_EMAILJS_SERVICE_ID and YOUR_EMAILJS_PUBLIC_KEY are shared
+  // YOUR_EMAILJS_TEMPLATE_ID is the coaching/results template (different from data template)
+  const serviceId   = 'YOUR_EMAILJS_SERVICE_ID';
+  const templateId  = 'YOUR_EMAILJS_TEMPLATE_ID';   // template for sending results TO the user
+  const publicKey   = EMAILJS_PUBLIC_KEY;            // shared with data submission
+
+  if (serviceId.includes('YOUR_')) {
+    return Promise.reject('EmailJS not configured yet');
+  }
+
+  const patternDesc = {
+    'Seeker':    'Food has become your most reliable source of stimulation — a quick way to change your state when things feel flat or repetitive.',
+    'Soother':   'Food has become your most reliable way to regulate emotional pressure — the thing you reach for when the day needs to soften.',
+    'Drifter':   'Eating happens in the background of your day — folded into other activities without a clear moment of decision.',
+    'Stabilizer':'Your eating is strongly tied to the rhythm of your day — when structure holds, eating feels manageable; when it breaks, eating often follows.',
+    'Fueling':   'Your body is catching up from a deficit that built earlier in the day — not a lack of discipline, a matter of timing.',
+  };
+
+  const resultName = payload.flags.clinical ? 'A different starting point'
+    : payload.flags.highOutput ? 'High-Output Fueling Pattern'
+    : payload.flags.fueling    ? 'Fueling Pattern'
+    : (payload.scores.S + payload.scores.O + payload.scores.D + payload.scores.T) <= 8
+      ? 'No strong pattern identified'
+      : primaryLabel + ' Pattern';
+
+  const templateParams = {
+    to_email:            email,
+    pattern_name:        resultName,
+    pattern_code:        patternCode,
+    pattern_description: patternDesc[primaryLabel] || 'See your full results at lainibyfield.com.',
+    secondary_name:      secondaryLabel || '',
+    scores_summary:      `Seeker: ${payload.scores.S} | Soother: ${payload.scores.O} | Drifter: ${payload.scores.D} | Stabilizer: ${payload.scores.T}`,
+    retake_instruction:  'When you retake the assessment at day 21, enter your pattern code to see what changed.',
+  };
+
+  return emailjs.send(serviceId, templateId, templateParams, publicKey);
+}
+
 function initResults() {
   const raw = localStorage.getItem('lainiAssessmentResult');
   const noState = document.getElementById('noResultState');
   const resultSection = document.getElementById('resultSection');
   const resultMain = document.getElementById('resultMain');
-  const resultSide = document.getElementById('resultSide');
   const pageTitle = document.getElementById('pageTitle');
   const pageIntro = document.getElementById('pageIntro');
 
@@ -220,21 +634,32 @@ function initResults() {
 
   let html = '';
 
-  if (payload.flags.clinical) {
-    const copy = resultCopy.CLINICAL;
+  if (isLowScore(payload.scores)) {
+    const copy = resultCopy.LOW;
+    pageTitle.innerHTML = 'Based on your answers, eating patterns are <em>not a major concern</em> for you right now.';
+    pageIntro.textContent = 'Not everyone has a complicated relationship with food. This assessment is designed to reflect that honestly.';
+    html += renderPrimaryBlock(copy, '', payload);
+  } else if (payload.flags.highOutput) {
+    const copy = resultCopy.FUELING_HIGH_OUTPUT;
+    pageTitle.innerHTML = 'Your results suggest a <em>High-Output Fueling Pattern</em>.';
+    pageIntro.textContent = 'The amount you burn may be outpacing what you are taking in. That gap has downstream consequences that can feel like a discipline problem but are not.';
+    html += renderPrimaryBlock(copy, '', payload);
+  } else if (payload.flags.clinical) {
     pageTitle.innerHTML = 'Your responses suggest a <em>different starting point</em>.';
-    pageIntro.textContent = 'This result does not mean something is wrong with you. It means your next step may need more specialized support.';
-    html += renderPrimaryBlock(copy, '');
+    pageIntro.textContent = payload.flags.hasProvider
+      ? 'You are already working with someone. This result is about what coaching can add — not replace.'
+      : 'This result does not mean something is wrong with you. It means your next step may benefit from more than one kind of support.';
+    html += renderClinicalResult(payload);
   } else if (payload.flags.fueling) {
     const copy = resultCopy.FUELING;
     pageTitle.innerHTML = 'Your results suggest a <em>Fueling Pattern</em>.';
     pageIntro.textContent = 'Some patterns look behavioral at first, but the body may simply be catching up after inconsistent intake.';
-    html += renderPrimaryBlock(copy, '');
+    html += renderPrimaryBlock(copy, '', payload);
   } else {
     const copy = resultCopy[payload.types.primaryCode];
     pageTitle.innerHTML = `Your results suggest a <em>${primaryLabel}</em> pattern.`;
     pageIntro.textContent = 'The point is not to judge the pattern. The point is to understand it well enough to respond differently.';
-    html += renderPrimaryBlock(copy, secondaryLabel);
+    html += renderPrimaryBlock(copy, secondaryLabel, payload);
     if (payload.scores.F >= 2) {
       html += renderFuelingAddOn();
     }
@@ -244,9 +669,125 @@ function initResults() {
     html += renderPerimenopauseBox();
   }
 
-  html += renderCTA();
+  html += renderCTA(payload);
+
+  // Append pattern code block after CTA
+  const patternCode = generatePatternCode(payload, primaryLabel);
+  const priorCode = sessionStorage.getItem('lainiPriorCode') || null;
+
+  let comparisonHtml = '';
+  if (priorCode && priorCode !== patternCode) {
+    // Parse prior code — format: PP-S-O-D-T-Wnn
+    const parts = priorCode.split('-');
+    if (parts.length >= 6) {
+      const priorPattern = parts[0];
+      const priorS = parseInt(parts[1]) || 0;
+      const priorO = parseInt(parts[2]) || 0;
+      const priorD = parseInt(parts[3]) || 0;
+      const priorT = parseInt(parts[4]) || 0;
+      const curS = payload.scores.S || 0;
+      const curO = payload.scores.O || 0;
+      const curD = payload.scores.D || 0;
+      const curT = payload.scores.T || 0;
+      const patternChanged = priorPattern !== (payload.types.primaryCode || 'NN');
+      comparisonHtml = `
+        <div class="comparison-block">
+          <p class="pattern-code-label">WHAT CHANGED SINCE YOUR FIRST RESULT</p>
+          <p class="comparison-prior-code">First code: <span>${priorCode}</span></p>
+          ${patternChanged
+            ? `<p class="comparison-pattern-shift">Your primary pattern shifted from <strong>${priorPattern}</strong> to <strong>${payload.types.primaryCode || 'NN'}</strong>.</p>`
+            : `<p class="comparison-pattern-same">Your primary pattern is consistent — <strong>${primaryLabel}</strong> both times.</p>`
+          }
+          <div class="comparison-scores">
+            <div class="score-row ${curS < priorS ? 'score-down' : curS > priorS ? 'score-up' : ''}">
+              <span class="score-label">Seeker</span>
+              <span class="score-before">${priorS}</span>
+              <span class="score-arrow">${curS < priorS ? '↓' : curS > priorS ? '↑' : '→'}</span>
+              <span class="score-after">${curS}</span>
+            </div>
+            <div class="score-row ${curO < priorO ? 'score-down' : curO > priorO ? 'score-up' : ''}">
+              <span class="score-label">Soother</span>
+              <span class="score-before">${priorO}</span>
+              <span class="score-arrow">${curO < priorO ? '↓' : curO > priorO ? '↑' : '→'}</span>
+              <span class="score-after">${curO}</span>
+            </div>
+            <div class="score-row ${curD < priorD ? 'score-down' : curD > priorD ? 'score-up' : ''}">
+              <span class="score-label">Drifter</span>
+              <span class="score-before">${priorD}</span>
+              <span class="score-arrow">${curD < priorD ? '↓' : curD > priorD ? '↑' : '→'}</span>
+              <span class="score-after">${curD}</span>
+            </div>
+            <div class="score-row ${curT < priorT ? 'score-down' : curT > priorT ? 'score-up' : ''}">
+              <span class="score-label">Stabilizer</span>
+              <span class="score-before">${priorT}</span>
+              <span class="score-arrow">${curT < priorT ? '↓' : curT > priorT ? '↑' : '→'}</span>
+              <span class="score-after">${curT}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+  }
+
+  html += `
+    <div class="pattern-code-block">
+      <p class="pattern-code-label">YOUR PATTERN CODE</p>
+      <p class="pattern-code-value">${patternCode}</p>
+      <p class="pattern-code-instructions">Save this code. If you complete the 21-day protocol and want to see what changed, enter it when you retake the assessment at day 21.</p>
+      <div class="email-send-row" id="emailSendRow">
+        <input type="email" id="resultEmailInput" class="result-email-input"
+               placeholder="Send these results to your email"
+               autocomplete="email" />
+        <button type="button" id="resultEmailBtn" class="result-email-btn">Send</button>
+      </div>
+      <p class="email-privacy-note">Your email is used only to send this message. It is not stored, shared, or added to any list.</p>
+      <p class="email-send-status hidden-input" id="emailSendStatus"></p>
+    </div>
+    ${comparisonHtml}
+  `;
+
   resultMain.innerHTML = html;
-  resultSide.innerHTML = renderSummaryCard(payload, primaryLabel, secondaryLabel);
+
+  // Email send button
+  const emailBtn   = document.getElementById('resultEmailBtn');
+  const emailInput = document.getElementById('resultEmailInput');
+  const emailStatus = document.getElementById('emailSendStatus');
+
+  if (emailBtn && emailInput) {
+    emailBtn.addEventListener('click', () => {
+      const email = emailInput.value.trim();
+      if (!email || !email.includes('@')) {
+        emailStatus.textContent = 'Please enter a valid email address.';
+        emailStatus.className = 'email-send-status email-error';
+        return;
+      }
+      emailBtn.disabled = true;
+      emailBtn.textContent = 'Sending…';
+      emailStatus.classList.remove('hidden-input');
+      emailStatus.textContent = '';
+
+      sendResultsEmail(email, payload, primaryLabel, secondaryLabel, patternCode)
+        .then(() => {
+          emailStatus.textContent = 'Sent. Check your inbox.';
+          emailStatus.className = 'email-send-status email-success';
+          emailInput.value = '';
+          emailBtn.textContent = 'Sent';
+        })
+        .catch((err) => {
+          if (String(err).includes('not configured')) {
+            emailStatus.textContent = 'Email sending is not configured yet.';
+          } else {
+            emailStatus.textContent = 'Something went wrong. Try screenshotting for now.';
+          }
+          emailStatus.className = 'email-send-status email-error';
+          emailBtn.disabled = false;
+          emailBtn.textContent = 'Send';
+        });
+    });
+  }
+
+  // Silent anonymous submission — fires once on result render
+  silentAnonymousSubmit(payload, primaryLabel, secondaryLabel);
 
   const sendResultsLink = document.getElementById('sendResultsLink');
   if (sendResultsLink) {
