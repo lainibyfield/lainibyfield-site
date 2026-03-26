@@ -396,6 +396,64 @@
       .progress-bar-wrap { padding-left: 1.5rem; padding-right: 1.5rem; }
       .hero-cards { grid-template-columns: 1fr; }
     }
+
+    .prior-code-section {
+      max-width: 640px;
+      margin: 0 auto 2rem auto;
+      padding: 0 1.2rem;
+    }
+    .prior-code-inner {
+      padding: 1.2rem 1.4rem;
+      background: var(--cream);
+      border: 1px solid var(--rule);
+    }
+    .prior-code-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.13em;
+      color: var(--accent);
+      margin-bottom: 0.3rem;
+    }
+    .prior-code-hint {
+      font-size: 0.85rem;
+      color: var(--ink-light);
+      margin-bottom: 0.8rem;
+      line-height: 1.5;
+    }
+    .prior-code-row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .prior-code-input {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.95rem;
+      color: var(--ink);
+      background: var(--warm-white);
+      border: 1px solid var(--rule);
+      padding: 0.5rem 0.8rem;
+      width: 100%;
+      letter-spacing: 0.05em;
+      outline: none;
+    }
+    .prior-code-input:focus {
+      border-color: var(--accent);
+    }
+    .prior-code-clear {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 0.3rem 0.5rem;
+      flex-shrink: 0;
+    }
+    .prior-code-saved {
+      font-size: 0.78rem;
+      color: var(--accent);
+      font-style: italic;
+      margin-top: 0.5rem;
+    }
   </style>
 </head>
 <body>
@@ -444,7 +502,26 @@
 </div>
 
 <div class="questions-wrap">
-  <div id="questionContainer"></div>
+  
+  <!-- Prior code entry — for day-21 retakes -->
+  <div class="prior-code-section" id="priorCodeSection">
+    <div class="prior-code-inner">
+      <p class="prior-code-label">RETAKING AFTER YOUR 21-DAY PROTOCOL?</p>
+      <p class="prior-code-hint">Enter your pattern code from your first result to compare what changed.</p>
+      <div class="prior-code-row">
+        <input type="text" id="priorCodeInput" class="prior-code-input"
+               placeholder="e.g. SO-18-12-8-6-W14"
+               maxlength="24"
+               autocomplete="off"
+               autocorrect="off"
+               autocapitalize="characters" />
+        <button type="button" id="priorCodeClear" class="prior-code-clear hidden-input">&times;</button>
+      </div>
+      <p class="prior-code-saved hidden-input" id="priorCodeSaved">Code saved — your results will include a comparison.</p>
+    </div>
+  </div>
+
+<div id="questionContainer"></div>
 </div>
 
 <div class="form-actions">
@@ -453,7 +530,35 @@
   <p class="helper-text" id="formMessage"></p>
 </div>
 
-<script src="assets/js/assessment.js"></script>
+<script src="assets/js/assessment.js">
+  // Prior code handling
+  const priorCodeInput = document.getElementById('priorCodeInput');
+  const priorCodeClear = document.getElementById('priorCodeClear');
+  const priorCodeSaved = document.getElementById('priorCodeSaved');
+
+  if (priorCodeInput) {
+    priorCodeInput.addEventListener('input', () => {
+      const val = priorCodeInput.value.trim().toUpperCase();
+      if (val.length > 4) {
+        sessionStorage.setItem('lainiPriorCode', val);
+        priorCodeSaved.classList.remove('hidden-input');
+        priorCodeClear.classList.remove('hidden-input');
+      } else {
+        sessionStorage.removeItem('lainiPriorCode');
+        priorCodeSaved.classList.add('hidden-input');
+        if (!val) priorCodeClear.classList.add('hidden-input');
+      }
+    });
+
+    priorCodeClear.addEventListener('click', () => {
+      priorCodeInput.value = '';
+      sessionStorage.removeItem('lainiPriorCode');
+      priorCodeSaved.classList.add('hidden-input');
+      priorCodeClear.classList.add('hidden-input');
+    });
+  }
+
+</script>
 <script>
   // Live progress fill
   const fill = document.getElementById('progressFill');
