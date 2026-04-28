@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Methodology & Safety Approach — Laini Byfield, NBC-HWC</title>
+  <meta name="description" content="Scope of practice, assessment routing logic, clinical flag thresholds, escalation model, and referral partner information for the behavioral eating pattern assessment and coaching framework.">
+
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MedicalWebPage",
+    "name": "Methodology & Safety Approach",
+    "description": "Scope of practice, clinical flag logic, escalation model, and safety boundaries for the behavioral eating pattern assessment and coaching framework.",
+    "author": {
+      "@type": "Person",
+      "name": "Laini Byfield",
+      "jobTitle": "National Board Certified Health and Wellness Coach",
+      "credential": "NBC-HWC",
+      "url": "https://lainibyfield.com"
+    },
+    "mainEntityOfPage": "https://lainibyfield.com/methodology.html"
+  }
+  </script>
+
+  <style>
+    :root {
+      --cream:        #f5f0e8;
+      --rule:         #d4c9b8;
+      --muted:        #6b6058;
+      --ink:          #1c1814;
+      --ink-light:    #3d3830;
+      --accent:       #7a5c3e;
+      --accent-light: #c4a882;
+      --warm-white:   #faf7f2;
+      --clinical-red: #8a3a2a;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--warm-white);
+      color: var(--ink);
+      font-family: 'DM Mono', monospace;
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      padding: 1.4rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--rule);
+      background: var(--warm-white);
+    }
+    .nav-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+
+    /* ── LAYOUT ── */
+    .page-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 4rem 3rem 6rem;
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 2rem;
+      margin-bottom: 3rem;
+    }
+    .page-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .page-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300;
+      color: var(--ink);
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .page-title em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .page-byline {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+    .page-byline a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* ── SECTION ── */
+    .doc-section {
+      margin-bottom: 3.5rem;
+      padding-bottom: 3.5rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    .doc-section:last-of-type {
+      border-bottom: none;
+    }
+
+    .section-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.01em;
+    }
+
+    .section-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    p {
+      color: var(--ink-light);
+      margin-bottom: 1.2rem;
+      font-size: 0.88rem;
+    }
+
+    p:last-child { margin-bottom: 0; }
+
+    /* ── FLAG / ESCALATION BLOCKS ── */
+    .flag-block {
+      border-left: 3px solid var(--rule);
+      padding: 1.2rem 1.5rem;
+      margin: 1.5rem 0;
+      background: var(--cream);
+    }
+    .flag-block.clinical {
+      border-left-color: var(--clinical-red);
+      background: #fdf5f3;
+    }
+    .flag-block.escalation {
+      border-left-color: var(--accent);
+    }
+    .flag-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 0.6rem;
+    }
+    .flag-block.clinical .flag-label {
+      color: var(--clinical-red);
+    }
+    .flag-block.escalation .flag-label {
+      color: var(--accent);
+    }
+    .flag-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+    .flag-block p {
+      font-size: 0.84rem;
+      margin-bottom: 0.6rem;
+    }
+
+    /* ── NOT LIST ── */
+    .not-list {
+      list-style: none;
+      margin: 1rem 0;
+    }
+    .not-list li {
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--rule);
+      font-size: 0.84rem;
+      color: var(--ink-light);
+      display: flex;
+      gap: 1rem;
+      align-items: baseline;
+    }
+    .not-list li:last-child { border-bottom: none; }
+    .not-list li::before {
+      content: '×';
+      color: var(--clinical-red);
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      font-weight: 500;
+    }
+
+    /* ── PARTNER BOX ── */
+    .partner-box {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 2.5rem 3rem;
+      margin-top: 2rem;
+    }
+    .partner-box .section-heading {
+      color: var(--accent-light);
+    }
+    .partner-box p {
+      color: #c4bdb4;
+      font-size: 0.84rem;
+    }
+    .partner-box .partner-contact {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #3d3830;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+    .partner-box .partner-contact a {
+      color: var(--accent-light);
+      text-decoration: none;
+    }
+    .partner-box .partner-contact a:hover {
+      text-decoration: underline;
+    }
+
+    /* ── THRESHOLD TABLE ── */
+    .threshold-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      font-size: 0.8rem;
+    }
+    .threshold-table th {
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: left;
+      padding: 0.6rem 1rem;
+      border-bottom: 2px solid var(--rule);
+      font-weight: 400;
+    }
+    .threshold-table td {
+      padding: 0.8rem 1rem;
+      border-bottom: 1px solid var(--rule);
+      color: var(--ink-light);
+      vertical-align: top;
+    }
+    .threshold-table tr:last-child td { border-bottom: none; }
+    .threshold-table .code {
+      font-weight: 500;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+    .threshold-table .clinical-code {
+      color: var(--clinical-red);
+      font-weight: 500;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2rem 3rem;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--warm-white);
+    }
+    footer p {
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+    .footer-credential {
+      font-size: 0.72rem;
+      color: var(--muted);
+      max-width: 420px;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { display: none; }
+      .page-wrap { padding: 2.5rem 1.5rem 4rem; }
+      footer { padding: 1.5rem; flex-direction: column; gap: 0.8rem; text-align: center; }
+      .partner-box { padding: 1.8rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-name">Laini Byfield</a>
+  <ul class="nav-links">
+    <li><a href="/assessment.html">Assessment</a></li>
+    <li><a href="/#coaching">Coaching</a></li>
+    <li><a href="mailto:hello@lainibyfield.com">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="page-wrap">
+
+  <div class="page-header">
+    <span class="page-label">Clinical Documentation</span>
+    <h1 class="page-title">Methodology &amp;<br><em>Safety Approach</em></h1>
+    <p class="page-byline">
+      Laini Byfield, NBC-HWC &nbsp;·&nbsp;
+      <a href="https://lainibyfield.com">lainibyfield.com</a> &nbsp;·&nbsp;
+      NPI Type 1: 171400000X
+    </p>
+  </div>
+
+  <!-- 01 WHAT THIS FRAMEWORK IS -->
+  <div class="doc-section">
+    <span class="section-num">01</span>
+    <h2 class="section-heading">What This Framework Is</h2>
+    <p>The behavioral eating pattern assessment is a self-report instrument designed for use in the pre-contemplation and contemplation stages of behavior change. It identifies six primary behavioral eating patterns — Seeker, Soother, Drifter, Stabilizer, Fueling, and Social — based on the mechanisms that drive eating behavior rather than the content of what is eaten.</p>
+    <p>The framework is stage-matched to the Transtheoretical Model of behavior change. Assessment maps to contemplation. The 21-day calendar maps to preparation. The structured protocol maps to action. Coaching maps to maintenance and relapse prevention.</p>
+    <p>This is a behavioral instrument. It is not a clinical screener, a diagnostic tool, or a medical assessment. Its clinical ceiling is correctly scoped to first-contact stages-of-change identification.</p>
+  </div>
+
+  <!-- 02 SCOPE OF PRACTICE -->
+  <div class="doc-section">
+    <span class="section-num">02</span>
+    <h2 class="section-heading">Scope of Practice</h2>
+    <p>Laini Byfield practices as a National Board Certified Health and Wellness Coach (NBC-HWC). This credential defines a specific and bounded scope.</p>
+    <p>Health coaching addresses behavioral patterns, habit formation, and the psychological and environmental drivers of health-related behavior. It operates within the client's own goals and values, not a clinician-defined treatment plan.</p>
+    <p>Health coaching is not medical care, psychotherapy, or nutrition counseling. It does not diagnose, treat, or prescribe. It does not replace the care of a physician, registered dietitian, licensed therapist, or eating disorder specialist. Where coaching and clinical care overlap in a client's life, they are complementary — not interchangeable.</p>
+  </div>
+
+  <!-- 03 ASSESSMENT ROUTING -->
+  <div class="doc-section">
+    <span class="section-num">03</span>
+    <h2 class="section-heading">Assessment Routing Logic</h2>
+    <p>The assessment generates a behavioral pattern code. That code determines which result copy, calendar, and protocol the respondent receives. The instrument uses a three-layer pre-screen architecture before reaching full scoring.</p>
+
+    <table class="threshold-table">
+      <thead>
+        <tr>
+          <th>Layer</th>
+          <th>Questions</th>
+          <th>Exit condition</th>
+          <th>Result</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1 — General pre-screen</td>
+          <td>Q1–3</td>
+          <td>2 or more neutral responses</td>
+          <td class="code">NP — No Pattern</td>
+        </tr>
+        <tr>
+          <td>2 — Seeker quick-screen</td>
+          <td>Q4–6</td>
+          <td>2 or more Seeker responses</td>
+          <td class="code">S — Seeker (early exit)</td>
+        </tr>
+        <tr>
+          <td>3 — Full assessment</td>
+          <td>Q7–35</td>
+          <td>Normalized score comparison across S, O, D, T, G</td>
+          <td class="code">Primary + secondary pattern code</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Normalization divides raw scores by question count per pattern before comparison, correcting for unequal question distribution across patterns. Current normalization denominators: S:19, O:19, D:22, T:18, G:18.</p>
+
+    <p>The No Pattern result presents no products and no coaching pathway. The only option offered is the full assessment. This is a clinical integrity boundary — NP respondents are not conversion targets.</p>
+
+    <p>NP Layer 1 answer codes are stored anonymously for population tracking. NP return rate — the proportion of NP respondents who complete Layer 3 — is tracked as a calibration signal for pre-screen sensitivity.</p>
+  </div>
+
+  <!-- 04 FLAG LOGIC -->
+  <div class="doc-section">
+    <span class="section-num">04</span>
+    <h2 class="section-heading">Flag Logic</h2>
+    <p>Four flag categories sit alongside primary pattern routing. Flags do not replace the pattern result — they modify the result copy and, in the clinical case, the product pathway.</p>
+
+    <div class="flag-block">
+      <span class="flag-label">Behavioral flag</span>
+      <div class="flag-title">Fueling — F ≥ 3</div>
+      <p>Fires when timing deficit indicators reach threshold. Routes to Fueling-specific result copy emphasizing the distinction between deficit-driven eating and willpower failure. High-Output variant fires when F ≥ 3 and HO ≥ 2 simultaneously — athlete or high-output population with significant burn-intake gap.</p>
+    </div>
+
+    <div class="flag-block">
+      <span class="flag-label">Behavioral flag</span>
+      <div class="flag-title">Perimenopause overlay — BF ≥ 1 and P ≥ 2</div>
+      <p>Fires when biological female indicators and perimenopause symptom indicators reach threshold together. Result copy acknowledges hormonal context and recommends medical evaluation alongside behavioral work. Does not modify the product pathway.</p>
+    </div>
+
+    <div class="flag-block clinical">
+      <span class="flag-label">Clinical flag</span>
+      <div class="flag-title">Clinical routing — C ≥ 2</div>
+      <p>Fires when responses suggest restriction cycling, compensatory behavior, or guilt-driven compensation at threshold. The C code appears in five question types: compensation drive, anxiety after eating, restriction impulse, caloric compensation after exercise, and guilt after relational eating.</p>
+      <p>Respondents who trigger the clinical flag receive result copy that names the flag directly, explains what it indicates, and recommends speaking with a qualified clinical professional before beginning a behavioral coaching program.</p>
+      <p><strong>No product purchase pathway is presented to respondents with an active clinical flag.</strong> This is not configurable and is not subject to operator override.</p>
+    </div>
+
+    <div class="flag-block clinical">
+      <span class="flag-label">Clinical flag — added v4</span>
+      <div class="flag-title">Restriction cycling detection — Q31</div>
+      <p>A dedicated restriction cycling question was added to the clinical layer as the highest-priority gap for the bariatric use case. Restriction cycling presents identically to a Fueling pattern in behavioral self-report without explicit detection logic — the mechanism and clinical risk are distinct. This question separates intentional restriction with loss-of-control sequelae from accidental timing deficit.</p>
+    </div>
+
+    <div class="flag-block clinical">
+      <span class="flag-label">Clinical flag — added v4</span>
+      <div class="flag-title">Compensatory behavior screening — Q32</div>
+      <p>A single neutrally worded compensatory behavior question modeled on established lay screening instruments. Fires into the C code. Routes to a clinical note in result copy rather than a product. Not a full eating disorder screen — a flag that identifies respondents who should connect with clinical support before self-directed behavioral work.</p>
+    </div>
+  </div>
+
+  <!-- 05 ESCALATION MODEL -->
+  <div class="doc-section">
+    <span class="section-num">05</span>
+    <h2 class="section-heading">Escalation Model</h2>
+    <p>Three conditions trigger an escalation recommendation. Escalation operates at the assessment level and at the coaching engagement level.</p>
+
+    <div class="flag-block escalation">
+      <span class="flag-label">Escalation — assessment level</span>
+      <div class="flag-title">Active clinical flag</div>
+      <p>Restriction cycling, compensatory behavior, or guilt-driven compensation at threshold. Result copy directs the respondent toward a physician or licensed mental health professional with eating disorder competency before beginning any self-directed behavioral program.</p>
+    </div>
+
+    <div class="flag-block escalation">
+      <span class="flag-label">Escalation — assessment level</span>
+      <div class="flag-title">Perimenopause overlay with significant hormonal indicators</div>
+      <p>Result copy directs toward medical evaluation alongside behavioral work. Recommended referral category: physician or endocrinologist. The behavioral pattern work is not contraindicated — medical evaluation is recommended concurrently, not instead.</p>
+    </div>
+
+    <div class="flag-block escalation">
+      <span class="flag-label">Escalation — coaching engagement level</span>
+      <div class="flag-title">Client disclosure during coaching</div>
+      <p>If a coaching client discloses behavior consistent with an active eating disorder, purging, or significant restriction not captured at intake, the coaching engagement does not continue until the client has connected with appropriate clinical support. Depending on the nature of the disclosure, coaching may resume alongside clinical care or may not be appropriate at that time. The determination is made in consultation with the client and, where relevant, the treating clinician. This is a non-negotiable clinical boundary within the NBC-HWC scope of practice.</p>
+    </div>
+  </div>
+
+  <!-- 06 WHAT THIS DOES NOT DO -->
+  <div class="doc-section">
+    <span class="section-num">06</span>
+    <h2 class="section-heading">What This Framework Does Not Do</h2>
+    <ul class="not-list">
+      <li>Diagnose eating disorders or any clinical condition</li>
+      <li>Provide medical advice, nutrition counseling, or dietary prescriptions</li>
+      <li>Replace or replicate the function of a licensed therapist, registered dietitian, or physician</li>
+      <li>Generate individualized treatment plans</li>
+      <li>Claim clinical efficacy or therapeutic outcomes</li>
+      <li>Store personally identifiable information — results are anonymous by design</li>
+      <li>Present a product or coaching pathway to respondents with active clinical flags</li>
+      <li>Operate outside NBC-HWC scope of practice at any point in the assessment, calendar, protocol, or coaching arc</li>
+    </ul>
+  </div>
+
+  <!-- 07 DATA POSTURE -->
+  <div class="doc-section">
+    <span class="section-num">07</span>
+    <h2 class="section-heading">Data and Research Posture</h2>
+    <p>The assessment collects anonymous behavioral pattern data — pattern codes, score distributions, flag frequencies — for ongoing framework validation. No personally identifiable information is retained at any stage of the assessment or result delivery.</p>
+    <p>Anonymous data fields collected: pattern code, primary and secondary pattern, normalized scores per pattern, flag status (fueling, clinical, perimenopause, high-output), investment level indicator, week of year (not exact timestamp), Layer 1 answer codes for NP exits, NP return flag.</p>
+    <p>The practitioner holds CITI Program certification in Human Research, Social and Behavioral Research track, under George Washington University requirements (Record ID 61975315). Anonymized aggregate data may be used for outcomes research and framework refinement consistent with the stated anonymous data collection posture.</p>
+    <p>Coaching clients who are referred by clinical partners are onboarded through Practice Better, which is HIPAA-compliant. No client data is shared with referring providers without explicit written patient consent.</p>
+  </div>
+
+  <!-- 08 REFERRAL PARTNERS -->
+  <div class="partner-box">
+    <span class="section-num" style="color:#6b6058;">08</span>
+    <h2 class="section-heading">For Clinical and Referral Partners</h2>
+    <p>If you are a physician, bariatric surgeon, GLP-1 prescriber, or mental health professional considering a referral arrangement, the following is relevant to that evaluation.</p>
+    <p>Referred patients complete the assessment independently. Results are delivered directly to the patient. With patient consent, a structured progress summary — pattern identified, intervention delivered, engagement markers, clinical flag status — can be returned to the referring provider.</p>
+    <p>The assessment does not share patient information with referring providers without explicit patient consent. All clinical communication uses Practice Better, which is HIPAA-compliant.</p>
+    <p>The behavioral pattern assessment identifies the specific mechanism driving eating behavior in referred patients. This complements medical management of obesity, GLP-1 therapy, and post-bariatric support by addressing the behavioral layer that medication and surgery do not reach. The assessment also screens for clinical presentations that warrant referral back to the clinical team — restriction cycling and compensatory behavior flags are reported in the structured progress summary with patient consent.</p>
+    <div class="partner-contact">
+      <p>A one-page referral overview is available on request. &nbsp;·&nbsp; <a href="mailto:hello@lainibyfield.com">hello@lainibyfield.com</a> &nbsp;·&nbsp; NPI Type 1: 171400000X</p>
+    </div>
+  </div>
+
+</div><!-- end page-wrap -->
+
+<footer>
+  <p>&copy; 2026 Laini Byfield &nbsp;·&nbsp; All rights reserved</p>
+  <p class="footer-credential">Laini Byfield is a National Board Certified Health and Wellness Coach (NBC-HWC) and behavioral eating pattern specialist.</p>
+  <p>lainibyfield.com</p>
+</footer>
+
+</body>
+</html>
