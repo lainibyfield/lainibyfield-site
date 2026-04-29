@@ -462,10 +462,14 @@ function generatePatternCode(payload, primaryLabel) {
   const T = scores.T || 0;
   const G = scores.G || 0;
 
-  // Week of year
+  // YYWW format — last two digits of year + zero-padded week number
+  // Crosses year boundaries correctly. Anonymous — no exact date stored.
   const now = new Date();
   const start = new Date(now.getFullYear(), 0, 1);
   const week = Math.ceil(((now - start) / 86400000 + start.getDay() + 1) / 7);
+  const yy = String(now.getFullYear()).slice(-2);
+  const ww = String(week).padStart(2, '0');
+  const yyWW = yy + ww;
 
   // For low score / no pattern use NN
   const primary = payload.flags.clinical ? 'CL'
@@ -477,7 +481,7 @@ function generatePatternCode(payload, primaryLabel) {
   const secondary = payload.flags.clinical || payload.flags.fueling
     || (scores.S + scores.O + scores.D + scores.T + (scores.G || 0)) <= 8 ? 'X' : s;
 
-  return `${primary}${secondary}-${S}-${O}-${D}-${T}-${G}-W${week}`;
+  return `${primary}${secondary}-${S}-${O}-${D}-${T}-${G}-${yyWW}`;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
