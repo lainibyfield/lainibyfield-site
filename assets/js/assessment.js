@@ -577,10 +577,74 @@ function handleClear() {
 
 // Wait for DOM to be ready before rendering and initialising
 document.addEventListener('DOMContentLoaded', () => {
-  container    = document.getElementById('questionContainer');
+  // Assign DOM references
+  container     = document.getElementById('questionContainer');
   seeResultsBtn = document.getElementById('seeResultsBtn');
-  clearBtn     = document.getElementById('clearBtn');
-  formMessage  = document.getElementById('formMessage');
+  clearBtn      = document.getElementById('clearBtn');
+  formMessage   = document.getElementById('formMessage');
+
+  // Prior code handling
+  const priorCodeInput  = document.getElementById('priorCodeInput');
+  const priorCodeClear  = document.getElementById('priorCodeClear');
+  const priorCodeSaved  = document.getElementById('priorCodeSaved');
+
+  // Clear any stale state on page load
+  if (priorCodeInput) priorCodeInput.value = '';
+  if (priorCodeSaved) priorCodeSaved.classList.add('hidden-input');
+  if (priorCodeClear) priorCodeClear.classList.add('hidden-input');
+
+  if (priorCodeInput) {
+    priorCodeInput.addEventListener('input', (e) => {
+      if (!e.isTrusted) return;
+      const val = priorCodeInput.value.trim().toUpperCase();
+      if (!val) {
+        sessionStorage.removeItem('lainiPriorCode');
+        priorCodeSaved.classList.add('hidden-input');
+        priorCodeClear.classList.add('hidden-input');
+        return;
+      }
+      const isValidCode = /^[A-Z]{2,4}-\d+-\d+-\d+-\d+-\d+-\d{4}$/.test(val);
+      if (isValidCode) {
+        sessionStorage.setItem('lainiPriorCode', val);
+        priorCodeSaved.classList.remove('hidden-input');
+        priorCodeClear.classList.remove('hidden-input');
+      } else {
+        sessionStorage.removeItem('lainiPriorCode');
+        priorCodeSaved.classList.add('hidden-input');
+        priorCodeClear.classList.remove('hidden-input');
+      }
+    });
+
+    priorCodeClear.addEventListener('click', () => {
+      priorCodeInput.value = '';
+      sessionStorage.removeItem('lainiPriorCode');
+      priorCodeSaved.classList.add('hidden-input');
+      priorCodeClear.classList.add('hidden-input');
+    });
+  }
+
+  // Live progress fill
+  const fill      = document.getElementById('progressFill');
+  const answeredEl = document.getElementById('answeredCount');
+  const totalEl   = document.getElementById('totalCount');
+
+  if (container) {
+    container.addEventListener('change', (event) => {
+      const answered = document.querySelectorAll('input[type="radio"]:checked').length;
+      const total = questions ? questions.length : 36;
+      const pct = (answered / total) * 100;
+      if (fill) fill.style.width = pct + '%';
+      if (answeredEl) answeredEl.textContent = answered;
+      if (totalEl && prescreenComplete) totalEl.textContent = total;
+      const changed = event.target;
+      if (changed) {
+        const block = changed.closest('.question-block');
+        if (block) block.classList.add('answered');
+      }
+    });
+  }
+
+  // Render and initialise
   renderQuestions();
   initPrescreen();
   seeResultsBtn.addEventListener('click', handleSubmit);
