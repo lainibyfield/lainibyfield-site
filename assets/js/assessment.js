@@ -82,6 +82,7 @@ const questions = [
     { text: 'Stress does not usually affect my eating', code: '' }
   ]},
   { id: 'q13', text: 'You planned to eat well but did not. Why?', options: [
+    { text: 'What I planned was not available', code: '' },
     { text: 'Nothing available appealed to me', code: 'S' },
     { text: 'Got distracted', code: 'D' },
     { text: 'Needed comfort', code: 'O' },
@@ -92,7 +93,7 @@ const questions = [
   { id: 'q14', text: 'You feel very hungry late in the day. Why?', options: [
     { text: 'I kept putting off eating', code: 'F' },
     { text: 'I wanted something better later', code: 'S' },
-    { text: 'I did not notice time passing', code: 'D' },
+    { text: 'I was absorbed in something else and forgot', code: 'D' },
     { text: 'I was not in the mood earlier', code: 'O' },
     { text: 'I do not usually get very hungry late in the day', code: '' }
   ]},
@@ -116,11 +117,12 @@ const questions = [
   { id: 'q17', text: 'Which of the following have you tried?', options: [
     { text: 'Small changes on my own', code: '' },
     { text: 'Structured programs or diets', code: '' },
+    { text: 'A combination of the above', code: 'H' },
     { text: 'Medical or clinical options', code: 'H' },
-    { text: 'A mix of several approaches', code: 'H' },
-    { text: 'I have not tried to change my eating', code: '' }
+    { text: 'All of the above \u2014 I feel like I have tried everything', code: 'H' }
   ]},
   { id: 'q18', text: 'Which feels closest now?', options: [
+    { text: 'I am not focused on changing my eating right now', code: '' },
     { text: 'I am just starting to think about my eating or weight', code: '' },
     { text: 'I have tried a few approaches but nothing has stuck', code: '' },
     { text: 'I have invested significant time and money trying to figure this out and still feel stuck', code: 'H' },
@@ -187,60 +189,67 @@ const questions = [
     { text: 'Actually harder at home', code: 'S' },
     { text: 'Depends on my mood not the setting', code: 'O' }
   ]},
-  { id: 'q28', text: 'When a meal gets delayed or pushed back, what usually happens?', options: [
+  { id: 'q28', text: 'After a social event where you ate carefully, what usually happens when you get home?', options: [
+    { text: 'Nothing much \u2014 I move on as normal', code: '' },
+    { text: 'I often eat more than I planned once I am back', code: 'G' },
+    { text: 'I feel relieved and eat something comforting', code: 'O' },
+    { text: 'I feel good about how the event went and stick to my plan', code: 'T' },
+    { text: 'I rarely eat carefully at social events in the first place', code: '' }
+  ]},
+  { id: 'q29', text: 'When a meal gets delayed or pushed back, what usually happens?', options: [
     { text: 'I eat more than usual at the next opportunity', code: 'T' },
     { text: 'I get irritable or distracted until I eat', code: 'O' },
     { text: 'I do not notice much', code: 'D' },
     { text: 'I look for something to tide me over', code: 'S' },
     { text: 'This does not affect me much', code: '' }
   ]},
-  { id: 'q29', text: 'Your eating feels most manageable when:', options: [
+  { id: 'q30', text: 'Your eating feels most manageable when:', options: [
     { text: 'My day goes roughly as planned', code: 'T' },
     { text: 'I am somewhere familiar', code: 'D' },
     { text: 'I am not stressed or overwhelmed', code: 'O' },
-    { text: 'I am eating on my own or in a low-key setting', code: 'G' },
+    { text: 'I am not expected to eat a certain way or be seen eating', code: 'G' },
     { text: 'My eating feels manageable in general', code: '' }
   ]},
-  { id: 'q30', text: 'When your week is unpredictable, your eating:', options: [
+  { id: 'q31', text: 'When your week is unpredictable, your eating:', options: [
     { text: 'Follows the disruption — inconsistent days mean inconsistent eating', code: 'T' },
     { text: 'Follows my mood more than usual', code: 'O' },
     { text: 'Becomes more automatic \u2014 I eat whatever is around', code: 'D' },
     { text: 'Involves more unplanned meals out or social eating', code: 'G' },
     { text: 'Varies but my eating stays about the same either way', code: '' }
   ]},
-  { id: 'q31', text: 'The last time your eating felt off, what was different about that day?', options: [
+  { id: 'q32', text: 'The last time your eating felt off, what was different about that day?', options: [
     { text: 'My routine had broken down', code: 'T' },
     { text: 'I was in a different place or situation', code: 'D' },
     { text: 'Something was emotionally harder', code: 'O' },
     { text: 'I was with others or at an event', code: 'G' },
     { text: 'My eating does not usually feel off', code: '' }
   ]},
-  { id: 'q32', text: 'How do your eating intentions at the start of the day usually compare to how the day ends?', options: [
+  { id: 'q33', text: 'How do your eating intentions at the start of the day usually compare to how the day ends?', options: [
     { text: 'They are roughly consistent', code: '' },
     { text: 'I start well but the evening pulls me off course', code: 'F' },
     { text: 'I intend to eat very little and then lose control later', code: 'C' },
     { text: 'I do not usually set intentions around eating', code: 'D' },
     { text: 'It depends entirely on what the day brings', code: 'T' }
   ]},
-  { id: 'q33', text: 'After eating more than you intended, what is most likely to happen?', options: [
+  { id: 'q34', text: 'After eating more than you intended, what is most likely to happen?', options: [
     { text: 'I move on without much thought', code: '' },
     { text: 'I feel emotionally low for a while but it passes', code: 'O' },
     { text: 'I feel I need to compensate \u2014 eating less, exercising, or skipping the next meal', code: 'C' },
     { text: 'I feel stuck in a cycle that repeats regardless of what I intend', code: 'C' },
     { text: 'I return to my normal eating at the next meal', code: 'T' }
   ]},
-  { id: 'q34', text: 'When eating feels out of control:', options: [
+  { id: 'q35', text: 'When eating feels out of control:', options: [
     { text: 'It passes', code: '' },
     { text: 'I feel unsettled but it resolves', code: '' },
     { text: 'I feel guilt or pressure', code: 'C' },
     { text: 'I feel stuck in the pattern', code: 'O' }
   ]},
-  { id: 'q35', text: 'When you feel like you have eaten too much, what usually follows?', options: [
+  { id: 'q36', text: 'When you feel like you have eaten too much, what usually follows?', options: [
     { text: 'I move on without much thought', code: '' },
     { text: 'I return to my usual structure or timing', code: 'T' },
     { text: 'I find ways to get rid of it \u2014 including making myself sick', code: 'C' },
-    { text: 'I feel anxious or guilty until I make up for it', code: 'C' },
-    { text: 'I feel I must fast or exercise to fix it', code: 'C' }
+    { text: 'I feel I have failed and it affects how I eat for the rest of the day', code: 'C' },
+    { text: 'I feel low and disconnected for a while afterward', code: 'O' }
   ]}
 ];
 
@@ -410,15 +419,34 @@ function handleContinue() {
 }
 
 function updatePrescreenProgress(layer) {
+  // Update total count in progress bar
   const totalEl = document.getElementById('totalCount');
-  const label = document.querySelector('.progress-bar-wrap');
-  if (layer === 1) {
-    if (totalEl) totalEl.textContent = '3';
-  } else if (layer === 2) {
-    if (totalEl) totalEl.textContent = '6';
-  } else {
-    if (totalEl) totalEl.textContent = questions.length;
-  }
+  if (layer === 1)      { if (totalEl) totalEl.textContent = '3'; }
+  else if (layer === 2) { if (totalEl) totalEl.textContent = '6'; }
+  else                  { if (totalEl) totalEl.textContent = questions.length; }
+
+  // Update layer indicator dots
+  const dots = [
+    document.getElementById('dot1'),
+    document.getElementById('dot2'),
+    document.getElementById('dot3')
+  ];
+  const layerLabel = document.getElementById('layerLabel');
+  const labels = [
+    'A few questions to get started',
+    'A little more about your pattern',
+    'Full assessment'
+  ];
+  dots.forEach((d, i) => {
+    if (d) d.className = 'layer-dot' + (i < layer ? ' active' : '');
+  });
+  if (layerLabel) layerLabel.textContent = labels[layer - 1] || '';
+
+  // Show/hide submit and continue buttons
+  const submitBtn = document.getElementById('seeResultsBtn');
+  const continueBtn = document.getElementById('continueBtn');
+  if (submitBtn)  submitBtn.style.display  = (layer === 3) ? 'block' : 'none';
+  if (continueBtn) continueBtn.style.display = (layer < 3)  ? 'block' : 'none';
 }
 
 function initPrescreen() {
@@ -476,7 +504,7 @@ function getScores() {
 function getTopTypes(scores) {
   // Normalize by number of questions each code appears in
   // so patterns with fewer questions are not structurally disadvantaged
-  const questionCounts = { S: 19, O: 19, D: 22, T: 18, G: 18 };
+  const questionCounts = { S: 19, O: 21, D: 22, T: 19, G: 19 };
 
   const ranked = ['S', 'O', 'D', 'T', 'G']
     .map((key) => [key, scores[key] / questionCounts[key]])
