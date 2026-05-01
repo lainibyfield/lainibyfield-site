@@ -549,7 +549,7 @@
       <p class="prior-code-hint">Enter your pattern code from your first result to compare what changed.</p>
       <div class="prior-code-row">
         <input type="text" id="priorCodeInput" class="prior-code-input"
-               placeholder="e.g. SO-18-12-8-6-W14"
+               placeholder="e.g. SO-18-12-8-6-2614"
                maxlength="24"
                autocomplete="off"
                autocorrect="off"
@@ -579,10 +579,21 @@
   const VALID_CODES = ['S','O','D','T','G','SO','SD','ST','SG','OD','OT','OG','DT','DG','TG',
                        'OS','DS','TS','GS','DO','TO','GO','DT','GT','GD'];
 
+  // Clear any stale state on fresh page load
+  if (priorCodeInput) priorCodeInput.value = '';
+  if (priorCodeSaved) priorCodeSaved.classList.add('hidden-input');
+  if (priorCodeClear) priorCodeClear.classList.add('hidden-input');
+
   if (priorCodeInput) {
-    priorCodeInput.addEventListener('input', () => {
+    priorCodeInput.addEventListener('input', (e) => {
+      if (!e.isTrusted) return;
       const val = priorCodeInput.value.trim().toUpperCase();
-      // Valid code format: XX-N-N-N-N-N-WN (primary+secondary codes, 5 scores, week)
+      if (!val) {
+        sessionStorage.removeItem('lainiPriorCode');
+        priorCodeSaved.classList.add('hidden-input');
+        priorCodeClear.classList.add('hidden-input');
+        return;
+      }
       const isValidCode = /^[A-Z]{2,4}-\d+-\d+-\d+-\d+-\d+-\d{4}$/.test(val);
       if (isValidCode) {
         sessionStorage.setItem('lainiPriorCode', val);
@@ -591,7 +602,7 @@
       } else {
         sessionStorage.removeItem('lainiPriorCode');
         priorCodeSaved.classList.add('hidden-input');
-        if (!val) priorCodeClear.classList.add('hidden-input');
+        priorCodeClear.classList.remove('hidden-input');
       }
     });
 
@@ -602,7 +613,7 @@
       priorCodeClear.classList.add('hidden-input');
     });
   }
-</script>
+</script>/script>
 <script>
   // Live progress fill — runs after assessment.js has rendered questions
   document.addEventListener('DOMContentLoaded', () => {
