@@ -121,7 +121,7 @@ const resultCopy = {
     toolsTitle: 'When you are heading into a social eating situation:',
     tools: [
       'Decide before you arrive — not what you will eat exactly, but what you will not do. One decision made in advance is worth ten decisions made at the table when the food is already in front of you.',
-      'Order first when you can. Hearing what everyone else orders before you decide is the single most reliable way to get pulled toward someone else's choice. Order early and the decision is done.',
+      'Order first when you can. Hearing what everyone else orders before you decide is the single most reliable way to get pulled toward someone else\'s choice. Order early and the decision is done.',
       'Design the environment when it is yours to design. If you are hosting, the food you serve is the food available. A table full of things you feel good about removes the negotiation entirely.',
       'Use substitution without explanation. Seltzer in a wine glass. A smaller plate. A pause before second helpings. None of these require announcement or justification.'
     ],
@@ -180,7 +180,7 @@ const secondaryNotes = {
 
   'D+G': 'Drifter patterns with Social tendencies mean automatic eating is most pronounced in social settings. The conversation, the noise, the movement of food around the table — eating happens in the background of all of it without a clear decision point.',
 
-  'T+G': 'Stabilizer patterns with Social tendencies mean the structure that usually protects eating disappears entirely in social contexts. The schedule, the portions, the familiar routine — none of it travels to someone else's table.',
+  'T+G': 'Stabilizer patterns with Social tendencies mean the structure that usually protects eating disappears entirely in social contexts. The schedule, the portions, the familiar routine — none of it travels to someone else\'s table.',
 
   // Social as primary with secondaries
   'G+S': 'Social patterns with Seeker tendencies mean the most challenging social environments are ones with highly stimulating food — tasting menus, shared plates, food that is genuinely exciting. The social permission and the sensory pull work together.',
@@ -189,10 +189,10 @@ const secondaryNotes = {
 
   'G+D': 'Social patterns with Drifter tendencies mean social eating often happens without awareness — the conversation takes over, the food keeps appearing, and there is no clear moment of decision. It is over before it registered.',
 
-  'G+T': 'Social patterns with Stabilizer tendencies mean the structure that usually works completely disappears at a social table. The plan that holds at home has no foothold when the environment is someone else's.',
+  'G+T': 'Social patterns with Stabilizer tendencies mean the structure that usually works completely disappears at a social table. The plan that holds at home has no foothold when the environment is someone else\'s.',
 
   // Fueling + Social
-  'FU+G': 'The deficit builds during the day and the social context is where it gets collected. By the time dinner with friends arrives, the hunger is real and the social permission to eat freely makes it hard to stop at adequate. Both problems land at the same table at the same time.'
+  'FU+G': 'The deficit builds during the day and the social context is where it gets collected. By the time dinner with friends arrives, the hunger is real and the social permission to eat freely makes it hard to stop at adequate. Both problems land at the same table at the same time.',
 
   // Fueling secondary combinations -- results page explanations
   'FU+S': 'The deficit creates real hunger and the Seeker pattern shapes what fills it. By the time hunger arrives it is strong enough that only something stimulating works -- crunchy, layered, highly palatable foods that are also engineered to keep you eating past full. The hunger was legitimate. The food choice turns catch-up eating into overcompensation. Getting ahead of the deficit is not about discipline -- it is about making sure the Seeker pattern never gets a genuinely hungry brain to work with.',
@@ -210,29 +210,6 @@ function getSecondaryNote(primaryCode, secondaryCode) {
 }
 
 function getSecondaryNoteForFueling(secondaryCode) {
-
-  // Social as secondary for primary patterns
-  'S+G': 'Seeker patterns with Social tendencies mean stimulation-seeking is amplified in social contexts. The food at a gathering is more interesting, more varied, and harder to stop eating than what you would choose alone. The Seeker brain and the social permission reinforce each other.',
-
-  'O+G': 'Soother patterns with Social tendencies can mean emotional eating that is specifically activated by social dynamics — family tension, performance anxiety, the pressure to be on. The table provides both the trigger and the remedy.',
-
-  'D+G': 'Drifter patterns with Social tendencies mean automatic eating is most pronounced in social settings. The conversation, the noise, the movement of food around the table — eating happens in the background of all of it without a clear decision point.',
-
-  'T+G': 'Stabilizer patterns with Social tendencies mean the structure that usually protects eating disappears entirely in social contexts. The schedule, the portions, the familiar routine — none of it travels to someone else's table.',
-
-  // Social as primary with secondaries
-  'G+S': 'Social patterns with Seeker tendencies mean the most challenging social environments are ones with highly stimulating food — tasting menus, shared plates, food that is genuinely exciting. The social permission and the sensory pull work together.',
-
-  'G+O': 'Social patterns with Soother tendencies mean social eating is particularly vulnerable when the gathering itself is emotionally charged. Family events, celebrations with complicated history, meals where the emotional stakes are high.',
-
-  'G+D': 'Social patterns with Drifter tendencies mean social eating often happens without awareness — the conversation takes over, the food keeps appearing, and there is no clear moment of decision. It is over before it registered.',
-
-  'G+T': 'Social patterns with Stabilizer tendencies mean the structure that usually works completely disappears at a social table. The plan that holds at home has no foothold when the environment is someone else's.',
-
-  // Fueling + Social
-  'FU+G': 'The deficit builds during the day and the social context is where it gets collected. By the time dinner with friends arrives, the hunger is real and the social permission to eat freely makes it hard to stop at adequate. Both problems land at the same table at the same time.'
-
-  // Fueling secondary combinations use FU+ prefix
   const key = 'FU+' + secondaryCode;
   return secondaryNotes[key] || null;
 }
@@ -381,15 +358,14 @@ function renderClinicalResult(payload) {
         ${nav}
         <p class="helper-text">Your results are anonymous unless you choose to share them.</p>
       </div>
-    \`;
+    `;
   } else {
     const urgencyNote = severityHigh
       ? '<p>Based on your responses, the frequency and impact of what you are experiencing suggests that connecting with a specialist sooner rather than later would be worth prioritizing.</p>'
       : '<p>There is no urgency — but having that support in place before starting a coaching program tends to produce better outcomes.</p>';
 
     return primaryBox + sharedBoxes + `
-      ${createBox('A grounded next step', `<p>Before starting a self-guided or coaching-based program, it may help to connect with someone who specializes in eating behaviors. This does not need to be a long-term commitment — even a few sessions can clarify what kind of support fits best.</p>
-      ${urgencyNote}`)}
+      ${createBox('A grounded next step', '<p>Before starting a self-guided or coaching-based program, it may help to connect with someone who specializes in eating behaviors. This does not need to be a long-term commitment — even a few sessions can clarify what kind of support fits best.</p>' + urgencyNote)}
 
       <div class="result-box resources-box">
         <span class="result-kicker">Where to go next</span>
