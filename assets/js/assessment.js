@@ -352,8 +352,16 @@ function showPrescreenExit(type) {
         'This may reflect where you are right now. You can view this as your result, ' +
         'or continue the full assessment to see if a more specific pattern emerges.';
     }
+    // Move exit message to appear directly after Q6 in the DOM
+    const allBlocks = document.querySelectorAll('.question-block');
+    const q6Block = allBlocks[5]; // Q6 is index 5
+    if (q6Block && q6Block.parentNode) {
+      q6Block.parentNode.insertBefore(exitMsg, q6Block.nextSibling);
+    }
     exitMsg.style.display = 'block';
-    window.scrollTo({ top: exitMsg.offsetTop - 20, behavior: 'smooth' });
+    setTimeout(() => {
+      exitMsg.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
 
     if (exitResBtn) {
       exitResBtn.onclick = () => {
@@ -365,16 +373,29 @@ function showPrescreenExit(type) {
       exitContBtn.onclick = () => {
         exitMsg.style.display = 'none';
         if (type === 'seeker') {
+          // Continue from Seeker exit — go to full assessment, scroll to Q7
           currentLayer = 3;
           prescreenComplete = true;
           showAllQuestions();
           updatePrescreenProgress(3);
+          setTimeout(() => {
+            const allBlocks = document.querySelectorAll('.question-block');
+            const q7 = allBlocks[6];
+            if (q7) q7.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            else window.scrollTo({ top: 0, behavior: 'smooth' });
+          }, 100);
         } else {
+          // Continue from NP exit — go to Layer 2, scroll to Q4
           currentLayer = 2;
           showLayer(LAYER2);
           updatePrescreenProgress(2);
+          setTimeout(() => {
+            const allBlocks = document.querySelectorAll('.question-block');
+            const q4 = allBlocks[3];
+            if (q4) q4.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            else window.scrollTo({ top: 0, behavior: 'smooth' });
+          }, 100);
         }
-        window.scrollTo({ top: 0, behavior: 'smooth' });
       };
     }
   } else {
@@ -454,8 +475,8 @@ function handleContinue() {
     const seekerCountL1 = countCodeAnswers(LAYER1, 'S');
     const seekerCountL2 = countCodeAnswers(LAYER2, 'S');
     const totalSeekerCount = seekerCountL1 + seekerCountL2;
-    // Exit if 3+ S answers across Q1-6, or 2+ in Q4-6 alone
-    if (totalSeekerCount >= 3 || seekerCountL2 >= 2) {
+    // Exit only if 4+ S answers across Q1-6 combined — strong signal required
+    if (totalSeekerCount >= 4) {
       showPrescreenExit('seeker');
       return;
     }
@@ -465,9 +486,11 @@ function handleContinue() {
     formMessage.textContent = '';
     showAllQuestions();
     updatePrescreenProgress(3);
+    // Scroll to Q7 — first question of full assessment, not Q1
     setTimeout(() => {
-      const firstQ = document.querySelector('.question-block');
-      if (firstQ) firstQ.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const allBlocks = document.querySelectorAll('.question-block');
+      const q7 = allBlocks[6];
+      if (q7) q7.scrollIntoView({ behavior: 'smooth', block: 'start' });
       else window.scrollTo({ top: 0, behavior: 'smooth' });
     }, 100);
   }
