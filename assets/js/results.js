@@ -674,7 +674,7 @@ function sendResultsEmail(email, payload, primaryLabel, secondaryLabel, patternC
     pattern_description: patternDesc[primaryLabel] || 'See your full results at lainibyfield.com.',
     secondary_name:      secondaryLabel || '',
     scores_summary:      `Seeker: ${payload.scores.S} | Soother: ${payload.scores.O} | Drifter: ${payload.scores.D} | Stabilizer: ${payload.scores.T} | Social: ${payload.scores.G || 0}`,
-    retake_instruction:  'When you retake the assessment at day 21, enter your pattern code to see what changed.',
+    retake_instruction:  'When you retake the assessment after completing a program or coaching, enter this code to see what changed.',
   };
 
   return emailjs.send(serviceId, templateId, templateParams, publicKey);
@@ -736,7 +736,9 @@ function initResults() {
     const copy = resultCopy.FUELING_HIGH_OUTPUT;
     pageTitle.innerHTML = 'Your results suggest a <em>High-Output Fueling Pattern</em>.';
     pageIntro.textContent = 'The amount you burn may be outpacing what you are taking in. That gap has downstream consequences that can feel like a discipline problem but are not.';
-    html += renderPrimaryBlock(copy, '', payload);
+    // Pass null for payload to suppress the primary pattern description box
+    // HO copy fully explains the pattern — showing normalized primary (e.g. Seeker) would confuse
+    html += renderPrimaryBlock(copy, '', null);
   } else if (payload.flags.clinical) {
     pageTitle.innerHTML = 'Your responses suggest a <em>different starting point</em>.';
     pageIntro.textContent = payload.flags.hasProvider
@@ -833,7 +835,7 @@ function initResults() {
     <div class="pattern-code-block">
       <p class="pattern-code-label">YOUR PATTERN CODE</p>
       <p class="pattern-code-value">${patternCode}</p>
-      <p class="pattern-code-instructions">Save this code. If you complete the 21-day protocol and want to see what changed, enter it when you retake the assessment at day 21.</p>
+      <p class="pattern-code-instructions">Save this code. If you complete one of our programs or 1:1 coaching and want to see what changed, enter it when you retake the assessment.</p>
       <div class="email-send-row" id="emailSendRow">
         <input type="email" id="resultEmailInput" class="result-email-input"
                placeholder="Send these results to your email"
