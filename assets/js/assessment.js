@@ -161,7 +161,7 @@ const questions = [
     { text: 'I stay more aware', code: 'D' },
     { text: 'My meals are on my own terms', code: 'G' },
     { text: 'Eating feels easier', code: 'T' },
-    { text: 'My days are usually structured', code: '' }
+    { text: 'Structure does not affect my eating much either way', code: '' }
   ]},
   { id: 'q24', text: 'When you are alone with no plans, no one cooking, and no occasion, what usually happens with eating?', options: [
     { text: 'I eat when I feel hungry', code: '' },

@@ -252,11 +252,17 @@ function renderPrimaryBlock(copy, secondaryLabel, payload, isFueling) {
     </div>
   ` : '';
 
-  return `
+  // For Fueling/HO results, relabel the primary pattern box so it reads as
+  // a second layer alongside the HO headline, not a contradiction of it
+  const primaryKicker = isFueling ? 'Your behavioral pattern' : 'Primary result';
+  const primaryBox = patternDesc ? `
     <div class="result-box">
-      <span class="result-kicker">Primary result</span>
-      ${patternDesc ? `<p class="result-description">${patternDesc}</p>` : ''}
+      <span class="result-kicker">${primaryKicker}</span>
+      <p class="result-description">${patternDesc}</p>
     </div>
+  ` : '';
+
+  return primaryBox + `
 
     ${createBox('What is happening', `<p>${copy.happening}</p>`)}
     ${createBox('What this says about you', `<p>${copy.strength}</p>`)}
@@ -496,6 +502,11 @@ const EMAILJS_DATA_TEMPLATE_ID = 'YOUR_EMAILJS_DATA_TEMPLATE_ID'; // activate wh
 const EMAILJS_COACHING_TEMPLATE_ID = 'template_6964man'; // coaching request to Laini // separate template
 const EMAILJS_PUBLIC_KEY       = 'ja72ibtYoc-e1mSZ1';      // same as coaching
 
+// Initialize EmailJS — required for v4 before any send calls
+if (typeof emailjs !== 'undefined') {
+  emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 
 function buildAnonymousRecord(payload, primaryLabel, secondaryLabel, code) {
@@ -733,12 +744,22 @@ function initResults() {
     pageIntro.textContent = 'Not everyone has a complicated relationship with food. This assessment is designed to reflect that honestly.';
     html += renderPrimaryBlock(copy, '', payload);
   } else if (payload.flags.highOutput) {
-    const copy = resultCopy.FUELING_HIGH_OUTPUT;
-    pageTitle.innerHTML = 'Your results suggest a <em>High-Output Fueling Pattern</em>.';
-    pageIntro.textContent = 'The amount you burn may be outpacing what you are taking in. That gap has downstream consequences that can feel like a discipline problem but are not.';
-    // Pass null for payload to suppress the primary pattern description box
-    // HO copy fully explains the pattern — showing normalized primary (e.g. Seeker) would confuse
-    html += renderPrimaryBlock(copy, '', null);
+    // HO is a Fueling subtype — use Fueling as the primary result
+    // then add an HO-specific callout box explaining the output driver
+    const fuelingCopy = resultCopy.FUELING;
+    const hoCopy = resultCopy.FUELING_HIGH_OUTPUT;
+    pageTitle.innerHTML = 'Your results suggest a <em>Fueling pattern</em>.';
+    pageIntro.textContent = fuelingCopy.subtitle;
+    html += renderPrimaryBlock(fuelingCopy, secondaryLabel, payload, true);
+    // Insert HO-specific callout after the main Fueling copy
+    html += createBox('What makes yours High-Output', `<p>${hoCopy.happening}</p><p style="margin-top:8px">${hoCopy.offTrack}</p>`);
+    html += createBox(hoCopy.toolsTitle,
+      '<ul class="result-points">' +
+      hoCopy.tools.map((tool) => '<li>' + tool + '</li>').join('') +
+      '</ul>' +
+      '<p><strong>Then decide:</strong> ' + hoCopy.decide + '</p>' +
+      '<p><strong>If you still want food,</strong> ' + hoCopy.eat + '</p>'
+    );
   } else if (payload.flags.clinical) {
     pageTitle.innerHTML = 'Your responses suggest a <em>different starting point</em>.';
     pageIntro.textContent = payload.flags.hasProvider
