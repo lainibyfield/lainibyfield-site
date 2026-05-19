@@ -425,22 +425,37 @@ function handleContinue() {
       showPrescreenExit('noPattern');
       return;
     }
-    // Move to Layer 2
+    // Move to Layer 2 — disable button briefly to prevent double-fire
     currentLayer = 2;
     formMessage.textContent = '';
+    const continueBtn = document.getElementById('continueBtn');
+    if (continueBtn) {
+      continueBtn.disabled = true;
+      continueBtn.style.opacity = '0.5';
+    }
     showLayer(LAYER2);
     updatePrescreenProgress(2);
-    const firstVisible = document.querySelector('.question-block[style*="block"]');
-    if (firstVisible) firstVisible.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    else window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => {
+      const firstVisible = document.querySelector('.question-block[style*="block"]');
+      if (firstVisible) firstVisible.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      else window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (continueBtn) {
+        continueBtn.disabled = false;
+        continueBtn.style.opacity = '1';
+      }
+    }, 100);
   } else if (currentLayer === 2) {
-    // Check Layer 2 — if 2+ Seeker, exit to Seeker result
+    // Check Layer 2 — count S answers across ALL of Q1-6 combined
+    // Q1-3 already have S options — a strong Seeker should get credit
     if (!allAnswered(LAYER2)) {
       formMessage.textContent = 'Please answer all three questions to continue.';
       return;
     }
-    const seekerCount = countCodeAnswers(LAYER2, 'S');
-    if (seekerCount >= 2) {
+    const seekerCountL1 = countCodeAnswers(LAYER1, 'S');
+    const seekerCountL2 = countCodeAnswers(LAYER2, 'S');
+    const totalSeekerCount = seekerCountL1 + seekerCountL2;
+    // Exit if 3+ S answers across Q1-6, or 2+ in Q4-6 alone
+    if (totalSeekerCount >= 3 || seekerCountL2 >= 2) {
       showPrescreenExit('seeker');
       return;
     }
@@ -449,11 +464,12 @@ function handleContinue() {
     prescreenComplete = true;
     formMessage.textContent = '';
     showAllQuestions();
-    document.getElementById('continueBtn').style.display = 'none';
     updatePrescreenProgress(3);
-    const firstQ = document.querySelector('.question-block');
-    if (firstQ) firstQ.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    else window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => {
+      const firstQ = document.querySelector('.question-block');
+      if (firstQ) firstQ.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      else window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
   }
 }
 
@@ -607,10 +623,33 @@ function handleSubmit() {
 }
 
 function handleClear() {
+  // Uncheck all answers
   document.querySelectorAll('input[type="radio"]').forEach((input) => {
     input.checked = false;
   });
   formMessage.textContent = '';
+
+  // Reset prescreen state back to Layer 1
+  currentLayer = 1;
+  prescreenComplete = false;
+
+  // Hide exit message if showing
+  const exitMsg = document.getElementById('prescreenExitMsg');
+  if (exitMsg) exitMsg.style.display = 'none';
+
+  // Reset answered count display
+  const answeredEl = document.getElementById('answeredCount');
+  if (answeredEl) answeredEl.textContent = '0';
+
+  // Remove answered styling from all blocks
+  document.querySelectorAll('.question-block').forEach(b => {
+    b.classList.remove('answered');
+  });
+
+  // Show Layer 1 only and reset progress
+  showLayer(LAYER1);
+  updatePrescreenProgress(1);
+
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -621,6 +660,10 @@ document.addEventListener('DOMContentLoaded', () => {
   seeResultsBtn = document.getElementById('seeResultsBtn');
   clearBtn      = document.getElementById('clearBtn');
   formMessage   = document.getElementById('formMessage');
+
+  // Ensure exit message is hidden on fresh load
+  const exitMsgInit = document.getElementById('prescreenExitMsg');
+  if (exitMsgInit) exitMsgInit.style.display = 'none';
 
   // Prior code handling
   const priorCodeInput  = document.getElementById('priorCodeInput');
