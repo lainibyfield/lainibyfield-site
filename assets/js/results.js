@@ -892,15 +892,45 @@ function initResults() {
   const sendResultsLink = document.getElementById('sendResultsLink');
   if (sendResultsLink) {
     sendResultsLink.addEventListener('click', (event) => {
-      const url = buildGoogleFormUrl(payload, primaryLabel, secondaryLabel);
-      if (url.includes('YOUR_GOOGLE_FORM_BASE_URL') || url.includes('ENTRY_ID_')) {
-        event.preventDefault();
-        alert('Add your Google Form URL and entry IDs in assets/js/results.js before using this button.');
+      event.preventDefault();
+
+      // Prompt for email before sending coaching request
+      const email = prompt('Enter your email address and we will be in touch:');
+      if (!email || !email.includes('@')) {
+        alert('Please enter a valid email address.');
         return;
       }
-      sendResultsLink.href = url;
-      sendResultsLink.target = '_blank';
-      sendResultsLink.rel = 'noopener noreferrer';
+
+      // Send coaching request to Laini via EmailJS
+      const serviceId  = 'service_cx3vbrj';
+      const templateId = EMAILJS_COACHING_TEMPLATE_ID; // template_6964man
+      const publicKey  = EMAILJS_PUBLIC_KEY;
+
+      const templateParams = {
+        from_email:     email,
+        pattern_name:   primaryLabel || 'Unknown',
+        pattern_code:   patternCode  || '',
+        secondary_name: secondaryLabel || '',
+        scores_summary: `S:${payload.scores.S} O:${payload.scores.O} D:${payload.scores.D} T:${payload.scores.T} G:${payload.scores.G || 0}`,
+        clinical_flag:  payload.flags.clinical ? 'Yes' : 'No',
+        fueling_flag:   payload.flags.fueling  ? 'Yes' : 'No',
+      };
+
+      sendResultsLink.textContent = 'Sending...';
+      sendResultsLink.style.opacity = '0.6';
+      sendResultsLink.style.pointerEvents = 'none';
+
+      emailjs.send(serviceId, templateId, templateParams, publicKey)
+        .then(() => {
+          sendResultsLink.textContent = 'Request sent — we will be in touch.';
+          sendResultsLink.style.background = 'var(--accent)';
+        })
+        .catch((err) => {
+          console.error('EmailJS coaching request failed:', err);
+          sendResultsLink.textContent = 'Something went wrong — email hello@lainibyfield.com directly.';
+          sendResultsLink.style.opacity = '1';
+          sendResultsLink.style.pointerEvents = 'auto';
+        });
     });
   }
 }

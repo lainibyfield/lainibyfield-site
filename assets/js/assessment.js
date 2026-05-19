@@ -312,7 +312,6 @@ function showAllQuestions() {
 }
 
 function showPrescreenExit(type) {
-  // Store exit result and redirect to results
   // Collect Layer 1 answers anonymously — codes only, no text, no session ID
   const layer1Codes = [0, 1, 2].map(i => {
     const q = questions[i];
@@ -323,28 +322,66 @@ function showPrescreenExit(type) {
   const exitPayload = {
     completedAt: new Date().toISOString(),
     prescreenExit: type,
-    // Anonymous: week of year only, no exact timestamp stored
     weekOfYear: Math.ceil((new Date() - new Date(new Date().getFullYear(), 0, 1)) / 604800000),
     scores: getScores(),
     types: {
       primaryCode: type === 'seeker' ? 'S' : 'NP',
       secondaryCode: type === 'seeker' ? 'O' : 'NP'
     },
-    flags: {
-      fueling: false,
-      highOutput: false,
-      clinical: false,
-      perimenopause: false
-    },
+    flags: { fueling: false, highOutput: false, clinical: false, perimenopause: false },
     investmentLevel: 'lower',
-    // Layer 1 answer codes only — no text, no PII, consistent with anonymous posture
     layer1Answers: layer1Codes,
-    // Track whether this is a fresh NP or a return from Layer 3 completion
     npReturnFromFull: false,
     answers: collectSelectedAnswers()
   };
-  localStorage.setItem('lainiAssessmentResult', JSON.stringify(exitPayload));
-  window.location.href = 'results.html';
+
+  // Show inline exit message with choice — do not hard redirect
+  const exitMsg      = document.getElementById('prescreenExitMsg');
+  const exitText     = document.getElementById('prescreenExitText');
+  const exitContBtn  = document.getElementById('prescreenContinueBtn');
+  const exitResBtn   = document.getElementById('prescreenResultBtn');
+
+  if (exitMsg && exitText) {
+    if (type === 'seeker') {
+      exitText.innerHTML =
+        '<strong>Based on your first six answers, a Seeker pattern is very likely.</strong> ' +
+        'You can view your preliminary result now, or continue the full assessment for a more complete picture.';
+    } else {
+      exitText.innerHTML =
+        '<strong>Based on your first three answers, no strong eating pattern emerged.</strong> ' +
+        'This may reflect where you are right now. You can view this as your result, ' +
+        'or continue the full assessment to see if a more specific pattern emerges.';
+    }
+    exitMsg.style.display = 'block';
+    window.scrollTo({ top: exitMsg.offsetTop - 20, behavior: 'smooth' });
+
+    if (exitResBtn) {
+      exitResBtn.onclick = () => {
+        localStorage.setItem('lainiAssessmentResult', JSON.stringify(exitPayload));
+        window.location.href = 'results.html';
+      };
+    }
+    if (exitContBtn) {
+      exitContBtn.onclick = () => {
+        exitMsg.style.display = 'none';
+        if (type === 'seeker') {
+          currentLayer = 3;
+          prescreenComplete = true;
+          showAllQuestions();
+          updatePrescreenProgress(3);
+        } else {
+          currentLayer = 2;
+          showLayer(LAYER2);
+          updatePrescreenProgress(2);
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      };
+    }
+  } else {
+    // Fallback if exit elements missing
+    localStorage.setItem('lainiAssessmentResult', JSON.stringify(exitPayload));
+    window.location.href = 'results.html';
+  }
 }
 
 function buildContinueBtn() {
@@ -393,7 +430,9 @@ function handleContinue() {
     formMessage.textContent = '';
     showLayer(LAYER2);
     updatePrescreenProgress(2);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const firstVisible = document.querySelector('.question-block[style*="block"]');
+    if (firstVisible) firstVisible.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    else window.scrollTo({ top: 0, behavior: 'smooth' });
   } else if (currentLayer === 2) {
     // Check Layer 2 — if 2+ Seeker, exit to Seeker result
     if (!allAnswered(LAYER2)) {
@@ -412,16 +451,17 @@ function handleContinue() {
     showAllQuestions();
     document.getElementById('continueBtn').style.display = 'none';
     updatePrescreenProgress(3);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const firstQ = document.querySelector('.question-block');
+    if (firstQ) firstQ.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    else window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }
 
 function updatePrescreenProgress(layer) {
-  // Update total count in progress bar
+  // Progress bar always shows full question count so respondent
+  // understands the scope — layer transitions are transparent
   const totalEl = document.getElementById('totalCount');
-  if (layer === 1)      { if (totalEl) totalEl.textContent = '3'; }
-  else if (layer === 2) { if (totalEl) totalEl.textContent = '6'; }
-  else                  { if (totalEl) totalEl.textContent = questions.length; }
+  if (totalEl) totalEl.textContent = questions.length;
 
   // Update layer indicator dots
   const dots = [
