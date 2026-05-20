@@ -100,9 +100,9 @@ const questions = [
 
 
   { id: 'q15', text: 'When your eating feels off, what is usually happening?', options: [
-    { text: 'Meals were inconsistent', code: 'F' },
+    { text: 'I had not eaten enough or on schedule', code: 'F' },
     { text: 'I kept looking for something better', code: 'S' },
-    { text: 'I was distracted', code: 'D' },
+    { text: 'I was on autopilot', code: 'D' },
     { text: 'I was overwhelmed', code: 'O' },
     { text: 'My eating rarely feels off', code: '' }
   ]},
@@ -130,7 +130,7 @@ const questions = [
   ]},
   { id: 'q19', text: 'How would you describe your typical physical output or training volume?', options: [
     { text: 'High intensity or long duration \u2014 four or more days a week', code: 'HO' },
-    { text: 'Consistent and moderate \u2014 I rarely miss my scheduled sessions', code: 'T' },
+    { text: 'Consistent and moderate \u2014 when life allows', code: 'T' },
     { text: 'I mostly move when it is social or done with others', code: 'G' },
     { text: 'Light or recreational movement as it fits into my day', code: '' },
     { text: 'I am currently not very physically active', code: '' }
@@ -142,7 +142,7 @@ const questions = [
     { text: 'I do not usually change my eating based on my activity', code: '' },
     { text: 'I do not eat, or eat very little, to preserve the calorie deficit from the workout', code: 'C' }
   ]},
-  { id: 'q21', text: 'If your eating improved, what would help most?', options: [
+  { id: 'q21', text: 'What do you think would make the biggest difference to how you eat?', options: [
     { text: 'Eating more consistently', code: 'F' },
     { text: 'Better options available', code: 'S' },
     { text: 'Paying more attention', code: 'D' },
@@ -218,8 +218,8 @@ const questions = [
     { text: 'Varies but my eating stays about the same either way', code: '' }
   ]},
   { id: 'q32', text: 'The last time your eating felt off, what was different about that day?', options: [
-    { text: 'My routine had broken down', code: 'T' },
     { text: 'I was in a different place or situation', code: 'D' },
+    { text: 'My routine had broken down', code: 'T' },
     { text: 'Something was emotionally harder', code: 'O' },
     { text: 'I was with others or at an event', code: 'G' },
     { text: 'My eating does not usually feel off', code: '' }
@@ -248,9 +248,9 @@ const questions = [
   { id: 'q36', text: 'When you feel like you have eaten too much, what usually follows?', options: [
     { text: 'I move on without much thought', code: '' },
     { text: 'I return to my usual structure or timing', code: 'T' },
+    { text: 'I eat less at the next meal to compensate', code: 'C' },
     { text: 'I find ways to get rid of it \u2014 including making myself sick', code: 'C' },
-    { text: 'I feel I have failed and it affects how I eat for the rest of the day', code: 'C' },
-    { text: 'I feel low and disconnected for a while afterward', code: 'O' }
+    { text: 'I feel I have failed and it affects how I eat for the rest of the day', code: 'C' }
   ]}
 ];
 

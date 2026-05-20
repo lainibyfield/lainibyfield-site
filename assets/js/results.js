@@ -457,13 +457,13 @@ function generatePatternCode(payload, primaryLabel) {
   const yyWW = yy + ww;
 
   // For low score / no pattern use NN
-  const primary = payload.flags.clinical ? 'CL'
+  const primary = payload.flags.clinicalHigh ? 'CL'
     : payload.flags.fueling && payload.flags.highOutput ? 'HO'
     : payload.flags.fueling ? 'FU'
     : (scores.S + scores.O + scores.D + scores.T + (scores.G || 0)) <= 8 ? 'NN'
     : p;
 
-  const secondary = payload.flags.clinical || payload.flags.fueling
+  const secondary = payload.flags.clinicalHigh || payload.flags.fueling
     || (scores.S + scores.O + scores.D + scores.T + (scores.G || 0)) <= 8 ? 'X' : s;
 
   return `${primary}${secondary}-${S}-${O}-${D}-${T}-${G}-${yyWW}`;
