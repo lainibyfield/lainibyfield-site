@@ -564,14 +564,22 @@ function answeredCount() {
 }
 
 function getScores() {
-  const scores = { S: 0, O: 0, D: 0, T: 0, F: 0, G: 0, C: 0, P: 0, BF: 0, H: 0, HO: 0 };
+  const scores = { S: 0, O: 0, D: 0, T: 0, F: 0, G: 0, C: 0, P: 0, BF: 0, H: 0, HO: 0, PURGE: 0 };
+
+  // Purging answer text — exact match to Q36 option
+  const PURGE_TEXT = 'I find ways to get rid of it — including making myself sick';
 
   questions.forEach((question) => {
-    const selected = document.querySelector(`input[name="${question.id}"]:checked`);
+    const selected = document.querySelector(`input[name="${question.id}"]`+':checked');
     if (!selected) return;
     const code = selected.value;
     if (code && Object.prototype.hasOwnProperty.call(scores, code)) {
       scores[code] += 1;
+    }
+    // Detect purging answer specifically — hard clinical trigger
+    const label = selected.closest('label');
+    if (label && label.textContent.trim().includes('making myself sick')) {
+      scores.PURGE += 1;
     }
   });
 
@@ -622,10 +630,12 @@ function buildPayload() {
       secondaryCode
     },
     flags: {
-      fueling: scores.F >= 3,
-      highOutput: scores.HO >= 2,
-      clinical: scores.C >= 2,
-      perimenopause: scores.BF >= 1 && scores.P >= 2
+      fueling:         scores.F >= 3,
+      highOutput:      scores.HO >= 2,
+      clinical:        scores.C >= 2,
+      clinicalWarning: (scores.C >= 3 && scores.C <= 4) && scores.PURGE === 0,
+      clinicalHigh:    scores.C >= 5 || scores.PURGE >= 1,
+      perimenopause:   scores.BF >= 1 && scores.P >= 2
     },
     investmentLevel: scores.H >= 2 ? 'higher' : scores.H === 1 ? 'moderate' : 'lower',
     answers: collectSelectedAnswers()

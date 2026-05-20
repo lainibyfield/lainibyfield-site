@@ -708,6 +708,13 @@ function initResults() {
   }
 
   const payload = JSON.parse(raw);
+  // Backwards compatibility — old payloads won't have clinicalHigh
+  if (payload.flags && payload.flags.clinicalHigh === undefined) {
+    const c = payload.scores ? (payload.scores.C || 0) : 0;
+    const purge = payload.scores ? (payload.scores.PURGE || 0) : 0;
+    payload.flags.clinicalWarning = payload.flags.clinical && (c >= 3 && c <= 4) && purge === 0;
+    payload.flags.clinicalHigh    = payload.flags.clinical && (c >= 5 || purge >= 1);
+  }
   const primaryLabel = typeLabels[payload.types.primaryCode];
   const secondaryLabel = typeLabels[payload.types.secondaryCode];
 
@@ -764,11 +771,52 @@ function initResults() {
       '<p><strong>If you still want food,</strong> ' + hoCopy.eat + '</p>'
     );
   } else if (payload.flags.clinical) {
-    pageTitle.innerHTML = 'Your responses suggest a <em>different starting point</em>.';
-    pageIntro.textContent = payload.flags.hasProvider
-      ? 'You are already working with someone. This result is about what coaching can add — not replace.'
-      : 'This result does not mean something is wrong with you. It means your next step may benefit from more than one kind of support.';
-    html += renderClinicalResult(payload);
+
+    if (payload.flags.clinicalHigh) {
+      // ELEVATED — C >= 5 or purging present
+      // Referral is the headline. No product pathway.
+      pageTitle.innerHTML = 'Your responses suggest a <em>different starting point</em>.';
+      pageIntro.textContent = 'Some of what came up in your results goes beyond what behavioral coaching is designed to address on its own. This is not a judgment — it is information worth taking seriously.';
+      if (primaryLabel && resultCopy[payload.types.primaryCode]) {
+        html += createBox('Your pattern', '<p>Your responses suggest a ' + primaryLabel + ' pattern as the primary behavioral driver. That is real and workable — but it is not the first thing to address here.</p>');
+      }
+      html += renderClinicalResult(payload);
+
+    } else if (payload.flags.clinicalWarning) {
+      // WARNING — C = 3 or 4
+      // Pattern in full, stronger boundary language than mild. Door conditionally open.
+      const warnCopy = resultCopy[payload.types.primaryCode] || resultCopy.CLINICAL;
+      if (primaryLabel && warnCopy && warnCopy.happening) {
+        pageTitle.innerHTML = `Your results suggest a <em>${primaryLabel} pattern</em> — with something that needs to be named.`;
+        pageIntro.textContent = 'Your pattern is real and specific. Some of what else showed up deserves attention before we go further.';
+        html += renderPrimaryBlock(warnCopy, secondaryLabel, payload);
+      }
+      html += createBox('Before we go further',
+        '<p>Several of your responses point to patterns that sit outside what behavioral coaching is built to address on its own — restriction cycling, compensation, or difficulty stopping once eating starts. These are not character flaws. They are signals that something more specific may be at play.</p>' +
+        '<p>I do not work with clients on the behavioral layer until I know there is clinical support alongside it. That does not have to mean a long-term commitment — it means someone who specializes in this area is aware of what is happening.</p>' +
+        '<p>If that support is already in place, reach out and tell me. The coaching work becomes more effective, not less relevant, when it is not carrying the whole load.</p>'
+      );
+      html += renderClinicalResult(payload);
+
+    } else {
+      // MILD — C = 2
+      // Pattern first, light boundary note. Door open conditionally.
+      const clinicalCopy = resultCopy[payload.types.primaryCode] || resultCopy.CLINICAL;
+      if (primaryLabel && clinicalCopy && clinicalCopy.happening) {
+        pageTitle.innerHTML = `Your results suggest a <em>${primaryLabel} pattern</em> — with something else worth naming.`;
+        pageIntro.textContent = 'Some of your responses point to patterns that behavioral coaching alone may not fully address. That does not change what your pattern is.';
+        html += renderPrimaryBlock(clinicalCopy, secondaryLabel, payload);
+      } else {
+        pageTitle.innerHTML = 'Your responses suggest a <em>different starting point</em>.';
+        pageIntro.textContent = 'This result does not mean something is wrong with you. It means your next step may benefit from more than one kind of support.';
+      }
+      html += createBox('Before we go further',
+        '<p>Some of what showed up in your results goes beyond what coaching is designed to address on its own. I work best with clients who already have some support in place for the harder pieces — not necessarily therapy, but someone in their corner who specializes in this area.</p>' +
+        '<p>Once that support is in place, coaching can do a lot. The pattern above is real, and it is workable. I am not closing the door — I am telling you what I need to know before I can open it fully.</p>' +
+        '<p>If you have already worked with someone on this, or if you are currently doing so, I would like to hear about it. Reach out directly and we can talk through what makes sense.</p>'
+      );
+      html += renderClinicalResult(payload);
+    }
   } else if (payload.flags.fueling) {
     const copy = resultCopy.FUELING;
     pageTitle.innerHTML = 'Your results suggest a <em>Fueling Pattern</em>.';
