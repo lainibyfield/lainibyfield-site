@@ -580,14 +580,22 @@ function getScores() {
 
 function getTopTypes(scores) {
   // Normalize by number of questions each code appears in
-  // so patterns with fewer questions are not structurally disadvantaged
   const questionCounts = { S: 19, O: 21, D: 21, T: 19, G: 19 };
 
   const ranked = ['S', 'O', 'D', 'T', 'G']
     .map((key) => [key, scores[key] / questionCounts[key]])
     .sort((a, b) => b[1] - a[1]);
 
-  return { primaryCode: ranked[0][0], secondaryCode: ranked[1][0] };
+  const primaryScore  = ranked[0][1];
+  const secondaryScore = ranked[1][1];
+
+  // Secondary only counts if it scores at least 60% of the primary normalized score
+  // AND at least 0.15 normalized — prevents noise from being named a pattern
+  const secondaryCode = (secondaryScore >= primaryScore * 0.6 && secondaryScore >= 0.15)
+    ? ranked[1][0]
+    : null;
+
+  return { primaryCode: ranked[0][0], secondaryCode };
 }
 
 function collectSelectedAnswers() {

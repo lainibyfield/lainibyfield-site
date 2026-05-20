@@ -252,10 +252,13 @@ function renderPrimaryBlock(copy, secondaryLabel, payload, isFueling) {
     </div>
   ` : '';
 
-  // For Fueling/HO results, relabel the primary pattern box so it reads as
-  // a second layer alongside the HO headline, not a contradiction of it
+  // For Fueling/HO results: show behavioral pattern box only if there is a
+  // meaningful secondary (secondaryLabel defined) — otherwise it shows noise
   const primaryKicker = isFueling ? 'Your behavioral pattern' : 'Primary result';
-  const primaryBox = patternDesc ? `
+  const showPrimaryBox = isFueling
+    ? (secondaryLabel && patternDesc)   // HO/Fueling: only if secondary exists
+    : !!patternDesc;                     // Other patterns: always if description exists
+  const primaryBox = showPrimaryBox ? `
     <div class="result-box">
       <span class="result-kicker">${primaryKicker}</span>
       <p class="result-description">${patternDesc}</p>
