@@ -1,541 +1,228 @@
 const questions = [
-  { id: 'q01', text: 'Which feels most familiar?', options: [
-    { text: 'Cravings hit at certain times or situations', code: 'T' },
-    { text: 'I do not notice until I am already eating', code: 'D' },
-    { text: 'I want specific textures or flavors', code: 'S' },
-    { text: 'I crave food more when stressed', code: 'O' },
-    { text: 'None of these feel familiar', code: '' }
-  ]},
-  { id: 'q02', text: 'Trying to eat better:', options: [
-    { text: 'I get bored', code: 'S' },
-    { text: 'I forget', code: 'D' },
-    { text: 'It feels emotionally hard', code: 'O' },
-    { text: 'It works until routine breaks', code: 'T' },
-    { text: 'It works until I am around other people', code: 'G' },
-    { text: 'I do not find it particularly hard', code: '' }
-  ]},
-  { id: 'q03', text: 'Eating feels hardest when:', options: [
-    { text: 'I need a pick-me-up', code: 'S' },
-    { text: 'I am distracted', code: 'D' },
-    { text: 'I am overwhelmed', code: 'O' },
-    { text: 'My routine is off', code: 'T' },
-    { text: 'I am eating with others', code: 'G' },
-    { text: 'Eating does not usually feel hard', code: '' }
-  ]},
-  { id: 'q04', text: 'You are home with nothing planned. What happens?', options: [
-    { text: 'I snack as something to do', code: 'S' },
-    { text: 'I eat while distracted', code: 'D' },
-    { text: 'I want to go out or find someone to eat with', code: 'G' },
-    { text: 'I eat randomly \u2014 without my usual structure I lose track', code: 'T' },
-    { text: 'Nothing much — I am comfortable with unplanned time', code: '' }
-  ]},
-  { id: 'q05', text: 'You are watching a show at night. What usually happens with food?', options: [
-    { text: 'I keep searching for something better to eat', code: 'S' },
-    { text: 'I finish the snack without noticing — my hand just moves', code: 'D' },
-    { text: 'It feels like a reward I would usually share', code: 'G' },
-    { text: 'I eat because it is my scheduled wind-down time', code: 'T' },
-    { text: 'I am focused on the show and do not usually eat in this setting', code: '' }
-  ]},
-  { id: 'q06', text: 'Think about a time you overate. What was true?', options: [
-    { text: 'It tasted good so I kept going', code: 'S' },
-    { text: 'I am not sure — I do not always notice when it is happening', code: 'D' },
-    { text: 'I had not eaten enough earlier', code: 'F' },
-    { text: 'I was at a social event and it felt like participation', code: 'G' },
-    { text: 'I do not think this happens to me', code: '' }
-  ]},
-  { id: 'q07', text: 'Which best describes you?', options: [
+  { id: 'q1', text: 'Which best describes you?', options: [
     { text: 'Biological female', code: 'BF' },
     { text: 'Biological male', code: '' },
     { text: 'Prefer not to say', code: '' },
     { text: 'Not sure / intersex', code: '' }
   ]},
-  { id: 'q08', text: 'Which best describes your stage?', options: [
-    { text: 'Under 35', code: '' },
-    { text: '35\u201340', code: 'BF' },
-    { text: '40\u201350 with cycle changes', code: 'P' },
-    { text: '50+', code: 'P' }
+  { id: 'q2', text: 'You just ate, but 45 minutes later you are back in the kitchen. What happened?', options: [
+    { text: 'Something stressed me out', code: 'O' },
+    { text: 'I walked in without thinking', code: 'D' },
+    { text: 'I did not eat enough earlier', code: 'F' },
+    { text: 'I wanted something more satisfying', code: 'S' }
   ]},
-  { id: 'q09', text: 'Lately, which feels most true about your body and appetite?', options: [
+  { id: 'q3', text: 'It is mid-afternoon and your energy drops. What do you usually do?', options: [
+    { text: 'Look for something snacky', code: 'S' },
+    { text: 'Grab something while doing something else', code: 'D' },
+    { text: 'Want something comforting', code: 'O' },
+    { text: 'Realize I barely ate earlier', code: 'F' }
+  ]},
+  { id: 'q4', text: 'You are watching a show at night. What usually happens?', options: [
+    { text: 'I keep going back because it tastes good', code: 'S' },
+    { text: 'I finish it without noticing', code: 'D' },
+    { text: 'It feels like part of relaxing', code: 'O' },
+    { text: 'I tend to eat around the same time', code: 'T' }
+  ]},
+  { id: 'q5', text: 'You had a stressful moment earlier. Later you:', options: [
+    { text: 'Want something crunchy or distracting', code: 'S' },
+    { text: 'Realize you ate without planning to', code: 'D' },
+    { text: 'Want something warm or calming', code: 'O' },
+    { text: 'Try to reset your day', code: 'T' }
+  ]},
+  { id: 'q6', text: 'Which feels most familiar?', options: [
+    { text: 'Cravings hit at certain times or situations', code: 'T' },
+    { text: 'I do not notice until I am already eating', code: 'D' },
+    { text: 'I want specific textures or flavors', code: 'S' },
+    { text: 'I crave food more when stressed', code: 'O' }
+  ]},
+  { id: 'q7', text: 'You open the pantry. What is going on?', options: [
+    { text: 'Looking for something interesting', code: 'S' },
+    { text: 'Already grabbing something', code: 'D' },
+    { text: 'Wanting to feel better', code: 'O' },
+    { text: 'Trying to stay on track', code: 'T' }
+  ]},
+  { id: 'q8', text: 'You planned to eat well but did not. Why?', options: [
+    { text: 'It did not sound good', code: 'S' },
+    { text: 'Got distracted', code: 'D' },
+    { text: 'Needed comfort', code: 'O' },
+    { text: 'My timing got off', code: 'F' }
+  ]},
+  { id: 'q9', text: 'You are home with nothing planned. What happens?', options: [
+    { text: 'I snack for something to do', code: 'S' },
+    { text: 'I eat while distracted', code: 'D' },
+    { text: 'I eat to unwind', code: 'O' },
+    { text: 'I eat randomly without structure', code: 'T' }
+  ]},
+  { id: 'q10', text: 'Think about a time you overate. What was true?', options: [
+    { text: 'It tasted good so I kept going', code: 'S' },
+    { text: 'I did not notice until later', code: 'D' },
+    { text: 'I needed comfort', code: 'O' },
+    { text: 'I had not eaten enough earlier', code: 'F' }
+  ]},
+  { id: 'q11', text: 'You feel very hungry late in the day. Why?', options: [
+    { text: 'I kept putting off eating', code: 'F' },
+    { text: 'I wanted something better later', code: 'S' },
+    { text: 'I did not notice time passing', code: 'D' },
+    { text: 'I was not in the mood earlier', code: 'O' }
+  ]},
+  { id: 'q12', text: 'On days you eat more at night, what is true earlier?', options: [
+    { text: 'I ate lightly or skipped meals', code: 'F' },
+    { text: 'Nothing felt satisfying', code: 'S' },
+    { text: 'I was distracted', code: 'D' },
+    { text: 'The day was draining', code: 'O' }
+  ]},
+  { id: 'q13', text: 'When eating, you usually:', options: [
+    { text: 'Eat quickly', code: 'S' },
+    { text: 'Barely notice', code: 'D' },
+    { text: 'Eat slowly', code: 'O' },
+    { text: 'Follow a routine', code: 'T' }
+  ]},
+  { id: 'q14', text: 'Lately, which feels most true about your body and appetite?', options: [
     { text: 'About the same', code: '' },
     { text: 'I get hungry more quickly', code: 'F' },
     { text: 'I can eat the same but gain more easily', code: 'P' },
     { text: 'Hunger feels unpredictable', code: 'O' }
   ]},
-  { id: 'q10', text: 'Over the past 1–2 years, have you noticed:', options: [
-    { text: 'No real changes', code: '' },
-    { text: 'Slight energy or sleep shifts', code: 'P' },
-    { text: 'More weight around my midsection without a big diet change', code: 'P' },
-    { text: 'More emotional ups and downs tied to eating', code: 'O' }
+  { id: 'q15', text: 'After eating, you usually feel:', options: [
+    { text: 'Want something else soon', code: 'S' },
+    { text: 'Neutral or unaware', code: 'D' },
+    { text: 'Calmer', code: 'O' },
+    { text: 'Back on track', code: 'T' },
+    { text: 'Satisfied and done', code: '' }
   ]},
-  { id: 'q11', text: 'You just ate, but 45 minutes later you are back in the kitchen \u2014 with food in your hand or looking in the refrigerator. What happened?', options: [
-    { text: 'I went in for something else \u2014 dishes, water, another errand', code: '' },
-    { text: 'Something stressed me out', code: 'O' },
-    { text: 'I walked in without really deciding to \u2014 the kitchen just drew me in', code: 'D' },
-    { text: 'I did not eat enough earlier', code: 'F' },
-    { text: 'I wanted something more satisfying', code: 'S' },
-    { text: 'This does not happen to me', code: '' }
-  ]},
-  { id: 'q12', text: 'You had a stressful moment earlier. Later you:', options: [
-    { text: 'Want something crunchy or distracting', code: 'S' },
-    { text: 'Realize you ate without planning to', code: 'D' },
-    { text: 'Want something warm or calming', code: 'O' },
-    { text: 'Try to reset your day', code: 'T' },
-    { text: 'Stress does not usually affect my eating', code: '' }
-  ]},
-  { id: 'q13', text: 'You planned to eat well but did not. Why?', options: [
-    { text: 'What I planned was not available', code: '' },
-    { text: 'Nothing available appealed to me', code: 'S' },
-    { text: 'Got distracted', code: 'D' },
-    { text: 'Needed comfort', code: 'O' },
-    { text: 'My timing got off', code: 'F' },
-    { text: 'I was with others and went along with the group', code: 'G' }
-  ]},
-  { id: 'q14', text: 'You feel very hungry late in the day. Why?', options: [
-    { text: 'I kept putting off eating', code: 'F' },
-    { text: 'I wanted something better later', code: 'S' },
-    { text: 'I was absorbed in something else and forgot', code: 'D' },
-    { text: 'I was not in the mood earlier', code: 'O' },
-    { text: 'I do not usually get very hungry late in the day', code: '' }
-  ]},
-
-
-  { id: 'q15', text: 'When your eating feels off, what is usually happening?', options: [
-    { text: 'I had not eaten enough or on schedule', code: 'F' },
+  { id: 'q16', text: 'When your eating feels off, what is usually happening?', options: [
+    { text: 'Meals were inconsistent', code: 'F' },
     { text: 'I kept looking for something better', code: 'S' },
-    { text: 'I was on autopilot', code: 'D' },
+    { text: 'I was distracted', code: 'D' },
     { text: 'I was overwhelmed', code: 'O' },
     { text: 'My eating rarely feels off', code: '' }
   ]},
-  { id: 'q16', text: 'When your eating goes sideways for a day, what caused it?', options: [
+  { id: 'q17', text: 'Trying to eat better:', options: [
+    { text: 'I get bored', code: 'S' },
+    { text: 'I forget', code: 'D' },
+    { text: 'It feels emotionally hard', code: 'O' },
+    { text: 'It works until routine breaks', code: 'T' }
+  ]},
+  { id: 'q18', text: 'When eating gets harder, what is usually behind it?', options: [
+    { text: 'Things feel dull', code: 'S' },
+    { text: 'I get distracted', code: 'D' },
+    { text: 'Stress builds', code: 'O' },
+    { text: 'My days are not consistent', code: 'T' },
+    { text: 'Eating does not usually feel hard', code: '' }
+  ]},
+  { id: 'q19', text: 'When things go well:', options: [
+    { text: 'I am engaged', code: 'S' },
+    { text: 'I am focused', code: 'D' },
+    { text: 'I feel calm', code: 'O' },
+    { text: 'I have structure', code: 'T' }
+  ]},
+  { id: 'q20', text: 'Over the past 1–2 years, have you noticed:', options: [
+    { text: 'No real changes', code: '' },
+    { text: 'Slight energy or sleep shifts', code: 'O' },
+    { text: 'More weight around my midsection without a big diet change', code: 'P' },
+    { text: 'More emotional ups and downs tied to eating', code: 'O' }
+  ]},
+  { id: 'q21', text: 'When your eating goes sideways for a day, what caused it?', options: [
     { text: 'I wanted something more interesting', code: 'S' },
+    { text: 'I lost awareness', code: 'D' },
     { text: 'My emotions spiked', code: 'O' },
     { text: 'My schedule shifted', code: 'T' },
-    { text: 'I was at a social event and went along with what others were eating', code: 'G' },
-    { text: 'I was eating out and the environment pulled me off course', code: '' },
     { text: 'My eating rarely goes sideways', code: '' }
   ]},
-  { id: 'q17', text: 'Which of the following have you tried?', options: [
+  { id: 'q22', text: 'Which of the following have you tried?', options: [
     { text: 'Small changes on my own', code: '' },
     { text: 'Structured programs or diets', code: '' },
-    { text: 'A combination of the above', code: 'H' },
     { text: 'Medical or clinical options', code: 'H' },
-    { text: 'All of the above \u2014 I feel like I have tried everything', code: 'H' }
+    { text: 'A mix of several approaches', code: 'H' },
+    { text: 'I have not tried to change my eating', code: '' }
   ]},
-  { id: 'q18', text: 'Which feels closest now?', options: [
-    { text: 'I am not focused on changing my eating right now', code: '' },
-    { text: 'I am just starting to think about my eating or weight', code: '' },
-    { text: 'I have tried a few approaches but nothing has stuck', code: '' },
-    { text: 'I have invested significant time and money trying to figure this out and still feel stuck', code: 'H' },
-    { text: 'I know what I should do but something keeps getting in the way', code: 'H' }
+  { id: 'q23', text: 'How did those approaches work?', options: [
+    { text: 'Hard to stay consistent', code: '' },
+    { text: 'Worked for a while', code: '' },
+    { text: 'Helped physically but not behaviorally', code: '' },
+    { text: 'They did not address the real issue', code: '' }
   ]},
-  { id: 'q19', text: 'How would you describe your typical physical output or training volume?', options: [
-    { text: 'High intensity or long duration \u2014 four or more days a week', code: 'HO' },
-    { text: 'Consistent and moderate \u2014 when life allows', code: 'T' },
-    { text: 'I mostly move when it is social or done with others', code: 'G' },
-    { text: 'Light or recreational movement as it fits into my day', code: '' },
-    { text: 'I am currently not very physically active', code: '' }
+  { id: 'q24', text: 'Which feels closest now?', options: [
+    { text: 'I am just starting', code: '' },
+    { text: 'I have tried a few things', code: '' },
+    { text: 'I have invested and still feel stuck', code: 'H' },
+    { text: 'Something feels missing', code: '' }
   ]},
-  { id: 'q20', text: 'What is your primary focus for food after a high-effort day or workout?', options: [
-    { text: 'I prioritize a specific refuel to recover my energy', code: 'HO' },
-    { text: 'I stick to my next scheduled meal to keep my rhythm', code: 'T' },
-    { text: 'I enjoy a reward meal \u2014 often sharing it with others', code: 'G' },
-    { text: 'I do not usually change my eating based on my activity', code: '' },
-    { text: 'I do not eat, or eat very little, to preserve the calorie deficit from the workout', code: 'C' }
+  { id: 'q25', text: 'Eating feels hardest when:', options: [
+    { text: 'I need a pick-me-up', code: 'S' },
+    { text: 'I am distracted', code: 'D' },
+    { text: 'I am overwhelmed', code: 'O' },
+    { text: 'My routine is off', code: 'T' },
+    { text: 'Eating does not usually feel hard', code: '' }
   ]},
-  { id: 'q21', text: 'What do you think would make the biggest difference to how you eat?', options: [
+  { id: 'q27', text: 'When you try to stop snacking:', options: [
+    { text: 'I feel restless', code: 'S' },
+    { text: 'I do not notice', code: 'D' },
+    { text: 'I feel uncomfortable', code: 'O' },
+    { text: 'I try to control it', code: 'T' }
+  ]},
+  { id: 'q28', text: 'You trust yourself most when:', options: [
+    { text: 'I am engaged', code: 'S' },
+    { text: 'I am present', code: 'D' },
+    { text: 'I feel settled', code: 'O' },
+    { text: 'I have a plan', code: 'T' }
+  ]},
+  { id: 'q29', text: 'You do your best when:', options: [
+    { text: 'Things feel challenging or new', code: 'S' },
+    { text: 'I am hands-on and focused', code: 'D' },
+    { text: 'The environment is calm', code: 'O' },
+    { text: 'I have a system', code: 'T' }
+  ]},
+  { id: 'q30', text: 'If your eating improved, what would help most?', options: [
     { text: 'Eating more consistently', code: 'F' },
     { text: 'Better options available', code: 'S' },
     { text: 'Paying more attention', code: 'D' },
     { text: 'Managing stress better', code: 'O' },
-    { text: 'I think my eating is fine', code: '' }
+    { text: 'My eating does not need to improve', code: '' }
   ]},
-  { id: 'q22', text: 'Sometimes eating more than planned is because:', options: [
+  { id: 'q31', text: 'Sometimes eating more than planned is because:', options: [
     { text: 'I did not eat enough earlier', code: 'F' },
     { text: 'It tasted good', code: 'S' },
-    { text: 'I am not sure — it happens before I decide', code: 'D' },
-    { text: 'Everyone around me was eating and it felt normal', code: 'G' },
+    { text: 'I did not notice', code: 'D' },
+    { text: 'I needed comfort', code: 'O' },
     { text: 'This does not happen to me', code: '' }
   ]},
-  { id: 'q23', text: 'When your day is structured:', options: [
-    { text: 'Food is less interesting', code: 'S' },
-    { text: 'I stay more aware', code: 'D' },
-    { text: 'My meals are on my own terms', code: 'G' },
-    { text: 'Eating feels easier', code: 'T' },
-    { text: 'Structure does not affect my eating much either way', code: '' }
+  { id: 'q32', text: 'After eating more than expected:', options: [
+    { text: 'I move on', code: '' },
+    { text: 'I eat lighter later', code: '' },
+    { text: 'I feel like I should make up for it', code: 'C' },
+    { text: 'I feel upset with myself', code: 'C' }
   ]},
-  { id: 'q24', text: 'When you are alone with no plans, no one cooking, and no occasion, what usually happens with eating?', options: [
-    { text: 'I eat when I feel hungry', code: '' },
-    { text: 'I often forget to eat or realize later I never did', code: 'G' },
-    { text: 'I eat out of habit or on a regular schedule regardless', code: 'T' },
-    { text: 'I graze without really deciding to', code: 'D' },
-    { text: 'I look for something interesting or satisfying', code: 'S' }
-  ]},
-  { id: 'q25', text: 'When someone you care about offers you food you were not planning to eat, you:', options: [
-    { text: 'Usually decline without much difficulty', code: '' },
-    { text: 'Often eat it because refusing feels unkind or awkward', code: 'G' },
-    { text: 'Eat it if it looks good regardless of who offered', code: 'S' },
-    { text: 'Eat it automatically without really deciding', code: 'D' },
-    { text: 'Eat it and feel guilty or conflicted afterward', code: 'C' }
-  ]},
-  { id: 'q26', text: 'Before a dinner out or social event with food, you:', options: [
-    { text: 'Look forward to it without much thought about food', code: '' },
-    { text: 'Think ahead about what you will and will not eat', code: 'G' },
-    { text: 'Feel some anxiety about what will be available', code: 'G' },
-    { text: 'Plan to eat less earlier in the day to make room', code: 'G' }
-  ]},
-  { id: 'q27', text: 'How does your eating at home compare to eating out or at social events?', options: [
-    { text: 'Much more controlled at home', code: 'G' },
-    { text: 'About the same either way', code: '' },
-    { text: 'Actually harder at home', code: 'S' },
-    { text: 'Depends on my mood not the setting', code: 'O' }
-  ]},
-  { id: 'q28', text: 'After a social event where you ate carefully, what usually happens when you get home?', options: [
-    { text: 'Nothing much \u2014 I move on as normal', code: '' },
-    { text: 'I often eat more than I planned once I am back', code: 'G' },
-    { text: 'I feel relieved and eat something comforting', code: 'O' },
-    { text: 'I feel good about how the event went and stick to my plan', code: 'T' },
-    { text: 'I rarely eat carefully at social events in the first place', code: '' }
-  ]},
-  { id: 'q29', text: 'When a meal gets delayed or pushed back, what usually happens?', options: [
-    { text: 'I eat more than usual at the next opportunity', code: 'T' },
-    { text: 'I get irritable or distracted until I eat', code: 'O' },
-    { text: 'I do not notice much', code: 'D' },
-    { text: 'I look for something to tide me over', code: 'S' },
-    { text: 'This does not affect me much', code: '' }
-  ]},
-  { id: 'q30', text: 'Your eating feels most manageable when:', options: [
-    { text: 'My day goes roughly as planned', code: 'T' },
-    { text: 'I am somewhere familiar', code: 'D' },
-    { text: 'I am not stressed or overwhelmed', code: 'O' },
-    { text: 'I am not expected to eat a certain way or be seen eating', code: 'G' },
-    { text: 'My eating feels manageable in general', code: '' }
-  ]},
-  { id: 'q31', text: 'When your week is unpredictable, your eating:', options: [
-    { text: 'Follows the disruption — inconsistent days mean inconsistent eating', code: 'T' },
-    { text: 'Follows my mood more than usual', code: 'O' },
-    { text: 'Becomes more automatic \u2014 I eat whatever is around', code: 'D' },
-    { text: 'Involves more unplanned meals out or social eating', code: 'G' },
-    { text: 'Varies but my eating stays about the same either way', code: '' }
-  ]},
-  { id: 'q32', text: 'The last time your eating felt off, what was different about that day?', options: [
-    { text: 'I was in a different place or situation', code: 'D' },
-    { text: 'My routine had broken down', code: 'T' },
-    { text: 'Something was emotionally harder', code: 'O' },
-    { text: 'I was with others or at an event', code: 'G' },
-    { text: 'My eating does not usually feel off', code: '' }
-  ]},
-  { id: 'q33', text: 'How do your eating intentions at the start of the day usually compare to how the day ends?', options: [
-    { text: 'They are roughly consistent', code: '' },
-    { text: 'I set a plan and mostly follow it', code: 'T' },
-    { text: 'I start well but the evening pulls me off course', code: 'F' },
-    { text: 'I intend to eat very little and then lose control later', code: 'C' },
-    { text: 'I do not usually set intentions around eating', code: 'D' },
-    { text: 'It depends entirely on what the day brings', code: '' }
-  ]},
-  { id: 'q34', text: 'After eating more than you intended, what is most likely to happen?', options: [
-    { text: 'I move on without much thought', code: '' },
-    { text: 'I feel emotionally low for a while but it passes', code: 'O' },
-    { text: 'I feel I need to compensate \u2014 eating less, exercising, or skipping the next meal', code: 'C' },
-    { text: 'I feel stuck in a cycle that repeats regardless of what I intend', code: 'C' },
-    { text: 'I return to my normal eating at the next meal', code: 'T' }
-  ]},
-  { id: 'q35', text: 'When eating feels out of control:', options: [
+  { id: 'q33', text: 'When eating feels out of control:', options: [
     { text: 'It passes', code: '' },
-    { text: 'I feel unsettled but it resolves', code: '' },
+    { text: 'I try to adjust later', code: '' },
     { text: 'I feel guilt or pressure', code: 'C' },
     { text: 'I feel stuck in the pattern', code: 'O' }
   ]},
-  { id: 'q36', text: 'When you feel like you have eaten too much, what usually follows?', options: [
-    { text: 'I move on without much thought', code: '' },
-    { text: 'I return to my usual structure or timing', code: 'T' },
-    { text: 'I eat less at the next meal to compensate', code: 'C' },
-    { text: 'I find ways to get rid of it \u2014 including making myself sick', code: 'C' },
-    { text: 'I feel I have failed and it affects how I eat for the rest of the day', code: 'C' }
+  { id: 'q34', text: 'Which best describes your stage?', options: [
+    { text: 'Under 35', code: '' },
+    { text: '35–40', code: '' },
+    { text: '40–50 with cycle changes', code: 'P' },
+    { text: '50+', code: '' }
+  ]},
+  { id: 'q35', text: 'When your day is structured:', options: [
+    { text: 'Food is less interesting', code: 'S' },
+    { text: 'I stay more aware', code: 'D' },
+    { text: 'I feel more settled', code: 'O' },
+    { text: 'Eating feels easier', code: 'T' }
+  ]},
+  { id: 'q36', text: 'If nothing changed, what concerns you most?', options: [
+    { text: 'I will keep chasing something satisfying', code: 'S' },
+    { text: 'I will keep doing this without noticing', code: 'D' },
+    { text: 'I will keep using food to cope', code: 'O' },
+    { text: 'I will keep falling off track', code: 'T' }
   ]}
 ];
 
-// DOM references — declared here, assigned in DOMContentLoaded
-let container, seeResultsBtn, clearBtn, formMessage;
-
-
-// ── PRE-SCREEN LAYER ARCHITECTURE ─────────────────────────────────────────────
-// Layer 1: Q1-3 — General pre-screen. 2+ neutral = No Strong Pattern exit.
-// Layer 2: Q4-6 — Seeker quick-screen. 2+ S answers = early Seeker exit.
-// Layer 3: Q7-36 — Full assessment.
-
-const LAYER1 = [0, 1, 2];     // indices into questions array
-const LAYER2 = [3, 4, 5];     // indices into questions array
-const LAYER3_START = 6;        // index where full assessment begins
-
-let currentLayer = 1;
-let prescreenComplete = false;
-
-function countNeutralAnswers(indices) {
-  return indices.reduce((count, i) => {
-    const q = questions[i];
-    const selected = document.querySelector(`input[name="${q.id}"]:checked`);
-    return count + (selected && selected.value === '' ? 1 : 0);
-  }, 0);
-}
-
-function countCodeAnswers(indices, code) {
-  return indices.reduce((count, i) => {
-    const q = questions[i];
-    const selected = document.querySelector(`input[name="${q.id}"]:checked`);
-    return count + (selected && selected.value === code ? 1 : 0);
-  }, 0);
-}
-
-function allAnswered(indices) {
-  return indices.every(i => {
-    const q = questions[i];
-    return document.querySelector(`input[name="${q.id}"]:checked`);
-  });
-}
-
-function showLayer(indices) {
-  // Hide all question blocks first
-  document.querySelectorAll('.question-block').forEach(b => {
-    b.style.display = 'none';
-  });
-  // Show only the blocks for this layer
-  indices.forEach(i => {
-    const block = document.querySelectorAll('.question-block')[i];
-    if (block) block.style.display = 'block';
-  });
-}
-
-function showAllQuestions() {
-  document.querySelectorAll('.question-block').forEach(b => {
-    b.style.display = 'block';
-  });
-}
-
-function showPrescreenExit(type) {
-  // Collect Layer 1 answers anonymously — codes only, no text, no session ID
-  const layer1Codes = [0, 1, 2].map(i => {
-    const q = questions[i];
-    const sel = document.querySelector(`input[name="${q.id}"]:checked`);
-    return sel ? sel.value : null;
-  });
-
-  const exitPayload = {
-    completedAt: new Date().toISOString(),
-    prescreenExit: type,
-    weekOfYear: Math.ceil((new Date() - new Date(new Date().getFullYear(), 0, 1)) / 604800000),
-    scores: getScores(),
-    types: {
-      primaryCode: type === 'seeker' ? 'S' : 'NP',
-      secondaryCode: type === 'seeker' ? 'O' : 'NP'
-    },
-    flags: { fueling: false, highOutput: false, clinical: false, perimenopause: false },
-    investmentLevel: 'lower',
-    layer1Answers: layer1Codes,
-    npReturnFromFull: false,
-    answers: collectSelectedAnswers()
-  };
-
-  // Show inline exit message with choice — do not hard redirect
-  const exitMsg      = document.getElementById('prescreenExitMsg');
-  const exitText     = document.getElementById('prescreenExitText');
-  const exitContBtn  = document.getElementById('prescreenContinueBtn');
-  const exitResBtn   = document.getElementById('prescreenResultBtn');
-
-  if (exitMsg && exitText) {
-    if (type === 'seeker') {
-      exitText.innerHTML =
-        '<strong>Based on your first six answers, a Seeker pattern is very likely.</strong> ' +
-        'You can view your preliminary result now, or continue the full assessment for a more complete picture.';
-    } else {
-      exitText.innerHTML =
-        '<strong>Based on your first three answers, no strong eating pattern emerged.</strong> ' +
-        'This may reflect where you are right now. You can view this as your result, ' +
-        'or continue the full assessment to see if a more specific pattern emerges.';
-    }
-    // Move exit message to appear directly after Q6 in the DOM
-    const allBlocks = document.querySelectorAll('.question-block');
-    const q6Block = allBlocks[5]; // Q6 is index 5
-    if (q6Block && q6Block.parentNode) {
-      q6Block.parentNode.insertBefore(exitMsg, q6Block.nextSibling);
-    }
-    exitMsg.style.display = 'block';
-    setTimeout(() => {
-      exitMsg.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 50);
-
-    if (exitResBtn) {
-      exitResBtn.onclick = () => {
-        localStorage.setItem('lainiAssessmentResult', JSON.stringify(exitPayload));
-        window.location.href = 'results.html';
-      };
-    }
-    if (exitContBtn) {
-      exitContBtn.onclick = () => {
-        exitMsg.style.display = 'none';
-        if (type === 'seeker') {
-          // Continue from Seeker exit — go to full assessment, scroll to Q7
-          currentLayer = 3;
-          prescreenComplete = true;
-          showAllQuestions();
-          updatePrescreenProgress(3);
-          setTimeout(() => {
-            const allBlocks = document.querySelectorAll('.question-block');
-            const q7 = allBlocks[6];
-            if (q7) q7.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            else window.scrollTo({ top: 0, behavior: 'smooth' });
-          }, 100);
-        } else {
-          // Continue from NP exit — go to Layer 2, scroll to Q4
-          currentLayer = 2;
-          showLayer(LAYER2);
-          updatePrescreenProgress(2);
-          setTimeout(() => {
-            const allBlocks = document.querySelectorAll('.question-block');
-            const q4 = allBlocks[3];
-            if (q4) q4.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            else window.scrollTo({ top: 0, behavior: 'smooth' });
-          }, 100);
-        }
-      };
-    }
-  } else {
-    // Fallback if exit elements missing
-    localStorage.setItem('lainiAssessmentResult', JSON.stringify(exitPayload));
-    window.location.href = 'results.html';
-  }
-}
-
-function buildContinueBtn() {
-  // Add a Continue button between layers
-  let btn = document.getElementById('continueBtn');
-  if (!btn) {
-    btn = document.createElement('button');
-    btn.id = 'continueBtn';
-    btn.className = 'continue-btn';
-    btn.textContent = 'Continue';
-    btn.style.cssText = `
-      display: none;
-      margin: 1.5rem auto;
-      padding: 0.75rem 2.5rem;
-      background: var(--accent, #7a5c3e);
-      color: #faf7f2;
-      border: none;
-      border-radius: 4px;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
-      cursor: pointer;
-      letter-spacing: 0.04em;
-    `;
-    btn.addEventListener('click', handleContinue);
-    // Insert into form-actions div, before the submit button
-    const formActions = document.getElementById('seeResultsBtn').parentNode;
-    formActions.insertBefore(btn, document.getElementById('seeResultsBtn'));
-  }
-  return btn;
-}
-
-function handleContinue() {
-  if (currentLayer === 1) {
-    // Check Layer 1 — if 2+ neutral, exit to No Strong Pattern
-    if (!allAnswered(LAYER1)) {
-      formMessage.textContent = 'Please answer all three questions to continue.';
-      return;
-    }
-    const neutralCount = countNeutralAnswers(LAYER1);
-    if (neutralCount >= 2) {
-      showPrescreenExit('noPattern');
-      return;
-    }
-    // Move to Layer 2 — disable button briefly to prevent double-fire
-    currentLayer = 2;
-    formMessage.textContent = '';
-    const continueBtn = document.getElementById('continueBtn');
-    if (continueBtn) {
-      continueBtn.disabled = true;
-      continueBtn.style.opacity = '0.5';
-    }
-    showLayer(LAYER2);
-    updatePrescreenProgress(2);
-    setTimeout(() => {
-      const firstVisible = document.querySelector('.question-block[style*="block"]');
-      if (firstVisible) firstVisible.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      else window.scrollTo({ top: 0, behavior: 'smooth' });
-      if (continueBtn) {
-        continueBtn.disabled = false;
-        continueBtn.style.opacity = '1';
-      }
-    }, 100);
-  } else if (currentLayer === 2) {
-    // Check Layer 2 — count S answers across ALL of Q1-6 combined
-    // Q1-3 already have S options — a strong Seeker should get credit
-    if (!allAnswered(LAYER2)) {
-      formMessage.textContent = 'Please answer all three questions to continue.';
-      return;
-    }
-    const seekerCountL1 = countCodeAnswers(LAYER1, 'S');
-    const seekerCountL2 = countCodeAnswers(LAYER2, 'S');
-    const totalSeekerCount = seekerCountL1 + seekerCountL2;
-    // Exit only if 4+ S answers across Q1-6 combined — strong signal required
-    if (totalSeekerCount >= 4) {
-      showPrescreenExit('seeker');
-      return;
-    }
-    // Move to Layer 3 — full assessment
-    currentLayer = 3;
-    prescreenComplete = true;
-    formMessage.textContent = '';
-    showAllQuestions();
-    updatePrescreenProgress(3);
-    // Scroll to Q7 — first question of full assessment, not Q1
-    setTimeout(() => {
-      const allBlocks = document.querySelectorAll('.question-block');
-      const q7 = allBlocks[6];
-      if (q7) q7.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      else window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 100);
-  }
-}
-
-function updatePrescreenProgress(layer) {
-  // Progress bar always shows full question count so respondent
-  // understands the scope — layer transitions are transparent
-  const totalEl = document.getElementById('totalCount');
-  if (totalEl) totalEl.textContent = questions.length;
-
-  // Update layer indicator dots
-  const dots = [
-    document.getElementById('dot1'),
-    document.getElementById('dot2'),
-    document.getElementById('dot3')
-  ];
-  const layerLabel = document.getElementById('layerLabel');
-  const labels = [
-    'A few questions to get started',
-    'A little more about your pattern',
-    'Full assessment'
-  ];
-  dots.forEach((d, i) => {
-    if (d) d.className = 'layer-dot' + (i < layer ? ' active' : '');
-  });
-  if (layerLabel) layerLabel.textContent = labels[layer - 1] || '';
-
-  // Show/hide submit and continue buttons
-  const submitBtn = document.getElementById('seeResultsBtn');
-  const continueBtn = document.getElementById('continueBtn');
-  if (submitBtn)  submitBtn.style.display  = (layer === 3) ? 'block' : 'none';
-  if (continueBtn) continueBtn.style.display = (layer < 3)  ? 'block' : 'none';
-}
-
-function initPrescreen() {
-  // Start with Layer 1 only
-  buildContinueBtn();
-  showLayer(LAYER1);
-  updatePrescreenProgress(1);
-  document.getElementById('continueBtn').style.display = 'block';
-  // Hide the main submit button until Layer 3
-  const submitBtn = document.getElementById('seeResultsBtn');
-  if (submitBtn) submitBtn.style.display = 'none';
-}
+const container = document.getElementById('questionContainer');
+const seeResultsBtn = document.getElementById('seeResultsBtn');
+const clearBtn = document.getElementById('clearBtn');
+const formMessage = document.getElementById('formMessage');
 
 function renderQuestions() {
   questions.forEach((question, index) => {
@@ -564,22 +251,14 @@ function answeredCount() {
 }
 
 function getScores() {
-  const scores = { S: 0, O: 0, D: 0, T: 0, F: 0, G: 0, C: 0, P: 0, BF: 0, H: 0, HO: 0, PURGE: 0 };
-
-  // Purging answer text — exact match to Q36 option
-  const PURGE_TEXT = 'I find ways to get rid of it — including making myself sick';
+  const scores = { S: 0, O: 0, D: 0, T: 0, F: 0, C: 0, P: 0, BF: 0, H: 0 };
 
   questions.forEach((question) => {
-    const selected = document.querySelector(`input[name="${question.id}"]`+':checked');
+    const selected = document.querySelector(`input[name="${question.id}"]:checked`);
     if (!selected) return;
     const code = selected.value;
     if (code && Object.prototype.hasOwnProperty.call(scores, code)) {
       scores[code] += 1;
-    }
-    // Detect purging answer specifically — hard clinical trigger
-    const label = selected.closest('label');
-    if (label && label.textContent.trim().includes('making myself sick')) {
-      scores.PURGE += 1;
     }
   });
 
@@ -588,22 +267,14 @@ function getScores() {
 
 function getTopTypes(scores) {
   // Normalize by number of questions each code appears in
-  const questionCounts = { S: 19, O: 21, D: 21, T: 19, G: 19 };
+  // so patterns with fewer questions are not structurally disadvantaged
+  const questionCounts = { S: 26, O: 30, D: 26, T: 17 };
 
-  const ranked = ['S', 'O', 'D', 'T', 'G']
+  const ranked = ['S', 'O', 'D', 'T']
     .map((key) => [key, scores[key] / questionCounts[key]])
     .sort((a, b) => b[1] - a[1]);
 
-  const primaryScore  = ranked[0][1];
-  const secondaryScore = ranked[1][1];
-
-  // Secondary only counts if it scores at least 60% of the primary normalized score
-  // AND at least 0.15 normalized — prevents noise from being named a pattern
-  const secondaryCode = (secondaryScore >= primaryScore * 0.6 && secondaryScore >= 0.15)
-    ? ranked[1][0]
-    : null;
-
-  return { primaryCode: ranked[0][0], secondaryCode };
+  return { primaryCode: ranked[0][0], secondaryCode: ranked[1][0] };
 }
 
 function collectSelectedAnswers() {
@@ -630,12 +301,9 @@ function buildPayload() {
       secondaryCode
     },
     flags: {
-      fueling:         scores.F >= 3,
-      highOutput:      scores.HO >= 2,
-      clinical:        scores.C >= 2,
-      clinicalWarning: (scores.C >= 3 && scores.C <= 4) && scores.PURGE === 0,
-      clinicalHigh:    scores.C >= 5 || scores.PURGE >= 1,
-      perimenopause:   scores.BF >= 1 && scores.P >= 2
+      fueling: scores.F >= 3,
+      clinical: scores.C >= 2,
+      perimenopause: scores.BF >= 1 && scores.P >= 2
     },
     investmentLevel: scores.H >= 2 ? 'higher' : scores.H === 1 ? 'moderate' : 'lower',
     answers: collectSelectedAnswers()
@@ -645,131 +313,25 @@ function buildPayload() {
 }
 
 function handleSubmit() {
-  // Safety net: if user is on layer 3 but prescreenComplete was lost, set it now
-  if (!prescreenComplete && currentLayer === 3) {
-    prescreenComplete = true;
-  }
-  if (!prescreenComplete) {
-    handleContinue();
-    return;
-  }
   const count = answeredCount();
   if (count !== questions.length) {
     formMessage.textContent = `Please answer all ${questions.length} questions before viewing your results. You have completed ${count}.`;
     return;
   }
+
   formMessage.textContent = '';
   buildPayload();
   window.location.href = 'results.html';
 }
 
 function handleClear() {
-  // Uncheck all answers
   document.querySelectorAll('input[type="radio"]').forEach((input) => {
     input.checked = false;
   });
   formMessage.textContent = '';
-
-  // Reset prescreen state back to Layer 1
-  currentLayer = 1;
-  prescreenComplete = false;
-
-  // Hide exit message if showing
-  const exitMsg = document.getElementById('prescreenExitMsg');
-  if (exitMsg) exitMsg.style.display = 'none';
-
-  // Reset answered count display
-  const answeredEl = document.getElementById('answeredCount');
-  if (answeredEl) answeredEl.textContent = '0';
-
-  // Remove answered styling from all blocks
-  document.querySelectorAll('.question-block').forEach(b => {
-    b.classList.remove('answered');
-  });
-
-  // Show Layer 1 only and reset progress
-  showLayer(LAYER1);
-  updatePrescreenProgress(1);
-
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Wait for DOM to be ready before rendering and initialising
-document.addEventListener('DOMContentLoaded', () => {
-  // Assign DOM references
-  container     = document.getElementById('questionContainer');
-  seeResultsBtn = document.getElementById('seeResultsBtn');
-  clearBtn      = document.getElementById('clearBtn');
-  formMessage   = document.getElementById('formMessage');
-
-  // Ensure exit message is hidden on fresh load
-  const exitMsgInit = document.getElementById('prescreenExitMsg');
-  if (exitMsgInit) exitMsgInit.style.display = 'none';
-
-  // Prior code handling
-  const priorCodeInput  = document.getElementById('priorCodeInput');
-  const priorCodeClear  = document.getElementById('priorCodeClear');
-  const priorCodeSaved  = document.getElementById('priorCodeSaved');
-
-  // Clear any stale state on page load
-  if (priorCodeInput) priorCodeInput.value = '';
-  if (priorCodeSaved) priorCodeSaved.classList.add('hidden-input');
-  if (priorCodeClear) priorCodeClear.classList.add('hidden-input');
-
-  if (priorCodeInput) {
-    priorCodeInput.addEventListener('input', (e) => {
-      if (!e.isTrusted) return;
-      const val = priorCodeInput.value.trim().toUpperCase();
-      if (!val) {
-        sessionStorage.removeItem('lainiPriorCode');
-        priorCodeSaved.classList.add('hidden-input');
-        priorCodeClear.classList.add('hidden-input');
-        return;
-      }
-      const isValidCode = /^[A-Z]{2,4}-\d+-\d+-\d+-\d+-\d+-\d{4}$/.test(val);
-      if (isValidCode) {
-        sessionStorage.setItem('lainiPriorCode', val);
-        priorCodeSaved.classList.remove('hidden-input');
-        priorCodeClear.classList.remove('hidden-input');
-      } else {
-        sessionStorage.removeItem('lainiPriorCode');
-        priorCodeSaved.classList.add('hidden-input');
-        priorCodeClear.classList.remove('hidden-input');
-      }
-    });
-
-    priorCodeClear.addEventListener('click', () => {
-      priorCodeInput.value = '';
-      sessionStorage.removeItem('lainiPriorCode');
-      priorCodeSaved.classList.add('hidden-input');
-      priorCodeClear.classList.add('hidden-input');
-    });
-  }
-
-  // Live progress fill
-  const fill      = document.getElementById('progressFill');
-  const answeredEl = document.getElementById('answeredCount');
-  const totalEl   = document.getElementById('totalCount');
-
-  if (container) {
-    container.addEventListener('change', (event) => {
-      const answered = document.querySelectorAll('input[type="radio"]:checked').length;
-      const total = questions ? questions.length : 36;
-      const pct = (answered / total) * 100;
-      if (fill) fill.style.width = pct + '%';
-      if (answeredEl) answeredEl.textContent = answered;
-      if (totalEl && prescreenComplete) totalEl.textContent = total;
-      const changed = event.target;
-      if (changed) {
-        const block = changed.closest('.question-block');
-        if (block) block.classList.add('answered');
-      }
-    });
-  }
-
-  // Render and initialise
-  renderQuestions();
-  initPrescreen();
-  seeResultsBtn.addEventListener('click', handleSubmit);
-  clearBtn.addEventListener('click', handleClear);
-});
+renderQuestions();
+seeResultsBtn.addEventListener('click', handleSubmit);
+clearBtn.addEventListener('click', handleClear);
