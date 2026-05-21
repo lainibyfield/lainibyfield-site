@@ -538,25 +538,102 @@ function initPrescreen() {
   if (submitBtn) submitBtn.style.display = 'none';
 }
 
+// ── TEXT-TO-SPEECH ────────────────────────────────────────────────────────────
+// Session-only. No persistence. Tap the speaker icon to read a question or answer.
+// Uses Web Speech API — built into all modern mobile browsers, no library needed.
+
+function speakText(text) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const utt = new SpeechSynthesisUtterance(text);
+  utt.rate = 0.95;
+  utt.lang = 'en-US';
+  window.speechSynthesis.speak(utt);
+}
+
+function injectTTSStyles() {
+  if (document.getElementById('tts-styles')) return;
+  const style = document.createElement('style');
+  style.id = 'tts-styles';
+  style.textContent = `
+    .tts-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0 0 0 0.4em;
+      vertical-align: middle;
+      opacity: 0.4;
+      transition: opacity 0.15s;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+    .tts-btn:hover, .tts-btn:focus { opacity: 0.8; outline: none; }
+    .tts-btn svg { display: block; }
+    .question-text-wrap {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+    }
+    .question-text-wrap .question-text {
+      margin: 0;
+      flex: 1;
+    }
+    .option-row {
+      display: flex;
+      align-items: center;
+    }
+    .option-label-text {
+      flex: 1;
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+function speakerSVG(size) {
+  return `<svg width="${size}" height="${size}" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M3 7.5H5.5L10 3.5V16.5L5.5 12.5H3C2.72 12.5 2.5 12.28 2.5 12V8C2.5 7.72 2.72 7.5 3 7.5Z" fill="currentColor"/>
+    <path d="M13 7C13.83 7.93 14.33 9.13 14.33 10.5C14.33 11.07 13.83 13.07 13 14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    <path d="M15.5 5C16.9 6.5 17.75 8.42 17.75 10.5C17.75 12.58 16.9 14.5 15.5 16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+  </svg>`;
+}
+
 function renderQuestions() {
+  injectTTSStyles();
+
   questions.forEach((question, index) => {
     const block = document.createElement('div');
     block.className = 'question-block';
 
     block.innerHTML = `
       <span class="question-number">Question ${index + 1}</span>
-      <p class="question-text">${question.text}</p>
+      <div class="question-text-wrap">
+        <p class="question-text">${question.text}</p>
+        <button type="button" class="tts-btn" aria-label="Read question aloud" data-speak="${question.text.replace(/"/g, '&quot;')}">${speakerSVG(17)}</button>
+      </div>
       <div class="option-list">
         ${question.options.map((option, optionIndex) => `
           <label class="option-row" for="${question.id}_${optionIndex}">
             <input type="radio" id="${question.id}_${optionIndex}" name="${question.id}" value="${option.code}" data-text="${option.text.replace(/"/g, '&quot;')}" />
-            ${option.text}
+            <span class="option-label-text">${option.text}</span>
+            <button type="button" class="tts-btn" aria-label="Read option aloud" data-speak="${option.text.replace(/"/g, '&quot;')}">${speakerSVG(14)}</button>
           </label>
         `).join('')}
       </div>
     `;
 
     container.appendChild(block);
+  });
+
+  // Single delegated listener on container — prevents event bubbling into radio inputs
+  container.addEventListener('click', (e) => {
+    const btn = e.target.closest('.tts-btn');
+    if (!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
+    speakText(btn.dataset.speak);
   });
 }
 

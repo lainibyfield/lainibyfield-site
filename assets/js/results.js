@@ -674,7 +674,7 @@ function sendResultsEmail(email, payload, primaryLabel, secondaryLabel, patternC
     'Fueling':   'Your body is catching up from a deficit that built earlier in the day — not a lack of discipline, a matter of timing.',
   };
 
-  const resultName = payload.flags.clinical ? 'A different starting point'
+  const resultName = payload.flags.clinicalHigh ? 'A different starting point'
     : payload.flags.highOutput ? 'High-Output Fueling Pattern'
     : payload.flags.fueling    ? 'Fueling Pattern'
     : (payload.scores.S + payload.scores.O + payload.scores.D + payload.scores.T) <= 8
@@ -688,7 +688,7 @@ function sendResultsEmail(email, payload, primaryLabel, secondaryLabel, patternC
     pattern_description: patternDesc[primaryLabel] || 'See your full results at lainibyfield.com.',
     secondary_name:      secondaryLabel || '',
     scores_summary:      `Seeker: ${payload.scores.S} | Soother: ${payload.scores.O} | Drifter: ${payload.scores.D} | Stabilizer: ${payload.scores.T} | Social: ${payload.scores.G || 0}`,
-    retake_instruction:  'When you retake the assessment after completing a program or coaching, enter this code to see what changed.',
+    retake_instruction:  'Save this code. Enter it when you retake the assessment to see what changed.',
   };
 
   return emailjs.send(serviceId, templateId, templateParams, publicKey);
@@ -1203,19 +1203,35 @@ function generateProviderPDF(payload, tier) {
       const h1 = body(desc, y);
       y += h1 + 16;
 
+      // Secondary pattern — show when one exists and differs from primary
+      const secondaryCode = payload.types.secondaryCode;
+      const secondaryName = patternNames[secondaryCode] || null;
+      const secondaryDesc = patternDescriptors[secondaryCode] || null;
+      if (secondaryName && secondaryDesc && secondaryCode !== primaryCode) {
+        rule(y); y += 16;
+        label('Secondary Pattern', y); y += 14;
+        heading(secondaryName + ' tendencies', y); y += 20;
+        const hSec = body(secondaryDesc, y);
+        y += hSec + 16;
+      }
+
       rule(y); y += 16;
       label('What This Means', y); y += 14;
-      const h2 = body('The ' + primaryName + ' pattern describes the behavioral mechanism most active in this person\'s eating. This is not a diagnosis — it is a description of the context in which eating tends to occur and the factors that drive it.', y);
+      const whatItMeans = (secondaryName && secondaryCode !== primaryCode)
+        ? 'The ' + primaryName + ' pattern describes the behavioral mechanism most active in this person\'s eating. ' + secondaryName + ' tendencies were also present as a secondary signal. This is not a diagnosis — it is a description of the context in which eating tends to occur and the factors that drive it.'
+        : 'The ' + primaryName + ' pattern describes the behavioral mechanism most active in this person\'s eating. This is not a diagnosis — it is a description of the context in which eating tends to occur and the factors that drive it.';
+      const h2 = body(whatItMeans, y);
       y += h2 + 16;
 
       rule(y); y += 16;
-      label('Note for Provider', y); y += 14;
 
       if (tier === 'warning') {
+        label('Note for Provider', y); y += 14;
         const h3 = body('Several responses indicated patterns consistent with restriction, compensation, or emotional distress around eating. These were present at a level that warrants attention alongside behavioral coaching.', y);
         y += h3 + 16;
       } else {
-        const h3 = body('Some responses indicated mild signals around emotional distress or compensatory behavior. These were noted in the assessment result and shared with the respondent.', y);
+        label('A Note on These Results', y); y += 14;
+        const h3 = body('Some responses indicated mild signals around emotional distress or compensatory behavior. These were noted in the assessment result and shared with the respondent. This document is intended to support a conversation, not to direct clinical care.', y);
         y += h3 + 16;
       }
     }
