@@ -674,7 +674,7 @@ function sendResultsEmail(email, payload, primaryLabel, secondaryLabel, patternC
     'Fueling':   'Your body is catching up from a deficit that built earlier in the day — not a lack of discipline, a matter of timing.',
   };
 
-  const resultName = payload.flags.clinicalHigh ? 'A different starting point'
+  const resultName = payload.flags.clinical ? 'A different starting point'
     : payload.flags.highOutput ? 'High-Output Fueling Pattern'
     : payload.flags.fueling    ? 'Fueling Pattern'
     : (payload.scores.S + payload.scores.O + payload.scores.D + payload.scores.T) <= 8
@@ -688,7 +688,7 @@ function sendResultsEmail(email, payload, primaryLabel, secondaryLabel, patternC
     pattern_description: patternDesc[primaryLabel] || 'See your full results at lainibyfield.com.',
     secondary_name:      secondaryLabel || '',
     scores_summary:      `Seeker: ${payload.scores.S} | Soother: ${payload.scores.O} | Drifter: ${payload.scores.D} | Stabilizer: ${payload.scores.T} | Social: ${payload.scores.G || 0}`,
-    retake_instruction:  'Save this code. Enter it when you retake the assessment to see what changed.',
+    retake_instruction:  'When you retake the assessment after completing a program or coaching, enter this code to see what changed.',
   };
 
   return emailjs.send(serviceId, templateId, templateParams, publicKey);
@@ -709,12 +709,15 @@ function initResults() {
 
   const payload = JSON.parse(raw);
   window.__assessmentPayload = payload;
-  // Backwards compatibility — old payloads won't have clinicalHigh
+  // Backwards compatibility — old payloads won't have clinicalHigh or restrictionCycling
   if (payload.flags && payload.flags.clinicalHigh === undefined) {
-    const c = payload.scores ? (payload.scores.C || 0) : 0;
+    const c    = payload.scores ? (payload.scores.C  || 0) : 0;
+    const rc   = payload.scores ? (payload.scores.RC || 0) : 0;
     const purge = payload.scores ? (payload.scores.PURGE || 0) : 0;
-    payload.flags.clinicalWarning = payload.flags.clinical && (c >= 3 && c <= 4) && purge === 0;
-    payload.flags.clinicalHigh    = payload.flags.clinical && (c >= 5 || purge >= 1);
+    const total = c + rc;
+    payload.flags.clinicalWarning    = payload.flags.clinical && (total >= 3 && total <= 4) && purge === 0;
+    payload.flags.clinicalHigh       = payload.flags.clinical && (total >= 5 || purge >= 1);
+    payload.flags.restrictionCycling = rc >= 2;
   }
   const primaryLabel = typeLabels[payload.types.primaryCode];
   const secondaryLabel = typeLabels[payload.types.secondaryCode];
@@ -732,6 +735,15 @@ function initResults() {
 
     pageTitle.innerHTML = 'No strong pattern emerged.';
     pageIntro.textContent = 'Most of your answers did not point strongly in any one direction. That is a real result — it means eating is not a significant source of friction for you right now.';
+
+    // Surface clinical flag when present — acknowledged even without a named pattern
+    if (payload.flags.clinical && !payload.flags.clinicalHigh) {
+      html += `
+        <div class="result-block" style="background:#fdf8f2;border-left:3px solid #c4a882;padding:1.2rem 1.5rem;margin:1rem 0;border-radius:4px;">
+          <p style="margin:0;font-size:0.9rem;color:#3d3830;">A few of your responses indicated mild signals around emotional response or compensatory behavior. No strong pattern emerged — but these responses were present and are worth being aware of.</p>
+        </div>`;
+      html += renderProviderPDFButton('mild');
+    }
 
     if (npFromScoring) {
       // Build two-sentence observation from top two pattern descriptors
@@ -777,6 +789,63 @@ function initResults() {
     }
 
     resultContainer.innerHTML = html;
+
+    // Append pattern code block and email send row — same as all other result paths
+    const npPatternCode = generatePatternCode(payload, 'NP');
+    const npCodeBlock = document.createElement('div');
+    npCodeBlock.className = 'pattern-code-block';
+    npCodeBlock.innerHTML = `
+      <p class="pattern-code-label">YOUR PATTERN CODE</p>
+      <p class="pattern-code-value">${npPatternCode}</p>
+      <p class="pattern-code-instructions">Save this code. Enter it when you retake the assessment to see what changed.</p>
+      <div class="email-send-row" id="emailSendRow">
+        <input type="email" id="resultEmailInput" class="result-email-input"
+               placeholder="your@email.com"
+               autocomplete="email" />
+        <button type="button" id="resultEmailBtn" class="result-email-btn">Send</button>
+      </div>
+      <p class="email-privacy-note">Your email is used only to send this message. It is not stored, shared, or added to any list.</p>
+      <p class="email-send-status hidden-input" id="emailSendStatus"></p>
+    `;
+    resultContainer.appendChild(npCodeBlock);
+
+    // Wire up email send for NP path
+    const npEmailBtn    = document.getElementById('resultEmailBtn');
+    const npEmailInput  = document.getElementById('resultEmailInput');
+    const npEmailStatus = document.getElementById('emailSendStatus');
+
+    if (npEmailBtn && npEmailInput) {
+      npEmailBtn.addEventListener('click', () => {
+        const email = npEmailInput.value.trim();
+        if (!email || !email.includes('@')) {
+          npEmailStatus.textContent = 'Please enter a valid email address.';
+          npEmailStatus.className = 'email-send-status email-error';
+          npEmailStatus.setAttribute('role', 'alert');
+          npEmailStatus.classList.remove('hidden-input');
+          npEmailInput.focus();
+          return;
+        }
+        npEmailBtn.disabled = true;
+        npEmailBtn.textContent = 'Sending\u2026';
+        npEmailStatus.classList.remove('hidden-input');
+        npEmailStatus.textContent = '';
+        sendResultsEmail(email, payload, 'No Pattern', '', npPatternCode)
+          .then(() => {
+            npEmailStatus.textContent = 'Sent. Check your inbox.';
+            npEmailStatus.className = 'email-send-status email-success';
+            npEmailInput.value = '';
+            npEmailBtn.textContent = 'Sent';
+          })
+          .catch(() => {
+            npEmailStatus.textContent = 'Something went wrong. Try screenshotting for now.';
+            npEmailStatus.className = 'email-send-status email-error';
+            npEmailBtn.disabled = false;
+            npEmailBtn.textContent = 'Send';
+          });
+      });
+    }
+
+    silentAnonymousSubmit(payload, 'No Pattern', '');
     return;
   }
 
@@ -825,7 +894,7 @@ function initResults() {
       // Pattern in full, stronger boundary language than mild. Door conditionally open.
       const warnCopy = resultCopy[payload.types.primaryCode] || resultCopy.CLINICAL;
       if (primaryLabel && warnCopy && warnCopy.happening) {
-        pageTitle.innerHTML = `Your results suggest a <em>${primaryLabel} pattern</em> — with something that needs to be named.`;
+        pageTitle.innerHTML = `Your results suggest a <em>${primaryLabel} pattern</em> — with something that should be acknowledged.`;
         pageIntro.textContent = 'Your pattern is real and specific. Some of what else showed up deserves attention before we go further.';
         html += renderPrimaryBlock(warnCopy, secondaryLabel, payload);
       }
@@ -842,7 +911,7 @@ function initResults() {
       // Pattern first, light boundary note. Door open conditionally.
       const clinicalCopy = resultCopy[payload.types.primaryCode] || resultCopy.CLINICAL;
       if (primaryLabel && clinicalCopy && clinicalCopy.happening) {
-        pageTitle.innerHTML = `Your results suggest a <em>${primaryLabel} pattern</em> — with something else worth naming.`;
+        pageTitle.innerHTML = `Your results suggest a <em>${primaryLabel} pattern</em> — with something else worth acknowledging.`;
         pageIntro.textContent = 'Some of your responses point to patterns that behavioral coaching alone may not fully address. That does not change what your pattern is.';
         html += renderPrimaryBlock(clinicalCopy, secondaryLabel, payload);
       } else {
@@ -1196,6 +1265,18 @@ function generateProviderPDF(payload, tier) {
         y += h2 + 10;
       }
 
+    } else if (!primaryName && payload.flags.clinical && !payload.flags.clinicalHigh) {
+      // NP + mild clinical — no pattern to name, acknowledge the flag
+      label('Assessment Result', y); y += 14;
+      heading('No Strong Pattern Identified', y); y += 20;
+      const h1 = body('No primary behavioral eating pattern emerged from this assessment. This is a real result — it suggests eating is not a significant source of friction for this person right now.', y);
+      y += h1 + 16;
+
+      rule(y); y += 16;
+      label('A Note on These Results', y); y += 14;
+      const h3 = body('A few responses indicated mild signals around emotional response or compensatory behavior. These were present and shared with the respondent. No strong pattern emerged — but these responses are worth being aware of in the context of any broader support conversation.', y);
+      y += h3 + 16;
+
     } else {
       label('Primary Pattern', y); y += 14;
       heading(primaryName + ' Pattern', y); y += 20;
@@ -1203,35 +1284,27 @@ function generateProviderPDF(payload, tier) {
       const h1 = body(desc, y);
       y += h1 + 16;
 
-      // Secondary pattern — show when one exists and differs from primary
-      const secondaryCode = payload.types.secondaryCode;
-      const secondaryName = patternNames[secondaryCode] || null;
-      const secondaryDesc = patternDescriptors[secondaryCode] || null;
-      if (secondaryName && secondaryDesc && secondaryCode !== primaryCode) {
-        rule(y); y += 16;
-        label('Secondary Pattern', y); y += 14;
-        heading(secondaryName + ' tendencies', y); y += 20;
-        const hSec = body(secondaryDesc, y);
-        y += hSec + 16;
-      }
-
       rule(y); y += 16;
       label('What This Means', y); y += 14;
-      const whatItMeans = (secondaryName && secondaryCode !== primaryCode)
-        ? 'The ' + primaryName + ' pattern describes the behavioral mechanism most active in this person\'s eating. ' + secondaryName + ' tendencies were also present as a secondary signal. This is not a diagnosis — it is a description of the context in which eating tends to occur and the factors that drive it.'
-        : 'The ' + primaryName + ' pattern describes the behavioral mechanism most active in this person\'s eating. This is not a diagnosis — it is a description of the context in which eating tends to occur and the factors that drive it.';
-      const h2 = body(whatItMeans, y);
+      const h2 = body('The ' + primaryName + ' pattern describes the behavioral mechanism most active in this person\'s eating. This is not a diagnosis — it is a description of the context in which eating tends to occur and the factors that drive it.', y);
       y += h2 + 16;
 
       rule(y); y += 16;
+      label('Note for Provider', y); y += 14;
 
       if (tier === 'warning') {
-        label('Note for Provider', y); y += 14;
-        const h3 = body('Several responses indicated patterns consistent with restriction, compensation, or emotional distress around eating. These were present at a level that warrants attention alongside behavioral coaching.', y);
+        let noteText = 'Several responses indicated patterns consistent with restriction, compensation, or emotional distress around eating. These were present at a level that warrants attention alongside behavioral coaching.';
+        if (payload.flags.restrictionCycling) {
+          noteText += ' Responses also indicated a restriction cycling pattern — deliberate restriction followed by loss of control. This is distinct from a Fueling pattern and has different clinical implications.';
+        }
+        const h3 = body(noteText, y);
         y += h3 + 16;
       } else {
-        label('A Note on These Results', y); y += 14;
-        const h3 = body('Some responses indicated mild signals around emotional distress or compensatory behavior. These were noted in the assessment result and shared with the respondent. This document is intended to support a conversation, not to direct clinical care.', y);
+        let noteText = 'Some responses indicated mild signals around emotional distress or compensatory behavior. These were noted in the assessment result and shared with the respondent.';
+        if (payload.flags.restrictionCycling) {
+          noteText += ' Mild restriction cycling signals were present — intentional restriction followed by loss of control. Worth noting in any broader support context.';
+        }
+        const h3 = body(noteText, y);
         y += h3 + 16;
       }
     }

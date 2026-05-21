@@ -53,6 +53,7 @@ const questions = [
     { text: 'Under 35', code: '' },
     { text: '35\u201340', code: 'BF' },
     { text: '40\u201350 with cycle changes', code: 'P' },
+    { text: '40\u201350', code: '' },
     { text: '50+', code: 'P' }
   ]},
   { id: 'q09', text: 'Lately, which feels most true about your body and appetite?', options: [
@@ -140,7 +141,7 @@ const questions = [
     { text: 'I stick to my next scheduled meal to keep my rhythm', code: 'T' },
     { text: 'I enjoy a reward meal \u2014 often sharing it with others', code: 'G' },
     { text: 'I do not usually change my eating based on my activity', code: '' },
-    { text: 'I do not eat, or eat very little, to preserve the calorie deficit from the workout', code: 'C' }
+    { text: 'I do not eat, or eat very little, to preserve the calorie deficit from the workout', code: 'RC' }
   ]},
   { id: 'q21', text: 'What do you think would make the biggest difference to how you eat?', options: [
     { text: 'Eating more consistently', code: 'F' },
@@ -228,7 +229,7 @@ const questions = [
     { text: 'They are roughly consistent', code: '' },
     { text: 'I set a plan and mostly follow it', code: 'T' },
     { text: 'I start well but the evening pulls me off course', code: 'F' },
-    { text: 'I intend to eat very little and then lose control later', code: 'C' },
+    { text: 'I intend to eat very little and then lose control later', code: 'RC' },
     { text: 'I do not usually set intentions around eating', code: 'D' },
     { text: 'It depends entirely on what the day brings', code: '' }
   ]},
@@ -236,22 +237,23 @@ const questions = [
     { text: 'I grabbed something and ate it', code: '' },
     { text: 'I thought about what would feel good before I started', code: 'O' },
     { text: 'I set everything out in advance \u2014 I wanted to eat efficiently without having to stop', code: 'C' },
-    { text: 'My main thought is how little I can get away with eating', code: 'C' },
+    { text: 'My main thought is how little I can get away with eating', code: 'RC' },
     { text: 'I have a menu or schedule \u2014 I eat what is planned', code: 'T' }
   ]},
   { id: 'q35', text: 'When eating feels out of control:', options: [
     { text: 'It passes', code: '' },
     { text: 'I feel unsettled but it resolves', code: '' },
     { text: 'I feel guilt or pressure', code: 'C' },
-    { text: 'I do not realize it until afterward — it felt good in the moment', code: 'O' }
+    { text: 'I do not realize it until afterward — it felt good in the moment', code: 'O' },
+    { text: 'I feel I need to fix it', code: 'RC' }
   ]},
   { id: 'q36', text: 'When you feel like you have eaten too much, what usually follows?', options: [
     { text: 'I move on without much thought', code: '' },
     { text: 'I return to my usual structure or timing', code: 'T' },
-    { text: 'I eat less at the next meal to compensate', code: 'C' },
+    { text: 'I compensate — eating less, exercising more, or both', code: 'RC' },
     { text: 'I find ways to get rid of it \u2014 including making myself sick', code: 'C' },
     { text: 'I feel I have failed and it affects how I eat for the rest of the day', code: 'C' },
-    { text: 'I feel low and disconnected for a while afterward', code: 'O' }
+    { text: 'I feel low and disconnected for a while afterward', code: '' }
   ]}
 ];
 
@@ -642,7 +644,7 @@ function answeredCount() {
 }
 
 function getScores() {
-  const scores = { S: 0, O: 0, D: 0, T: 0, F: 0, G: 0, C: 0, P: 0, BF: 0, H: 0, HO: 0, PURGE: 0, NEUTRAL: 0 };
+  const scores = { S: 0, O: 0, D: 0, T: 0, F: 0, G: 0, C: 0, RC: 0, P: 0, BF: 0, H: 0, HO: 0, PURGE: 0, NEUTRAL: 0 };
 
   // Purging answer text — exact match to Q36 option
   const PURGE_TEXT = 'I find ways to get rid of it — including making myself sick';
@@ -670,7 +672,8 @@ function getScores() {
 
 function getTopTypes(scores) {
   // Normalize by number of questions each code appears in
-  const questionCounts = { S: 19, O: 21, D: 21, T: 19, G: 19 };
+  // O reduced from 21 to 19 — two O answers recoded to neutral (Q35 opt4, Q36 opt6)
+  const questionCounts = { S: 19, O: 19, D: 21, T: 19, G: 19 };
 
   const ranked = ['S', 'O', 'D', 'T', 'G']
     .map((key) => [key, scores[key] / questionCounts[key]])
@@ -704,7 +707,7 @@ function buildPayload() {
   const scores = getScores();
   const { primaryCode, secondaryCode } = getTopTypes(scores);
 
-  const questionCounts = { S: 19, O: 21, D: 21, T: 19, G: 19 };
+  const questionCounts = { S: 19, O: 19, D: 21, T: 19, G: 19 };
   const primaryNormalized = scores[primaryCode] / (questionCounts[primaryCode] || 1);
   const neutralRatio = scores.NEUTRAL / 36;
   // noPattern: fires when neutral ratio exceeds primary normalized score by 1.5x
@@ -720,11 +723,14 @@ function buildPayload() {
       secondaryCode
     },
     flags: {
-      fueling:         scores.F >= 3,
+      fueling:         scores.F >= 2,
       highOutput:      scores.HO >= 2,
-      clinical:        scores.C >= 2,
-      clinicalWarning: (scores.C >= 3 && scores.C <= 4) && scores.PURGE === 0,
-      clinicalHigh:    scores.C >= 5 || scores.PURGE >= 1,
+      // RC contributes to clinical flag total — restriction cycling is a clinical signal
+      // RC also stored separately so content layer can use it distinctly
+      clinical:        (scores.C + scores.RC) >= 2,
+      clinicalWarning: ((scores.C + scores.RC) >= 3 && (scores.C + scores.RC) <= 4) && scores.PURGE === 0,
+      clinicalHigh:    (scores.C + scores.RC) >= 5 || scores.PURGE >= 1,
+      restrictionCycling: scores.RC >= 2,
       perimenopause:   scores.BF >= 1 && scores.P >= 2,
       noPattern:       neutralRatio > primaryNormalized * NP_MULTIPLIER
     },
@@ -747,8 +753,31 @@ function handleSubmit() {
   const count = answeredCount();
   if (count !== questions.length) {
     formMessage.textContent = `Please answer all ${questions.length} questions before viewing your results. You have completed ${count}.`;
+
+    // Highlight unanswered visible blocks and scroll to the first one
+    const allBlocks = document.querySelectorAll('.question-block');
+    let firstUnanswered = null;
+
+    allBlocks.forEach((block, i) => {
+      const q = questions[i];
+      if (!q) return;
+      const answered = document.querySelector(`input[name="${q.id}"]:checked`);
+      if (!answered && block.style.display !== 'none') {
+        block.classList.add('unanswered-flag');
+        if (!firstUnanswered) firstUnanswered = block;
+      } else {
+        block.classList.remove('unanswered-flag');
+      }
+    });
+
+    if (firstUnanswered) {
+      firstUnanswered.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
     return;
   }
+
+  // Clear highlights on successful submit
+  document.querySelectorAll('.unanswered-flag').forEach(b => b.classList.remove('unanswered-flag'));
   formMessage.textContent = '';
   buildPayload();
   window.location.href = 'results.html';
