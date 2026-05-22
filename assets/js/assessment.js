@@ -1,5 +1,5 @@
 const questions = [
-  { id: 'q01', text: 'When eating feels hard to redirect, which feels most familiar?', options: [
+  { id: 'q01', text: 'Which of these sounds most like you?', options: [
     { text: 'Cravings hit at certain times or situations', code: 'T' },
     { text: 'I do not notice until I am already eating', code: 'D' },
     { text: 'I want specific textures or flavors', code: 'S' },
@@ -234,9 +234,10 @@ const questions = [
     { text: 'It depends entirely on what the day brings', code: '' }
   ]},
   { id: 'q34', text: 'Before you eat, what is most true?', options: [
+    { text: 'I was hungry and it was time to eat', code: '' },
     { text: 'I grabbed something and ate it', code: '' },
     { text: 'I thought about what would feel good before I started', code: 'O' },
-    { text: 'I set everything out in advance \u2014 I wanted to eat efficiently without having to stop', code: 'C' },
+    { text: 'I set everything out in advance \u2014 I wanted to eat efficiently without having to stop', code: 'RC' },
     { text: 'My main thought is how little I can get away with eating', code: 'RC' },
     { text: 'I have a menu or schedule \u2014 I eat what is planned', code: 'T' }
   ]},
