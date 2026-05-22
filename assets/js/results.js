@@ -519,7 +519,7 @@ function buildAnonymousRecord(payload, primaryLabel, secondaryLabel, code) {
     : payload.flags.highOutput ? 'High-Output Fueling'
     : payload.flags.fueling    ? 'Fueling Pattern'
     : (payload.scores.S + payload.scores.O + payload.scores.D + payload.scores.T) <= 8
-      ? 'No Strong Pattern'
+      ? 'Oriented Pattern'
       : primaryLabel;
 
   return {
@@ -678,7 +678,7 @@ function sendResultsEmail(email, payload, primaryLabel, secondaryLabel, patternC
     : payload.flags.highOutput ? 'High-Output Fueling Pattern'
     : payload.flags.fueling    ? 'Fueling Pattern'
     : (payload.scores.S + payload.scores.O + payload.scores.D + payload.scores.T) <= 8
-      ? 'No strong pattern identified'
+      ? 'Oriented Pattern'
       : primaryLabel + ' Pattern';
 
   const templateParams = {
@@ -733,58 +733,58 @@ function initResults() {
     const npFromPrescreen = payload.prescreenExit === 'noPattern' || payload.types.primaryCode === 'NP';
     const npFromScoring = payload.flags.noPattern;
 
-    pageTitle.innerHTML = 'No strong pattern emerged.';
-    pageIntro.textContent = 'Most of your answers did not point strongly in any one direction. That is a real result — it means eating is not a significant source of friction for you right now.';
+    pageTitle.innerHTML = 'Oriented Pattern';
+    pageIntro.textContent = 'Your eating is already oriented. Food does what it\u2019s supposed to \u2014 nothing more, nothing less. You know where you are.';
 
-    // Surface clinical flag when present — acknowledged even without a named pattern
+    // Main body copy
+    html += `
+      <div class="result-block" style="background:#f5f0e8;border-left:3px solid #7a5c3e;padding:1.5rem;margin:1rem 0;border-radius:4px;">
+        <p>When you think about food, you\u2019re hungry. And when you are, your hunger tends to match what your body actually needs. That\u2019s the result this instrument is designed to help other people work toward.</p>
+        <p>If you recognized yourself in a few answers along the way, that\u2019s normal. Those signals didn\u2019t rise to the level of a pattern here \u2014 and mild signals stay that way as long as they aren\u2019t getting in the way of your relationship with food.</p>
+        <p style="margin-bottom:0;">If you have goals around weight or body composition, those are worth pursuing. They\u2019re most effectively addressed through nutrition, your physician, an exercise coach, or a physiologist \u2014 where the focus is on what your body needs.</p>
+      </div>`;
+
+    // Sub-threshold secondary signal — show when a pattern score is meaningful but didn't qualify
+    if (npFromScoring) {
+      const patternNames = { S: 'Seeker', O: 'Soother', D: 'Drifter', T: 'Stabilizer', G: 'Social' };
+      const patternSignals = {
+        S: 'some signal around food stimulation and novelty',
+        O: 'some signal around emotional response and eating',
+        D: 'some signal around automatic or distracted eating',
+        T: 'some signal around routine and structure',
+        G: 'some signal around social context and eating'
+      };
+      const ranked = ['S','O','D','T','G']
+        .map(k => [k, payload.scores[k]])
+        .filter(([k, v]) => v > 0)
+        .sort((a,b) => b[1] - a[1]);
+
+      if (ranked.length > 0 && ranked[0][1] >= 2) {
+        const topCode = ranked[0][0];
+        const topName = patternNames[topCode] || '';
+        const topSignal = patternSignals[topCode] || '';
+        html += `
+          <div class="result-block" style="background:#faf7f2;border-left:3px solid #c4a882;padding:1.2rem 1.5rem;margin:1rem 0;border-radius:4px;">
+            <p style="margin:0;font-size:0.9rem;color:#3d3830;">Your results showed ${topSignal} \u2014 a ${topName} tendency. You may recognize it in certain situations. It\u2019s present, but it isn\u2019t shaping your overall relationship with food.</p>
+          </div>`;
+      }
+    }
+
+    // Clinical flag acknowledgment
     if (payload.flags.clinical && !payload.flags.clinicalHigh) {
       html += `
         <div class="result-block" style="background:#fdf8f2;border-left:3px solid #c4a882;padding:1.2rem 1.5rem;margin:1rem 0;border-radius:4px;">
-          <p style="margin:0;font-size:0.9rem;color:#3d3830;">A few of your responses indicated mild signals around emotional response or compensatory behavior. No strong pattern emerged — but these responses were present and are worth being aware of.</p>
+          <p style="margin:0;font-size:0.9rem;color:#3d3830;">A few of your responses indicated mild signals around emotional response or compensatory behavior. These were present and are worth being aware of.</p>
         </div>`;
       html += renderProviderPDFButton('mild');
     }
 
-    if (npFromScoring) {
-      // Build two-sentence observation from top two pattern descriptors
-      const patternDescriptors = {
-        S: 'you tend to be particular about what you eat and notice when something does not meet your expectations',
-        O: 'eating is sometimes a response to how you are feeling emotionally',
-        D: 'eating sometimes happens without a clear decision — absorbed into the rest of your day',
-        T: 'your eating tends to follow the rhythm of your day — when your routine is regular, eating feels manageable',
-        F: 'your hunger is sometimes tied to timing — gaps in eating create stronger urges later',
-        G: 'eating is sometimes shaped by who you are with and the context of the meal'
-      };
-
-      const ranked = ['S','O','D','T','G']
-        .map(k => [k, payload.scores[k]])
-        .sort((a,b) => b[1] - a[1]);
-
-      const p1 = ranked[0][0];
-      const p2 = ranked[1][0];
-      const d1 = patternDescriptors[p1] || '';
-      const d2raw = patternDescriptors[p2] || '';
-      // Strip leading 'Your answers suggest' from second descriptor to avoid repetition
-      const d2 = d2raw.replace(/^Your answers suggest /, 'that eating may also be ');
-
-      const observation = (d1 && d2 && ranked[1][1] > 0)
-        ? `${d1.charAt(0).toUpperCase() + d1.slice(1)}, and ${d2}.`
-        : d1 ? `${d1.charAt(0).toUpperCase() + d1.slice(1)}.` : '';
-
+    // Early exit continue prompt — only for prescreen NP (6 questions only)
+    if (npFromPrescreen && !npFromScoring) {
       html += `
-        <div class="result-block" style="background:#f5f0e8;border-left:3px solid #7a5c3e;padding:1.5rem;margin:1rem 0;border-radius:4px;">
-          ${observation ? `<p>${observation}</p>` : ''}
-          <p>As long as your body is getting what it needs to thrive, this is simply how you are wired — and that is fine.</p>
-          <p>Coaching is not withheld from you. If you want a conversation, reach out by email. We can figure out together whether I am the right fit.</p>
-          <p style="margin-bottom:0;"><a href="mailto:hello@lainibyfield.com" style="color:#7a5c3e;font-weight:bold;">hello@lainibyfield.com</a></p>
-        </div>`;
-    } else {
-      html += `
-        <div class="result-block" style="background:#f5f0e8;border-left:3px solid #7a5c3e;padding:1.5rem;margin:1rem 0;border-radius:4px;">
-          <p>That is a meaningful result. Not everyone who takes this assessment has a significant eating pattern. This may reflect where you are right now.</p>
-          <p>This could mean eating is genuinely not complicated for you. It could also mean the pattern is subtle, situational, or not yet active in a way these questions could detect.</p>
-          <p>Coaching is not withheld from you. If you want a conversation, reach out by email. We can figure out together whether I am the right fit.</p>
-          <p style="margin-bottom:0;"><a href="mailto:hello@lainibyfield.com" style="color:#7a5c3e;font-weight:bold;">hello@lainibyfield.com</a></p>
+        <div class="result-block" style="background:#faf7f2;border:1px solid #d4c9b8;padding:1.5rem;margin:1.5rem 0;border-radius:4px;text-align:center;">
+          <p style="margin:0 0 1rem;font-size:0.9rem;color:#3d3830;">This result is based on your first responses. Other patterns sometimes emerge with more context \u2014 you can continue if you\u2019d like a more complete picture.</p>
+          <button onclick="window.location.href='assessment.html'" style="background:#7a5c3e;color:#fff;border:none;padding:0.75rem 2rem;font-family:inherit;font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border-radius:2px;">Continue the Assessment</button>
         </div>`;
     }
 
@@ -829,7 +829,7 @@ function initResults() {
         npEmailBtn.textContent = 'Sending\u2026';
         npEmailStatus.classList.remove('hidden-input');
         npEmailStatus.textContent = '';
-        sendResultsEmail(email, payload, 'No Pattern', '', npPatternCode)
+        sendResultsEmail(email, payload, 'Oriented Pattern', '', npPatternCode)
           .then(() => {
             npEmailStatus.textContent = 'Sent. Check your inbox.';
             npEmailStatus.className = 'email-send-status email-success';
@@ -845,7 +845,7 @@ function initResults() {
       });
     }
 
-    silentAnonymousSubmit(payload, 'No Pattern', '');
+    silentAnonymousSubmit(payload, 'Oriented Pattern', '');
     return;
   }
 
@@ -1268,13 +1268,13 @@ function generateProviderPDF(payload, tier) {
     } else if (!primaryName && payload.flags.clinical && !payload.flags.clinicalHigh) {
       // NP + mild clinical — no pattern to name, acknowledge the flag
       label('Assessment Result', y); y += 14;
-      heading('No Strong Pattern Identified', y); y += 20;
-      const h1 = body('No primary behavioral eating pattern emerged from this assessment. This is a real result — it suggests eating is not a significant source of friction for this person right now.', y);
+      heading('Oriented Pattern', y); y += 20;
+      const h1 = body('No primary behavioral eating pattern emerged from this assessment. Food appears to function as intended — without significant friction or behavioral override. This is the result the instrument is designed to help other people work toward.', y);
       y += h1 + 16;
 
       rule(y); y += 16;
       label('A Note on These Results', y); y += 14;
-      const h3 = body('A few responses indicated mild signals around emotional response or compensatory behavior. These were present and shared with the respondent. No strong pattern emerged — but these responses are worth being aware of in the context of any broader support conversation.', y);
+      const h3 = body('A few responses indicated mild signals around emotional response or compensatory behavior. These were present and shared with the respondent. They are worth being aware of in the context of any broader support conversation.', y);
       y += h3 + 16;
 
     } else {
