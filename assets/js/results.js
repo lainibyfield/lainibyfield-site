@@ -1019,7 +1019,7 @@ function initResults() {
       <p class="pattern-code-instructions">Save this code. If you complete one of our programs or 1:1 coaching and want to see what changed, enter it when you retake the assessment.</p>
       <div class="email-send-row" id="emailSendRow">
         <input type="email" id="resultEmailInput" class="result-email-input"
-               placeholder="Send these results to your email"
+               placeholder="your@email.com"
                autocomplete="email" />
         <button type="button" id="resultEmailBtn" class="result-email-btn">Send</button>
       </div>
