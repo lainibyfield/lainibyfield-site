@@ -788,7 +788,7 @@ function initResults() {
         </div>`;
     }
 
-    resultContainer.innerHTML = html;
+    resultMain.innerHTML = html;
 
     // Append pattern code block and email send row — same as all other result paths
     const npPatternCode = generatePatternCode(payload, 'NP');
@@ -807,7 +807,7 @@ function initResults() {
       <p class="email-privacy-note">Your email is used only to send this message. It is not stored, shared, or added to any list.</p>
       <p class="email-send-status hidden-input" id="emailSendStatus"></p>
     `;
-    resultContainer.appendChild(npCodeBlock);
+    resultMain.appendChild(npCodeBlock);
 
     // Wire up email send for NP path
     const npEmailBtn    = document.getElementById('resultEmailBtn');
