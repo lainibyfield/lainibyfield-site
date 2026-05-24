@@ -456,14 +456,16 @@ function generatePatternCode(payload, primaryLabel) {
   const ww = String(week).padStart(2, '0');
   const yyWW = yy + ww;
 
-  // For low score / no pattern use NN
+  // For no pattern / oriented result — check BEFORE fueling
   const primary = payload.flags.clinicalHigh ? 'CL'
+    : (payload.prescreenExit === 'noPattern' || payload.types.primaryCode === 'NP' || payload.flags.noPattern) ? 'NP'
     : payload.flags.fueling && payload.flags.highOutput ? 'HO'
     : payload.flags.fueling ? 'FU'
-    : (scores.S + scores.O + scores.D + scores.T + (scores.G || 0)) <= 8 ? 'NN'
+    : (scores.S + scores.O + scores.D + scores.T + (scores.G || 0)) <= 8 ? 'NP'
     : p;
 
   const secondary = payload.flags.clinicalHigh || payload.flags.fueling
+    || (payload.prescreenExit === 'noPattern' || payload.types.primaryCode === 'NP' || payload.flags.noPattern)
     || (scores.S + scores.O + scores.D + scores.T + (scores.G || 0)) <= 8 ? 'X' : s;
 
   return `${primary}${secondary}-${S}-${O}-${D}-${T}-${G}-${yyWW}`;
@@ -727,6 +729,20 @@ function initResults() {
 
   let html = '';
 
+  // Human-readable pattern names for comparison block — defined here so available to all paths
+  const codeToName = {
+    'S': 'Seeker', 'O': 'Soother', 'D': 'Drifter', 'T': 'Stabilizer',
+    'G': 'Social', 'FU': 'Fueling', 'HO': 'High-Output Fueling',
+    'CL': 'Clinical referral', 'NP': 'Oriented Pattern', 'NN': 'Oriented Pattern'
+  };
+
+  function patternName(code) {
+    if (!code) return 'Oriented Pattern';
+    if (codeToName[code.slice(0,2)]) return codeToName[code.slice(0,2)];
+    if (codeToName[code.slice(0,1)]) return codeToName[code.slice(0,1)];
+    return code;
+  }
+
   // ── PRESCREEN EXITS ───────────────────────────────────────────────────────
   if (payload.prescreenExit === 'noPattern' || payload.types.primaryCode === 'NP' || payload.flags.noPattern) {
     // NP result — no products, no CTA to purchase
@@ -846,6 +862,76 @@ function initResults() {
     }
 
     silentAnonymousSubmit(payload, 'Oriented Pattern', '');
+
+    // Comparison block for NP path — same logic as main path
+    const npPriorCode = sessionStorage.getItem('lainiPriorCode') || null;
+    if (npPriorCode && npPriorCode !== npPatternCode) {
+      const npParts = npPriorCode.split('-');
+      if (npParts.length >= 6) {
+        const npPriorPattern = npParts[0];
+        const npPriorS = parseInt(npParts[1]) || 0;
+        const npPriorO = parseInt(npParts[2]) || 0;
+        const npPriorD = parseInt(npParts[3]) || 0;
+        const npPriorT = parseInt(npParts[4]) || 0;
+        const npPriorG = parseInt(npParts[5]) || 0;
+        const npCurS = payload.scores.S || 0;
+        const npCurO = payload.scores.O || 0;
+        const npCurD = payload.scores.D || 0;
+        const npCurT = payload.scores.T || 0;
+        const npCurG = payload.scores.G || 0;
+
+        const npCurrentPrefix = npPatternCode.split('-')[0];
+        const npPatternChanged = npPriorPattern !== npCurrentPrefix;
+        const npPriorName = patternName(npPriorPattern);
+        const npCurrentName = patternName(npCurrentPrefix);
+
+        const npComparisonDiv = document.createElement('div');
+        npComparisonDiv.innerHTML = `
+          <div class="comparison-block">
+            <p class="pattern-code-label">WHAT CHANGED SINCE YOUR FIRST RESULT</p>
+            <p class="comparison-prior-code">First code: <span>${npPriorCode}</span></p>
+            ${npPatternChanged
+              ? `<p class="comparison-pattern-shift">Your primary pattern shifted from <strong>${npPriorName}</strong> to <strong>${npCurrentName}</strong>.</p>`
+              : `<p class="comparison-pattern-same">Your primary pattern is consistent — <strong>${npCurrentName}</strong> both times.</p>`
+            }
+            <div class="comparison-scores">
+              <div class="score-row ${npCurS < npPriorS ? 'score-down' : npCurS > npPriorS ? 'score-up' : ''}">
+                <span class="score-label">Seeker</span>
+                <span class="score-before">${npPriorS}</span>
+                <span class="score-arrow">${npCurS < npPriorS ? '↓' : npCurS > npPriorS ? '↑' : '→'}</span>
+                <span class="score-after">${npCurS}</span>
+              </div>
+              <div class="score-row ${npCurO < npPriorO ? 'score-down' : npCurO > npPriorO ? 'score-up' : ''}">
+                <span class="score-label">Soother</span>
+                <span class="score-before">${npPriorO}</span>
+                <span class="score-arrow">${npCurO < npPriorO ? '↓' : npCurO > npPriorO ? '↑' : '→'}</span>
+                <span class="score-after">${npCurO}</span>
+              </div>
+              <div class="score-row ${npCurD < npPriorD ? 'score-down' : npCurD > npPriorD ? 'score-up' : ''}">
+                <span class="score-label">Drifter</span>
+                <span class="score-before">${npPriorD}</span>
+                <span class="score-arrow">${npCurD < npPriorD ? '↓' : npCurD > npPriorD ? '↑' : '→'}</span>
+                <span class="score-after">${npCurD}</span>
+              </div>
+              <div class="score-row ${npCurT < npPriorT ? 'score-down' : npCurT > npPriorT ? 'score-up' : ''}">
+                <span class="score-label">Stabilizer</span>
+                <span class="score-before">${npPriorT}</span>
+                <span class="score-arrow">${npCurT < npPriorT ? '↓' : npCurT > npPriorT ? '↑' : '→'}</span>
+                <span class="score-after">${npCurT}</span>
+              </div>
+              <div class="score-row ${npCurG < npPriorG ? 'score-down' : npCurG > npPriorG ? 'score-up' : ''}">
+                <span class="score-label">Social</span>
+                <span class="score-before">${npPriorG}</span>
+                <span class="score-arrow">${npCurG < npPriorG ? '↓' : npCurG > npPriorG ? '↑' : '→'}</span>
+                <span class="score-after">${npCurG}</span>
+              </div>
+            </div>
+          </div>
+        `;
+        resultMain.appendChild(npComparisonDiv);
+      }
+    }
+
     return;
   }
 
@@ -960,7 +1046,6 @@ function initResults() {
 
   let comparisonHtml = '';
   if (priorCode && priorCode !== patternCode) {
-    // Parse prior code — format: PP-S-O-D-T-Wnn
     const parts = priorCode.split('-');
     if (parts.length >= 6) {
       const priorPattern = parts[0];
@@ -968,18 +1053,25 @@ function initResults() {
       const priorO = parseInt(parts[2]) || 0;
       const priorD = parseInt(parts[3]) || 0;
       const priorT = parseInt(parts[4]) || 0;
+      const priorG = parseInt(parts[5]) || 0;
       const curS = payload.scores.S || 0;
       const curO = payload.scores.O || 0;
       const curD = payload.scores.D || 0;
       const curT = payload.scores.T || 0;
-      const patternChanged = priorPattern !== (payload.types.primaryCode || 'NN');
+      const curG = payload.scores.G || 0;
+
+      const currentPatternPrefix = patternCode.split('-')[0];
+      const patternChanged = priorPattern !== currentPatternPrefix;
+      const priorName = patternName(priorPattern);
+      const currentName = patternName(currentPatternPrefix);
+
       comparisonHtml = `
         <div class="comparison-block">
           <p class="pattern-code-label">WHAT CHANGED SINCE YOUR FIRST RESULT</p>
           <p class="comparison-prior-code">First code: <span>${priorCode}</span></p>
           ${patternChanged
-            ? `<p class="comparison-pattern-shift">Your primary pattern shifted from <strong>${priorPattern}</strong> to <strong>${payload.types.primaryCode || 'NN'}</strong>.</p>`
-            : `<p class="comparison-pattern-same">Your primary pattern is consistent — <strong>${primaryLabel}</strong> both times.</p>`
+            ? `<p class="comparison-pattern-shift">Your primary pattern shifted from <strong>${priorName}</strong> to <strong>${currentName}</strong>.</p>`
+            : `<p class="comparison-pattern-same">Your primary pattern is consistent — <strong>${currentName}</strong> both times.</p>`
           }
           <div class="comparison-scores">
             <div class="score-row ${curS < priorS ? 'score-down' : curS > priorS ? 'score-up' : ''}">
@@ -1005,6 +1097,12 @@ function initResults() {
               <span class="score-before">${priorT}</span>
               <span class="score-arrow">${curT < priorT ? '↓' : curT > priorT ? '↑' : '→'}</span>
               <span class="score-after">${curT}</span>
+            </div>
+            <div class="score-row ${curG < priorG ? 'score-down' : curG > priorG ? 'score-up' : ''}">
+              <span class="score-label">Social</span>
+              <span class="score-before">${priorG}</span>
+              <span class="score-arrow">${curG < priorG ? '↓' : curG > priorG ? '↑' : '→'}</span>
+              <span class="score-after">${curG}</span>
             </div>
           </div>
         </div>

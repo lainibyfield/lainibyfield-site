@@ -711,10 +711,11 @@ function buildPayload() {
   const questionCounts = { S: 19, O: 19, D: 21, T: 19, G: 19 };
   const primaryNormalized = scores[primaryCode] / (questionCounts[primaryCode] || 1);
   const neutralRatio = scores.NEUTRAL / 36;
-  // noPattern: fires when neutral ratio exceeds primary normalized score by 1.5x
-  // Captures respondents who opted out more than they opted in, relative to their strongest pattern
-  // Multiplier is tunable — calibrate with real data
-  const NP_MULTIPLIER = 1.5;
+  // noPattern: fires when neutral ratio exceeds primary normalized score
+  // No multiplier — if you answered neutrally more often than your strongest pattern,
+  // the pattern is signaling but not driving. That's Oriented.
+  // Calibrate against real population data as testing expands.
+  const NP_MULTIPLIER = 1.0;
 
   const payload = {
     completedAt: new Date().toISOString(),
