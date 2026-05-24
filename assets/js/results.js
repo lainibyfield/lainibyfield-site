@@ -696,6 +696,82 @@ function sendResultsEmail(email, payload, primaryLabel, secondaryLabel, patternC
   return emailjs.send(serviceId, templateId, templateParams, publicKey);
 }
 
+// ── MOBILE SCROLL NUDGE ───────────────────────────────────────────────────────
+// Mobile only. Appears at bottom of viewport after results render.
+// Dismissed automatically when the pattern code block scrolls into view.
+// Uses IntersectionObserver — no timers, no layout thrash.
+
+function injectScrollNudge() {
+  // Only on mobile viewports
+  if (window.innerWidth > 768) return;
+
+  // Don't double-inject
+  if (document.getElementById('scrollNudge')) return;
+
+  const nudge = document.createElement('div');
+  nudge.id = 'scrollNudge';
+  nudge.setAttribute('aria-hidden', 'true');
+  nudge.innerHTML = `
+    <span class="scroll-nudge-text">Your pattern code is below</span>
+    <span class="scroll-nudge-arrow">↓</span>
+  `;
+  nudge.style.cssText = `
+    position: fixed;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink, #1c1814);
+    color: var(--warm-white, #faf7f2);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0.6rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    z-index: 200;
+    white-space: nowrap;
+  `;
+
+  // Animate the arrow
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes nudgeBounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(3px); }
+    }
+    #scrollNudge .scroll-nudge-arrow {
+      display: inline-block;
+      animation: nudgeBounce 1.2s ease-in-out infinite;
+    }
+  `;
+  document.head.appendChild(style);
+  document.body.appendChild(nudge);
+
+  // Fade in after a short delay so it doesn't flash on fast loads
+  setTimeout(() => { nudge.style.opacity = '1'; }, 600);
+
+  // Dismiss when code block enters viewport
+  const codeBlock = document.querySelector('.pattern-code-block');
+  if (!codeBlock) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        nudge.style.opacity = '0';
+        setTimeout(() => { nudge.remove(); style.remove(); }, 450);
+        observer.disconnect();
+      }
+    });
+  }, { threshold: 0.5 });
+
+  observer.observe(codeBlock);
+}
+
 function initResults() {
   const raw = localStorage.getItem('lainiAssessmentResult');
   const noState = document.getElementById('noResultState');
@@ -805,6 +881,9 @@ function initResults() {
     }
 
     resultMain.innerHTML = html;
+
+    // Mobile scroll nudge — inject after render, dismiss when code block is visible
+    injectScrollNudge();
 
     // Append pattern code block and email send row — same as all other result paths
     const npPatternCode = generatePatternCode(payload, 'NP');
@@ -1128,6 +1207,9 @@ function initResults() {
   `;
 
   resultMain.innerHTML = html;
+
+  // Mobile scroll nudge — inject after render, dismiss when code block is visible
+  injectScrollNudge();
 
   // Email send button
   const emailBtn   = document.getElementById('resultEmailBtn');
