@@ -6,7 +6,7 @@
   <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAABCGlDQ1BJQ0MgUHJvZmlsZQAAeJxjYGA8wQAELAYMDLl5JUVB7k4KEZFRCuwPGBiBEAwSk4sLGHADoKpv1yBqL+viUYcLcKakFicD6Q9ArFIEtBxopAiQLZIOYWuA2EkQtg2IXV5SUAJkB4DYRSFBzkB2CpCtkY7ETkJiJxcUgdT3ANk2uTmlyQh3M/Ck5oUGA2kOIJZhKGYIYnBncAL5H6IkfxEDg8VXBgbmCQixpJkMDNtbGRgkbiHEVBYwMPC3MDBsO48QQ4RJQWJRIliIBYiZ0tIYGD4tZ2DgjWRgEL7AwMAVDQsIHG5TALvNnSEfCNMZchhSgSKeDHkMyQx6QJYRgwGDIYMZAKbWPz9HbOBQAAAETklEQVR4nO1WXWxURRQ+Z2bu3bt793Z3u/2hhUJBLQ0aUmMgxp9YDYkJBo36QjSCxhejgRiiL8qDP/iAiSYkYpQX8AEeDTH+PGmImqiIUSEICDYNVWiBLu3+3L+5c44Pu13cLTG1L75wMskkJzPnm5lzvu8MvvLUfbAgQ2Zj2c72XR8WuvsSHSPiQraJhUVfvN0A+P8BVH1CIRARGAABuO4CYCAybRuIDBlDZK5bRQiIouXQCgAQMahVjNYoZXMTEQkh0q7XFiHr5VXKVakMwHwABk50FDJRE0YBYpLo9aMPdfYNhNUycP384GSyQbV89MjnzDQXHImSrz452FHoqi9j5jgKAUAIYTvpjNvRuWTpspVDlu3EkY8oAEAhIhlafvOaFcNre/oGlO0CAHAyOfHH9ORfP379BSWMiACMgEx09sSxi+fH4igAAGXZA6uGAdGvlicnxoA57Xq9A6se2bptcPVaHQWIAutM1lGkdbx9174VQ2sSHfuVyjsvb6lVy5msx407IZOxnfSO3fs/enfnhfGzQohCd9+Ot/cLlWKjJ86dOrT3zfLVy3EYePmubW/tyxW6TKIbL2U7Ttr1pFJCSCGkkNLJZJ10Zn4ao8A3SUJkiIwxSejXdOjHYbB89ci60Y2hX/PyxdnSpTO//iAth4kaAMx87a0bHpo7e2uWW4uHmZnZGENErpdr+uMwqFeBmh9i4YaIaTcrlGOnAQBO/fwdClktX7Xs1E1rbmcTocDFAyAKHUcnj30rlVWrzJ489s3pX77PFYqdPf2jDz/ZP3iLjiNEsUgAZhZSBrXK4QN7ANivlqvlmWxHvtjTv+6BTcMjd2KDsYu9ASKaROe7el947X1lp+IwGDt9/NOD742fPTl25viXHx/Y/PzOweG1Ogz+gxYJIeexF5VlW3Yqk/VG7n7w8WdfEkJkvfz01IVDe9+olWekUgsFYCK/WiYybRjMhskYY3RYGRy6Ld/VG4WB6+VKUxfHfz8h7fS/AGB9ICIzOa47cs+GjOsRJdBSqY01AIyIUioGZmZASOIIABsAiIjYAsZs5gbrKMp1dm/Zsbu4ZKmOwn9SgRtGltNRujw5M33JslPMpJTV07+CSTeSHIeh1nGDosYQGSktqSypFABKK0EUsT/LZJyMO0d4IaVyMq5QDiXR1MS5wwf2mEQDc2W2NLrpib7BIR36+OrW++MwfPSZF1vEDjislJpMZmahlOMWPnj9uXLpSunKVBTU4JrYicAvX/pzXOvY9fK5zu71oxvvfWhzvZ8oZhZSnD/3W7VW+akp14hSttQMMxOZmenLt95xV6G7j4mgVa6djOt6+Xyxp3fZSieb12EVgAFRAbNS1tEjn7U1nHlChAzUkStueOzptFeERvNrMwI2SRxF/myzplU9Vtr12ltmW0ExMpg5qXGS5PofLwREgULIpqeRZCa6jnK23YCNlFwXc0Hyxs/uBsCc/Q2c6DRMZTeY9QAAAABJRU5ErkJggg==">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Eating Pattern Assessment | Laini Byfield</title>
+  <title>Eating Pattern Inventory | Laini Byfield</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -533,6 +533,7 @@
     cursor: pointer;
   }
   .hidden-input { display: none !important; }
+  .unanswered-flag { outline: 2px solid #c0392b; outline-offset: 4px; border-radius: 2px; }
   </style>
 </head>
 <body>
@@ -540,7 +541,7 @@
 <nav>
   <a href="index.html" class="nav-name">Laini Byfield</a>
   <ul class="nav-links">
-    <li><a href="assessment.html" class="active">Assessment</a></li>
+    <li><a href="assessment.html" class="active">Inventory</a></li>
     <li><a href="index.html#coaching">Coaching</a></li>
     <li><a href="index.html#about">About</a></li>
     <li><a href="index.html#contact">Contact</a></li>
@@ -551,7 +552,7 @@
   <p class="eyebrow">Anonymous &nbsp;&middot;&nbsp; No login required</p>
   <h1>Do you eat when you are <em>not hungry?</em></h1>
   <p class="page-sub">Choose the answer that feels most like you, most of the time. There are no right answers — the goal is pattern recognition, not perfection.</p>
-  <p class="note-small">This assessment is anonymous unless you choose to share your results.</p>
+  <p class="note-small">This inventory is anonymous unless you choose to share your results.</p>
 
   <div class="hero-cards">
     <div class="hero-card">
@@ -567,7 +568,7 @@
     </div>
     <div class="hero-card">
       <span class="card-kicker">Before you continue</span>
-      <p class="card-body">This assessment is designed to be useful, not dramatic.</p>
+      <p class="card-body">This inventory is designed to be useful, not dramatic.</p>
       <p class="card-body">Some questions help clarify timing, stress, fueling, and life stage so the result is more specific to you.</p>
     </div>
   </div>
@@ -590,6 +591,11 @@
 
 <div class="questions-wrap">
   
+  <!-- Framing copy — addresses self-recognition anxiety before questions begin -->
+  <div class="framing-copy" style="max-width: 640px; margin: 0 auto 2rem auto; padding: 0 1.2rem;">
+    <p style="font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-style: italic; color: var(--ink-light); line-height: 1.75; border-left: 2px solid var(--accent-light); padding-left: 1.4rem;">Some questions may feel familiar in an uncomfortable way. Some questions may feel familiar in an affirming way. That recognition — whatever form it takes — is useful information, not a verdict. The questions describe patterns, not diagnoses.</p>
+  </div>
+
   <!-- Prior code entry — for day-21 retakes -->
   <div class="prior-code-section" id="priorCodeSection">
     <div class="prior-code-inner">
