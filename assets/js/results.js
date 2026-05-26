@@ -131,15 +131,15 @@ const resultCopy = {
   LOW: {
     title: 'Based on your answers, eating patterns are not a major concern for you right now.',
     subtitle: 'Based on your answers, unplanned or emotionally driven eating does not appear to be a significant concern right now.',
-    happening: 'That is genuinely useful information. Not everyone has a complicated relationship with food, and this assessment is designed to reflect that honestly.',
+    happening: 'That is genuinely useful information. Not everyone has a complicated relationship with food, and this inventory is designed to reflect that honestly.',
     strength: 'You appear to have a relatively stable relationship with eating — consistent, intentional, and not heavily driven by stress or habit.',
-    offTrack: 'Patterns can shift with life changes, stress, or routine disruptions. If something changes down the road, this assessment will still be here.',
+    offTrack: 'Patterns can shift with life changes, stress, or routine disruptions. If something changes down the road, this inventory will still be here.',
     toolsTitle: 'If you are curious about eating patterns in general:',
     tools: [
       'The patterns identified here — stress-driven, routine-based, sensory, and structural — are common and worth understanding even if they do not apply to you now',
       'Sharing this with someone who might find it useful is welcome'
     ],
-    decide: 'Is there something specific that prompted you to take this assessment?',
+    decide: 'Is there something specific that prompted you to take this inventory?',
     eat: 'If eating is not currently a concern, trust that. You do not need a strategy for something that is not a problem.'
   }
 };
@@ -238,9 +238,7 @@ function renderPrimaryBlock(copy, secondaryLabel, payload, isFueling) {
   ` : '';
 
   const secondaryNote = secondaryLabel && payload
-    ? isFueling
-      ? getSecondaryNoteForFueling(payload.types.secondaryCode)
-      : getSecondaryNote(payload.types.primaryCode, payload.types.secondaryCode)
+    ? getSecondaryNote(payload.types.primaryCode, payload.types.secondaryCode)
     : null;
 
   const secondaryBlock = secondaryNote ? `
@@ -252,15 +250,9 @@ function renderPrimaryBlock(copy, secondaryLabel, payload, isFueling) {
     </div>
   ` : '';
 
-  // For Fueling/HO results: show behavioral pattern box only if there is a
-  // meaningful secondary (secondaryLabel defined) — otherwise it shows noise
-  const primaryKicker = isFueling ? 'Your behavioral pattern' : 'Primary result';
-  const showPrimaryBox = isFueling
-    ? (secondaryLabel && patternDesc)   // HO/Fueling: only if secondary exists
-    : !!patternDesc;                     // Other patterns: always if description exists
-  const primaryBox = showPrimaryBox ? `
+  const primaryBox = patternDesc ? `
     <div class="result-box">
-      <span class="result-kicker">${primaryKicker}</span>
+      <span class="result-kicker">Primary result</span>
       <p class="result-description">${patternDesc}</p>
     </div>
   ` : '';
@@ -279,6 +271,65 @@ function renderPrimaryBlock(copy, secondaryLabel, payload, isFueling) {
     `)}
     ${secondaryBlock}
     ${resourcesHtml}
+  `;
+}
+
+// ── FUELING SIGNAL CALLOUT ────────────────────────────────────────────────────
+// Fires when F >= 3 (Fueling signal) or F >= 3 AND HO >= 2 (High-Output signal).
+// Signal, not a pattern. Sits below the primary result. Calendar is free.
+// Copy repurposed from resultCopy.FUELING and resultCopy.FUELING_HIGH_OUTPUT.
+
+function renderFuelingSignalBox(payload) {
+  const isHO    = payload.flags.highOutput;
+  const isNP    = payload.flags.noPattern || payload.types.primaryCode === 'NP';
+  const fCopy   = resultCopy.FUELING;
+  const hoCopy  = resultCopy.FUELING_HIGH_OUTPUT;
+
+  const title = isHO ? 'High-Output Fueling Signal' : 'Fueling Signal';
+
+  let body = '';
+
+  if (isNP) {
+    // Oriented + Fueling: no behavioral pattern, but timing deficits accumulate quietly
+    body = `
+      <p>Your eating is already oriented — no strong behavioral pattern is driving it. Your responses also show a Fueling signal.</p>
+      <p>${fCopy.happening}</p>
+      <p>Oriented eaters can still underfuel without noticing. When there is no behavioral pattern demanding food, timing deficits build quietly. The Fueling Calendar is designed for exactly this. It does not require a pattern to be useful.</p>
+    `;
+  } else if (isHO) {
+    // High-Output: fold HO copy into callout, name the accelerant relationship
+    body = `
+      <p>${hoCopy.happening}</p>
+      <p>${hoCopy.strength}</p>
+      <p>${hoCopy.offTrack}</p>
+      <p style="margin-top:0.8rem;"><strong>Your primary pattern is still the behavioral driver.</strong> But it fires harder and earlier when the physiological deficit is already in place. Fix the fueling gap first — your pattern work will be more effective when you are not fighting a metabolic hole at the same time.</p>
+      <ul class="result-points" style="margin-top:0.8rem;">
+        ${hoCopy.tools.map(t => `<li>${t}</li>`).join('')}
+      </ul>
+      <p style="margin-top:0.8rem;"><strong>Ask yourself:</strong> ${hoCopy.decide}</p>
+    `;
+  } else {
+    // Standard Fueling signal on a behavioral primary
+    body = `
+      <p>${fCopy.happening}</p>
+      <p>${fCopy.strength}</p>
+      <p><strong>When you feel very hungry later in the day:</strong></p>
+      <ul class="result-points">
+        ${fCopy.tools.map(t => `<li>${t}</li>`).join('')}
+      </ul>
+      <p style="margin-top:0.8rem;"><strong>Ask yourself:</strong> ${fCopy.decide}</p>
+      <p style="margin-top:0.5rem;">Your primary pattern is still the driver. The Fueling signal is the accelerant — it does not cause the pattern, but it removes the margin you would otherwise have to catch it. Fix the timing first.</p>
+    `;
+  }
+
+  const calendarLink = `<a href="fueling-calendar.html" class="btn-secondary" style="margin-top:1.2rem;display:inline-block;">Get the Fueling Calendar — Free</a>`;
+
+  return `
+    <div class="result-box fueling-signal-box">
+      <span class="result-kicker">${title}</span>
+      ${body}
+      ${calendarLink}
+    </div>
   `;
 }
 
@@ -302,16 +353,24 @@ function renderFuelingAddOn() {
   `);
 }
 
-function renderCTA(payload) {
+function renderCTA(payload, patternCode) {
+  const isOriented = payload.flags.noPattern || payload.types.primaryCode === 'NP';
+  const isClinical = payload.flags.clinical;
+
+  const volunteerBtn = (!isOriented && !isClinical && patternCode)
+    ? `<a class="btn-secondary" href="volunteer.html?code=${patternCode}" style="margin-top:0.5rem;">Join the 21-day calendar test</a>`
+    : '';
+
   return `
     <div class="result-box cta-box">
       <span class="result-kicker">If this feels accurate</span>
       <h2 class="result-title">You do not need more discipline.</h2>
       <p class="result-subtitle">You need a strategy that fits your pattern.</p>
-      <p>If you want support, you can choose to send your results and request a call.</p>
+      <p>If you want support, you can choose to send your results and request a consult.</p>
       <div class="result-actions">
-        <a class="btn-primary no-animation" id="sendResultsLink" href="#">Submit my results and request a call</a>
-        <a class="btn-secondary" href="assessment.html">Retake the assessment</a>
+        <a class="btn-primary no-animation" id="sendResultsLink" href="#">Submit my results and request a consult</a>
+        <a class="btn-secondary" href="assessment.html">Retake the inventory</a>
+        ${volunteerBtn}
       </div>
       <p class="helper-text"><a href="index.html" style="color: var(--muted); font-size: 0.78rem; font-family: 'DM Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none;">Return to lainibyfield.com</a></p>
       <p class="helper-text">Your results are anonymous unless you choose to share them.</p>
@@ -359,9 +418,9 @@ function renderClinicalResult(payload) {
         <span class="result-kicker">If this feels accurate</span>
         <h2 class="result-title">Coaching can work alongside the support you already have.</h2>
         <p class="result-subtitle">You are not starting from zero.</p>
-        <p>If you want to explore what that looks like, you can request a call. We can talk through whether this is the right fit right now.</p>
+        <p>If you want to explore what that looks like, you can request a consult. We can talk through whether this is the right fit right now.</p>
         <div class="result-actions">
-          <a class="btn-primary no-animation" id="sendResultsLink" href="#">Submit my results and request a call</a>
+          <a class="btn-primary no-animation" id="sendResultsLink" href="#">Submit my results and request a consult</a>
           <a class="btn-secondary" href="assessment.html">Retake the assessment</a>
         </div>
         ${nav}
@@ -396,9 +455,9 @@ function renderClinicalResult(payload) {
         <span class="result-kicker">When you are ready</span>
         <h2 class="result-title">Coaching will still be here.</h2>
         <p class="result-subtitle">Once you have some support in place, the behavioral work becomes more effective — not less relevant.</p>
-        <p>If you want to talk through what that could look like, you are welcome to request a call at any point.</p>
+        <p>If you want to talk through what that could look like, you are welcome to request a consult at any point.</p>
         <div class="result-actions">
-          <a class="btn-primary no-animation" id="sendResultsLink" href="#">Request a call</a>
+          <a class="btn-primary no-animation" id="sendResultsLink" href="#">Request a consult</a>
           <a class="btn-secondary" href="assessment.html">Retake the assessment</a>
         </div>
         ${nav}
@@ -456,15 +515,13 @@ function generatePatternCode(payload, primaryLabel) {
   const ww = String(week).padStart(2, '0');
   const yyWW = yy + ww;
 
-  // For no pattern / oriented result — check BEFORE fueling
+  // Primary letter always reflects behavioral pattern — Fueling and HO are signals, not patterns
   const primary = payload.flags.clinicalHigh ? 'CL'
     : (payload.prescreenExit === 'noPattern' || payload.types.primaryCode === 'NP' || payload.flags.noPattern) ? 'NP'
-    : payload.flags.fueling && payload.flags.highOutput ? 'HO'
-    : payload.flags.fueling ? 'FU'
     : (scores.S + scores.O + scores.D + scores.T + (scores.G || 0)) <= 8 ? 'NP'
     : p;
 
-  const secondary = payload.flags.clinicalHigh || payload.flags.fueling
+  const secondary = payload.flags.clinicalHigh
     || (payload.prescreenExit === 'noPattern' || payload.types.primaryCode === 'NP' || payload.flags.noPattern)
     || (scores.S + scores.O + scores.D + scores.T + (scores.G || 0)) <= 8 ? 'X' : s;
 
@@ -690,86 +747,10 @@ function sendResultsEmail(email, payload, primaryLabel, secondaryLabel, patternC
     pattern_description: patternDesc[primaryLabel] || 'See your full results at lainibyfield.com.',
     secondary_name:      secondaryLabel || '',
     scores_summary:      `Seeker: ${payload.scores.S} | Soother: ${payload.scores.O} | Drifter: ${payload.scores.D} | Stabilizer: ${payload.scores.T} | Social: ${payload.scores.G || 0}`,
-    retake_instruction:  'When you retake the assessment after completing a program or coaching, enter this code to see what changed.',
+    retake_instruction:  'When you retake the inventory after completing a program or coaching, enter this code to see what changed.',
   };
 
   return emailjs.send(serviceId, templateId, templateParams, publicKey);
-}
-
-// ── MOBILE SCROLL NUDGE ───────────────────────────────────────────────────────
-// Mobile only. Appears at bottom of viewport after results render.
-// Dismissed automatically when the pattern code block scrolls into view.
-// Uses IntersectionObserver — no timers, no layout thrash.
-
-function injectScrollNudge() {
-  // Only on mobile viewports
-  if (window.innerWidth > 768) return;
-
-  // Don't double-inject
-  if (document.getElementById('scrollNudge')) return;
-
-  const nudge = document.createElement('div');
-  nudge.id = 'scrollNudge';
-  nudge.setAttribute('aria-hidden', 'true');
-  nudge.innerHTML = `
-    <span class="scroll-nudge-text">Your pattern code is below</span>
-    <span class="scroll-nudge-arrow">↓</span>
-  `;
-  nudge.style.cssText = `
-    position: fixed;
-    bottom: 1.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--ink, #1c1814);
-    color: var(--warm-white, #faf7f2);
-    font-family: 'DM Mono', monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    padding: 0.6rem 1.2rem;
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s ease;
-    z-index: 200;
-    white-space: nowrap;
-  `;
-
-  // Animate the arrow
-  const style = document.createElement('style');
-  style.textContent = `
-    @keyframes nudgeBounce {
-      0%, 100% { transform: translateY(0); }
-      50%       { transform: translateY(3px); }
-    }
-    #scrollNudge .scroll-nudge-arrow {
-      display: inline-block;
-      animation: nudgeBounce 1.2s ease-in-out infinite;
-    }
-  `;
-  document.head.appendChild(style);
-  document.body.appendChild(nudge);
-
-  // Fade in after a short delay so it doesn't flash on fast loads
-  setTimeout(() => { nudge.style.opacity = '1'; }, 600);
-
-  // Dismiss when code block enters viewport
-  const codeBlock = document.querySelector('.pattern-code-block');
-  if (!codeBlock) return;
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        nudge.style.opacity = '0';
-        setTimeout(() => { nudge.remove(); style.remove(); }, 450);
-        observer.disconnect();
-      }
-    });
-  }, { threshold: 0.5 });
-
-  observer.observe(codeBlock);
 }
 
 function initResults() {
@@ -882,9 +863,6 @@ function initResults() {
 
     resultMain.innerHTML = html;
 
-    // Mobile scroll nudge — inject after render, dismiss when code block is visible
-    injectScrollNudge();
-
     // Append pattern code block and email send row — same as all other result paths
     const npPatternCode = generatePatternCode(payload, 'NP');
     const npCodeBlock = document.createElement('div');
@@ -892,7 +870,7 @@ function initResults() {
     npCodeBlock.innerHTML = `
       <p class="pattern-code-label">YOUR PATTERN CODE</p>
       <p class="pattern-code-value">${npPatternCode}</p>
-      <p class="pattern-code-instructions">Save this code. Enter it when you retake the assessment to see what changed.</p>
+      <p class="pattern-code-instructions">Save this code. Enter it when you retake the inventory to see what changed.</p>
       <div class="email-send-row" id="emailSendRow">
         <input type="email" id="resultEmailInput" class="result-email-input"
                placeholder="your@email.com"
@@ -1022,30 +1000,12 @@ function initResults() {
   if (isLowScore(payload.scores)) {
     const copy = resultCopy.LOW;
     pageTitle.innerHTML = 'Based on your answers, eating patterns are <em>not a major concern</em> for you right now.';
-    pageIntro.textContent = 'Not everyone has a complicated relationship with food. This assessment is designed to reflect that honestly.';
+    pageIntro.textContent = 'Not everyone has a complicated relationship with food. This inventory is designed to reflect that honestly.';
     html += renderPrimaryBlock(copy, '', payload);
-  } else if (payload.flags.highOutput) {
-    // HO is a Fueling subtype — use Fueling as the primary result
-    // then add an HO-specific callout box explaining the output driver
-    const fuelingCopy = resultCopy.FUELING;
-    const hoCopy = resultCopy.FUELING_HIGH_OUTPUT;
-    pageTitle.innerHTML = 'Your results suggest a <em>Fueling pattern</em>.';
-    pageIntro.textContent = fuelingCopy.subtitle;
-    html += renderPrimaryBlock(fuelingCopy, secondaryLabel, payload, true);
-    // Insert HO-specific callout after the main Fueling copy
-    html += createBox('What makes yours High-Output', `<p>${hoCopy.happening}</p><p style="margin-top:8px">${hoCopy.offTrack}</p>`);
-    html += createBox(hoCopy.toolsTitle,
-      '<ul class="result-points">' +
-      hoCopy.tools.map((tool) => '<li>' + tool + '</li>').join('') +
-      '</ul>' +
-      '<p><strong>Then decide:</strong> ' + hoCopy.decide + '</p>' +
-      '<p><strong>If you still want food,</strong> ' + hoCopy.eat + '</p>'
-    );
   } else if (payload.flags.clinical) {
 
     if (payload.flags.clinicalHigh) {
       // ELEVATED — C >= 5 or purging present
-      // Referral is the headline. No product pathway.
       pageTitle.innerHTML = 'Your responses suggest a <em>different starting point</em>.';
       pageIntro.textContent = 'Some of what came up in your results goes beyond what behavioral coaching is designed to address on its own. This is not a judgment — it is information worth taking seriously.';
       if (primaryLabel && resultCopy[payload.types.primaryCode]) {
@@ -1056,7 +1016,6 @@ function initResults() {
 
     } else if (payload.flags.clinicalWarning) {
       // WARNING — C = 3 or 4
-      // Pattern in full, stronger boundary language than mild. Door conditionally open.
       const warnCopy = resultCopy[payload.types.primaryCode] || resultCopy.CLINICAL;
       if (primaryLabel && warnCopy && warnCopy.happening) {
         pageTitle.innerHTML = `Your results suggest a <em>${primaryLabel} pattern</em> — with something that should be acknowledged.`;
@@ -1073,7 +1032,6 @@ function initResults() {
 
     } else {
       // MILD — C = 2
-      // Pattern first, light boundary note. Door open conditionally.
       const clinicalCopy = resultCopy[payload.types.primaryCode] || resultCopy.CLINICAL;
       if (primaryLabel && clinicalCopy && clinicalCopy.happening) {
         pageTitle.innerHTML = `Your results suggest a <em>${primaryLabel} pattern</em> — with something else worth acknowledging.`;
@@ -1091,25 +1049,18 @@ function initResults() {
       html += renderClinicalResult(payload);
       html += renderProviderPDFButton('mild');
     }
-  } else if (payload.flags.fueling) {
-    const copy = resultCopy.FUELING;
-    pageTitle.innerHTML = 'Your results suggest a <em>Fueling Pattern</em>.';
-    pageIntro.textContent = 'Your hunger is tied to timing — gaps in eating create stronger urges later.';
-    // Pass secondary for Fueling — suppressed only for Stabilizer secondary
-    const fuelingSecondary = payload.types.secondaryCode === 'T' ? '' : secondaryLabel;
-    html += renderPrimaryBlock(copy, fuelingSecondary, payload, true);
-  } else if (payload.types.primaryCode === 'G') {
-    const copy = resultCopy.G;
-    pageTitle.innerHTML = 'Your results suggest a <em>Social</em> pattern.';
-    pageIntro.textContent = 'Eating is shaped by who you are with and the context of the meal.';
-    html += renderPrimaryBlock(copy, secondaryLabel, payload);
+
   } else {
+    // ── STANDARD BEHAVIORAL PATH ─────────────────────────────────────────────
+    // Primary always comes from S/O/D/T/G/NP — Fueling is a signal, not a pattern
     const copy = resultCopy[payload.types.primaryCode];
     pageTitle.innerHTML = `Your results suggest a <em>${primaryLabel}</em> pattern.`;
     pageIntro.textContent = 'The point is not to judge the pattern. The point is to understand it well enough to respond differently.';
     html += renderPrimaryBlock(copy, secondaryLabel, payload);
-    if (payload.scores.F >= 2) {
-      html += renderFuelingAddOn();
+
+    // Fueling / HO signal — injected after primary result if signal fires
+    if (payload.flags.fueling || payload.flags.highOutput) {
+      html += renderFuelingSignalBox(payload);
     }
   }
 
@@ -1117,10 +1068,11 @@ function initResults() {
     html += renderPerimenopauseBox();
   }
 
-  html += renderCTA(payload);
+  html += renderCTA(payload, patternCode);
 
   // Append pattern code block after CTA
   const patternCode = generatePatternCode(payload, primaryLabel);
+  sessionStorage.setItem('lainiPatternCode', patternCode);
   const priorCode = sessionStorage.getItem('lainiPriorCode') || null;
 
   let comparisonHtml = '';
@@ -1193,7 +1145,7 @@ function initResults() {
     <div class="pattern-code-block">
       <p class="pattern-code-label">YOUR PATTERN CODE</p>
       <p class="pattern-code-value">${patternCode}</p>
-      <p class="pattern-code-instructions">Save this code. If you complete one of our programs or 1:1 coaching and want to see what changed, enter it when you retake the assessment.</p>
+      <p class="pattern-code-instructions">Save this code. If you complete one of our programs or 1:1 coaching and want to see what changed, enter it when you retake the inventory.</p>
       <div class="email-send-row" id="emailSendRow">
         <input type="email" id="resultEmailInput" class="result-email-input"
                placeholder="your@email.com"
@@ -1207,9 +1159,6 @@ function initResults() {
   `;
 
   resultMain.innerHTML = html;
-
-  // Mobile scroll nudge — inject after render, dismiss when code block is visible
-  injectScrollNudge();
 
   // Email send button
   const emailBtn   = document.getElementById('resultEmailBtn');
@@ -1376,7 +1325,7 @@ function generateProviderPDF(payload, tier) {
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(11);
     doc.setTextColor(ACCENT);
-    doc.text('Assessment Summary', ML, y);
+    doc.text('Inventory Summary', ML, y);
     y += 10;
     rule(y); y += 16;
 
@@ -1387,7 +1336,7 @@ function generateProviderPDF(payload, tier) {
     if (tier === 'elevated') {
       label('Assessment Result', y); y += 14;
       heading('No single behavioral pattern identified', y); y += 20;
-      const h1 = body('This summary was generated by the respondent following completion of the Laini Byfield Behavioral Eating Pattern Assessment. The assessment did not identify a primary behavioral pattern. The score distribution below may be useful clinical context.', y);
+      const h1 = body('This summary was generated by the respondent following completion of the Laini Byfield Behavioral Eating Pattern Inventory. The assessment did not identify a primary behavioral pattern. The score distribution below may be useful clinical context.', y);
       y += h1 + 16;
 
       rule(y); y += 16;
@@ -1449,7 +1398,7 @@ function generateProviderPDF(payload, tier) {
       // NP + mild clinical — no pattern to name, acknowledge the flag
       label('Assessment Result', y); y += 14;
       heading('Oriented Pattern', y); y += 20;
-      const h1 = body('No primary behavioral eating pattern emerged from this assessment. Food appears to function as intended — without significant friction or behavioral override. This is the result the instrument is designed to help other people work toward.', y);
+      const h1 = body('No primary behavioral eating pattern emerged from this inventory. Food appears to function as intended — without significant friction or behavioral override. This is the result the instrument is designed to help other people work toward.', y);
       y += h1 + 16;
 
       rule(y); y += 16;
@@ -1480,7 +1429,7 @@ function generateProviderPDF(payload, tier) {
         const h3 = body(noteText, y);
         y += h3 + 16;
       } else {
-        let noteText = 'Some responses indicated mild signals around emotional distress or compensatory behavior. These were noted in the assessment result and shared with the respondent.';
+        let noteText = 'Some responses indicated mild signals around emotional distress or compensatory behavior. These were noted in the inventory result and shared with the respondent.';
         if (payload.flags.restrictionCycling) {
           noteText += ' Mild restriction cycling signals were present — intentional restriction followed by loss of control. Worth noting in any broader support context.';
         }
@@ -1491,11 +1440,11 @@ function generateProviderPDF(payload, tier) {
 
     rule(y); y += 16;
     label('Scope of Practice', y); y += 14;
-    const h4 = body('This assessment is a behavioral self-report instrument. It is not a clinical screener, a diagnostic tool, or a medical assessment. It does not diagnose eating disorders or any clinical condition. Laini Byfield practices as a National Board Certified Health and Wellness Coach (NBC-HWC). Coaching addresses behavioral patterns and habit formation — it does not replace the care of a physician, registered dietitian, licensed therapist, or eating disorder specialist.', y);
+    const h4 = body('This inventory is a behavioral self-report instrument. It is not a clinical screener, a diagnostic tool, or a medical assessment. It does not diagnose eating disorders or any clinical condition. Laini Byfield practices as a National Board Certified Health and Wellness Coach (NBC-HWC). Coaching addresses behavioral patterns and habit formation — it does not replace the care of a physician, registered dietitian, licensed therapist, or eating disorder specialist.', y);
     y += h4 + 16;
 
     rule(y); y += 16;
-    const h5 = body('This summary was generated and shared by the respondent. No personally identifiable information was retained by the assessment system. The respondent chose to share this document.', y);
+    const h5 = body('This summary was generated and shared by the respondent. No personally identifiable information was retained by the inventory system. The respondent chose to share this document.', y);
     y += h5 + 16;
 
     // QR CODE
@@ -1510,8 +1459,19 @@ function generateProviderPDF(payload, tier) {
       doc.setTextColor(MUTED);
       doc.text('Laini Byfield, NBC-HWC  ·  lainibyfield.com  ·  hello@lainibyfield.com  ·  NPI Type 1: 171400000X', ML, H - 38);
       doc.text('Scan for full methodology and scope of practice  ·  lainibyfield.com/methodology.html', ML, H - 26);
-      const filename = tier === 'elevated' ? 'eating-assessment-elevated.pdf' : 'eating-assessment-summary.pdf';
-      doc.save(filename);
+      // Pattern code — small, greyed, bottom center for clinical reference
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(6.5);
+      doc.setTextColor(180, 170, 160);
+      const codeText = sessionStorage.getItem('lainiPatternCode') || '';
+      if (codeText) {
+        const pageW = doc.internal.pageSize.getWidth();
+        doc.text(codeText, pageW / 2, H - 14, { align: 'center' });
+      }
+
+      // Open in new tab — prevents Chrome on iOS from hijacking to chrome://downloads
+      const blobUrl = doc.output('bloburl');
+      window.open(blobUrl, '_blank');
     }
 
     const img = new Image();

@@ -4,7 +4,7 @@ const questions = [
     { text: 'I do not notice until I am already eating', code: 'D' },
     { text: 'I want specific textures or flavors', code: 'S' },
     { text: 'I crave food more when stressed', code: 'O' },
-    { text: 'None of these feel familiar', code: '' }
+    { text: 'My eating feels fairly steady', code: '' }
   ]},
   { id: 'q02', text: 'Trying to eat better:', options: [
     { text: 'I get bored', code: 'S' },
@@ -12,7 +12,7 @@ const questions = [
     { text: 'It feels emotionally hard', code: 'O' },
     { text: 'It works until routine breaks', code: 'T' },
     { text: 'It works until I am around other people', code: 'G' },
-    { text: 'I do not find it particularly hard', code: '' }
+    { text: 'Eating generally goes the way I intend', code: '' }
   ]},
   { id: 'q03', text: 'Eating feels hardest when:', options: [
     { text: 'I need a pick-me-up', code: 'S' },
@@ -20,28 +20,28 @@ const questions = [
     { text: 'I am overwhelmed', code: 'O' },
     { text: 'My routine is off', code: 'T' },
     { text: 'I am eating with others', code: 'G' },
-    { text: 'Eating does not usually feel hard', code: '' }
+    { text: 'Eating stays pretty manageable for me', code: '' }
   ]},
-  { id: 'q04', text: 'You are home with nothing planned. What happens?', options: [
+  { id: 'q04', text: 'If you have a lot of free time at home, what happens?', options: [
     { text: 'I snack as something to do', code: 'S' },
     { text: 'I eat while distracted', code: 'D' },
     { text: 'I want to go out or find someone to eat with', code: 'G' },
     { text: 'I eat randomly \u2014 without my usual structure I lose track', code: 'T' },
-    { text: 'Nothing much — I am comfortable with unplanned time', code: '' }
+    { text: 'I find other things to do — food rarely crosses my mind', code: '' }
   ]},
   { id: 'q05', text: 'You are watching a show at night. What usually happens with food?', options: [
     { text: 'I keep searching for something better to eat', code: 'S' },
     { text: 'I finish the snack without noticing — my hand just moves', code: 'D' },
     { text: 'It feels like a reward I would usually share', code: 'G' },
     { text: 'I eat because it is my scheduled wind-down time', code: 'T' },
-    { text: 'I am focused on the show and do not usually eat in this setting', code: '' }
+    { text: 'Watching and eating stay separate for me', code: '' }
   ]},
   { id: 'q06', text: 'Think about a time you overate. What was true?', options: [
     { text: 'It tasted good so I kept going', code: 'S' },
     { text: 'I am not sure — I do not always notice when it is happening', code: 'D' },
     { text: 'I had not eaten enough earlier', code: 'F' },
     { text: 'I was at a social event and it felt like participation', code: 'G' },
-    { text: 'I do not think this happens to me', code: '' }
+    { text: 'My eating stays pretty even overall', code: '' }
   ]},
   { id: 'q07', text: 'Which best describes you?', options: [
     { text: 'Biological female', code: 'BF' },
@@ -56,34 +56,107 @@ const questions = [
     { text: '40\u201350', code: '' },
     { text: '50+', code: 'P' }
   ]},
-  { id: 'q09', text: 'Lately, which feels most true about your body and appetite?', options: [
+  { id: 'q09', text: 'Lately, setting aside any intentional changes, which feels most true about your body?', options: [
     { text: 'About the same', code: '' },
     { text: 'I get hungry more quickly', code: 'F' },
     { text: 'I can eat the same but gain more easily', code: 'P' },
     { text: 'Hunger feels unpredictable', code: 'O' }
   ]},
-  { id: 'q10', text: 'Over the past 1–2 years, have you noticed:', options: [
+  { id: 'q10', text: 'Over the past 1–2 years, setting aside any intentional changes you have made, have you noticed:', options: [
     { text: 'No real changes', code: '' },
     { text: 'Slight energy or sleep shifts', code: 'P' },
     { text: 'More weight around my midsection without a big diet change', code: 'P' },
-    { text: 'More emotional ups and downs tied to eating', code: 'O' }
+    { text: 'More emotional ups and downs tied to eating', code: 'O' },
+    { text: 'My energy drops significantly after certain foods or meals', code: '' }
+  ]},
+  { i{ id: 'q11', text: 'You just ate, and 45 minutes later you are back in the kitchen. What is most likely?'onst questions = [
+  { id: 'q01', text: 'Which of these sounds most like you?', options: [
+    { text: 'Cravings hit at certain times or situations', code: 'T' },
+    { text: 'I do not notice until I am already eating', code: 'D' },
+    { text: 'I want specific textures or flavors', code: 'S' },
+    { text: 'I crave food more when stressed', code: 'O' },
+    { text: 'My eating feels fairly steady', code: '' }
+  ]},
+  { id: 'q02', text: 'Trying to eat better:', options: [
+    { text: 'I get bored', code: 'S' },
+    { text: 'I forget', code: 'D' },
+    { text: 'It feels emotionally hard', code: 'O' },
+    { text: 'It works until routine breaks', code: 'T' },
+    { text: 'It works until I am around other people', code: 'G' },
+    { text: 'Eating generally goes the way I intend', code: '' }
+  ]},
+  { id: 'q03', text: 'Eating feels hardest when:', options: [
+    { text: 'I need a pick-me-up', code: 'S' },
+    { text: 'I am distracted', code: 'D' },
+    { text: 'I am overwhelmed', code: 'O' },
+    { text: 'My routine is off', code: 'T' },
+    { text: 'I am eating with others', code: 'G' },
+    { text: 'Eating stays pretty manageable for me', code: '' }
+  ]},
+  { id: 'q04', text: 'If you have a lot of free time at home, what happens?', options: [
+    { text: 'I snack as something to do', code: 'S' },
+    { text: 'I eat while distracted', code: 'D' },
+    { text: 'I want to go out or find someone to eat with', code: 'G' },
+    { text: 'I eat randomly \u2014 without my usual structure I lose track', code: 'T' },
+    { text: 'I find other things to do — food rarely crosses my mind', code: '' }
+  ]},
+  { id: 'q05', text: 'You are watching a show at night. What usually happens with food?', options: [
+    { text: 'I keep searching for something better to eat', code: 'S' },
+    { text: 'I finish the snack without noticing — my hand just moves', code: 'D' },
+    { text: 'It feels like a reward I would usually share', code: 'G' },
+    { text: 'I eat because it is my scheduled wind-down time', code: 'T' },
+    { text: 'Watching and eating stay separate for me', code: '' }
+  ]},
+  { id: 'q06', text: 'Think about a time you overate. What was true?', options: [
+    { text: 'It tasted good so I kept going', code: 'S' },
+    { text: 'I am not sure — I do not always notice when it is happening', code: 'D' },
+    { text: 'I had not eaten enough earlier', code: 'F' },
+    { text: 'I was at a social event and it felt like participation', code: 'G' },
+    { text: 'My eating stays pretty even overall', code: '' }
+  ]},
+  { id: 'q07', text: 'Which best describes you?', options: [
+    { text: 'Biological female', code: 'BF' },
+    { text: 'Biological male', code: '' },
+    { text: 'Prefer not to say', code: '' },
+    { text: 'Not sure / intersex', code: '' }
+  ]},
+  { id: 'q08', text: 'Which best describes your stage?', options: [
+    { text: 'Under 35', code: '' },
+    { text: '35\u201340', code: 'BF' },
+    { text: '40\u201350 with cycle changes', code: 'P' },
+    { text: '40\u201350', code: '' },
+    { text: '50+', code: 'P' }
+  ]},
+  { id: 'q09', text: 'Lately, setting aside any intentional changes, which feels most true about your body?', options: [
+    { text: 'About the same', code: '' },
+    { text: 'I get hungry more quickly', code: 'F' },
+    { text: 'I can eat the same but gain more easily', code: 'P' },
+    { text: 'Hunger feels unpredictable', code: 'O' }
+  ]},
+  { id: 'q10', text: 'Over the past 1–2 years, setting aside any intentional changes you have made, have you noticed:', options: [
+    { text: 'No real changes', code: '' },
+    { text: 'Slight energy or sleep shifts', code: 'P' },
+    { text: 'More weight around my midsection without a big diet change', code: 'P' },
+    { text: 'More emotional ups and downs tied to eating', code: 'O' },
+    { text: 'My energy drops significantly after certain foods or meals', code: '' }
   ]},
   { id: 'q11', text: 'You just ate, but 45 minutes later you are back in the kitchen \u2014 with food in your hand or looking in the refrigerator. What happened?', options: [
     { text: 'I went in for something else \u2014 dishes, water, another errand', code: '' },
     { text: 'Something stressed me out', code: 'O' },
     { text: 'I walked in without really deciding to \u2014 the kitchen just drew me in', code: 'D' },
-    { text: 'I did not eat enough earlier', code: 'F' },
+    { text: 'I did not eat enough of the right things earlier', code: 'F' },
     { text: 'I wanted something more satisfying', code: 'S' },
-    { text: 'This does not happen to me', code: '' }
+    { text: 'My kitchen trips have a clear purpose', code: '' }
   ]},
-  { id: 'q12', text: 'You had a stressful moment earlier. Later you:', options: [
+  { id: 'q12', text: 'After a stressful moment, what usually happens with eating?', options: [
     { text: 'Want something crunchy or distracting', code: 'S' },
     { text: 'Realize you ate without planning to', code: 'D' },
     { text: 'Want something warm or calming', code: 'O' },
+    { text: 'My appetite disappears — sadness, grief, or stress shuts it down', code: 'O' },
     { text: 'Try to reset your day', code: 'T' },
-    { text: 'Stress does not usually affect my eating', code: '' }
+    { text: 'My eating stays steady through stress', code: '' }
   ]},
-  { id: 'q13', text: 'You planned to eat well but did not. Why?', options: [
+  { id: 'q13', text: 'When eating plans change, what is usually the reason?', options: [
     { text: 'What I planned was not available', code: '' },
     { text: 'Nothing available appealed to me', code: 'S' },
     { text: 'Got distracted', code: 'D' },
@@ -96,24 +169,24 @@ const questions = [
     { text: 'I wanted something better later', code: 'S' },
     { text: 'I was absorbed in something else and forgot', code: 'D' },
     { text: 'I was not in the mood earlier', code: 'O' },
-    { text: 'I do not usually get very hungry late in the day', code: '' }
+    { text: 'My hunger stays consistent through the day', code: '' }
   ]},
 
 
-  { id: 'q15', text: 'When your eating feels off, what is usually happening?', options: [
+  { id: 'q15', text: 'When eating feels off track, what is usually happening?', options: [
     { text: 'I had not eaten enough or on schedule', code: 'F' },
     { text: 'I kept looking for something better', code: 'S' },
     { text: 'I was on autopilot', code: 'D' },
     { text: 'I was overwhelmed', code: 'O' },
-    { text: 'My eating rarely feels off', code: '' }
+    { text: 'My eating stays pretty consistent', code: '' }
   ]},
-  { id: 'q16', text: 'When your eating goes sideways for a day, what caused it?', options: [
+  { id: 'q16', text: 'When eating goes off plan, what usually caused it?', options: [
     { text: 'I wanted something more interesting', code: 'S' },
     { text: 'My emotions spiked', code: 'O' },
     { text: 'My schedule shifted', code: 'T' },
     { text: 'I was at a social event and went along with what others were eating', code: 'G' },
     { text: 'I was eating out and the environment pulled me off course', code: '' },
-    { text: 'My eating rarely goes sideways', code: '' }
+    { text: 'My eating stays on track most days', code: '' }
   ]},
   { id: 'q17', text: 'Which of the following have you tried?', options: [
     { text: 'Small changes on my own', code: '' },
@@ -122,9 +195,11 @@ const questions = [
     { text: 'Medical or clinical options', code: 'H' },
     { text: 'All of the above \u2014 I feel like I have tried everything', code: 'H' }
   ]},
-  { id: 'q18', text: 'Which feels closest now?', options: [
+  { id: 'q18', text: 'When it comes to your eating patterns, where are you right now?', options: [
+    { text: 'My eating feels fine — I am here out of curiosity', code: '' },
+    { text: 'I have already made significant changes — I am focused on maintaining them', code: '' },
     { text: 'I am not focused on changing my eating right now', code: '' },
-    { text: 'I am just starting to think about my eating or weight', code: '' },
+    { text: 'I am just starting to pay attention to how I eat', code: '' },
     { text: 'I have tried a few approaches but nothing has stuck', code: '' },
     { text: 'I have invested significant time and money trying to figure this out and still feel stuck', code: 'H' },
     { text: 'I know what I should do but something keeps getting in the way', code: 'H' }
@@ -140,7 +215,7 @@ const questions = [
     { text: 'I prioritize a specific refuel to recover my energy', code: 'HO' },
     { text: 'I stick to my next scheduled meal to keep my rhythm', code: 'T' },
     { text: 'I enjoy a reward meal \u2014 often sharing it with others', code: 'G' },
-    { text: 'I do not usually change my eating based on my activity', code: '' },
+    { text: 'My eating stays consistent regardless of activity level', code: '' },
     { text: 'I do not eat, or eat very little, to preserve the calorie deficit from the workout', code: 'RC' }
   ]},
   { id: 'q21', text: 'What do you think would make the biggest difference to how you eat?', options: [
@@ -148,35 +223,35 @@ const questions = [
     { text: 'Better options available', code: 'S' },
     { text: 'Paying more attention', code: 'D' },
     { text: 'Managing stress better', code: 'O' },
-    { text: 'I think my eating is fine', code: '' }
+    { text: 'My eating already works well for me', code: '' }
   ]},
   { id: 'q22', text: 'Sometimes eating more than planned is because:', options: [
     { text: 'I did not eat enough earlier', code: 'F' },
     { text: 'It tasted good', code: 'S' },
     { text: 'I am not sure — it happens before I decide', code: 'D' },
     { text: 'Everyone around me was eating and it felt normal', code: 'G' },
-    { text: 'This does not happen to me', code: '' }
+    { text: 'My eating stays close to what I planned', code: '' }
   ]},
   { id: 'q23', text: 'When your day is structured:', options: [
     { text: 'Food is less interesting', code: 'S' },
     { text: 'I stay more aware', code: 'D' },
     { text: 'My meals are on my own terms', code: 'G' },
     { text: 'Eating feels easier', code: 'T' },
-    { text: 'Structure does not affect my eating much either way', code: '' }
+    { text: 'My eating stays consistent regardless of structure', code: '' }
   ]},
-  { id: 'q24', text: 'When you are alone with no plans, no one cooking, and no occasion, what usually happens with eating?', options: [
+  { id: 'q24', text: 'If food is entirely up to you — nothing prepared, no occasion, no one else involved — what usually happens?', options: [
     { text: 'I eat when I feel hungry', code: '' },
     { text: 'I often forget to eat or realize later I never did', code: 'G' },
     { text: 'I eat out of habit or on a regular schedule regardless', code: 'T' },
     { text: 'I graze without really deciding to', code: 'D' },
     { text: 'I look for something interesting or satisfying', code: 'S' }
   ]},
-  { id: 'q25', text: 'When someone you care about offers you food you were not planning to eat, you:', options: [
-    { text: 'Usually decline without much difficulty', code: '' },
+  { id: 'q25', text: 'When someone you care about offers you food outside your usual plan, you:', options: [
     { text: 'Often eat it because refusing feels unkind or awkward', code: 'G' },
     { text: 'Eat it if it looks good regardless of who offered', code: 'S' },
     { text: 'Eat it automatically without really deciding', code: 'D' },
-    { text: 'Eat it and feel guilty or conflicted afterward', code: 'C' }
+    { text: 'Eat it and feel guilty or conflicted afterward', code: 'C' },
+    { text: 'Food offers are usually easy to navigate', code: '' }
   ]},
   { id: 'q26', text: 'Before a dinner out or social event with food, you:', options: [
     { text: 'Look forward to it without much thought about food', code: '' },
@@ -190,21 +265,22 @@ const questions = [
     { text: 'Actually harder at home', code: 'S' },
     { text: 'Depends on my mood not the setting', code: 'O' }
   ]},
-  { id: 'q28', text: 'After a social event where you ate carefully, what usually happens when you get home?', options: [
+  { id: 'q28', text: 'If you were focused on eating carefully at a social event, what usually happens when you get home?', options: [
     { text: 'Nothing much \u2014 I move on as normal', code: '' },
     { text: 'I often eat more than I planned once I am back', code: 'G' },
     { text: 'I feel relieved and eat something comforting', code: 'O' },
     { text: 'I feel good about how the event went and stick to my plan', code: 'T' },
-    { text: 'I rarely eat carefully at social events in the first place', code: '' }
+    { text: 'I rarely eat carefully at social events in the first place', code: 'G' },
+    { text: 'I focus on friends and family at social events — food is rarely my concern', code: '' }
   ]},
   { id: 'q29', text: 'When a meal gets delayed or pushed back, what usually happens?', options: [
     { text: 'I eat more than usual at the next opportunity', code: 'T' },
     { text: 'I get irritable or distracted until I eat', code: 'O' },
     { text: 'I do not notice much', code: 'D' },
     { text: 'I look for something to tide me over', code: 'S' },
-    { text: 'This does not affect me much', code: '' }
+    { text: 'Delays sort themselves out — my eating adjusts', code: '' }
   ]},
-  { id: 'q30', text: 'Your eating feels most manageable when:', options: [
+  { id: 'q30', text: 'When does eating feel most manageable, if there is a difference?', options: [
     { text: 'My day goes roughly as planned', code: 'T' },
     { text: 'I am somewhere familiar', code: 'D' },
     { text: 'I am not stressed or overwhelmed', code: 'O' },
@@ -216,14 +292,14 @@ const questions = [
     { text: 'Follows my mood more than usual', code: 'O' },
     { text: 'Becomes more automatic \u2014 I eat whatever is around', code: 'D' },
     { text: 'Involves more unplanned meals out or social eating', code: 'G' },
-    { text: 'Varies but my eating stays about the same either way', code: '' }
+    { text: 'My eating stays pretty steady regardless', code: '' }
   ]},
   { id: 'q32', text: 'The last time your eating felt off, what was different about that day?', options: [
     { text: 'I was in a different place or situation', code: 'D' },
     { text: 'My routine had broken down', code: 'T' },
     { text: 'Something was emotionally harder', code: 'O' },
     { text: 'I was with others or at an event', code: 'G' },
-    { text: 'My eating does not usually feel off', code: '' }
+    { text: 'My eating feels reliable most days', code: '' }
   ]},
   { id: 'q33', text: 'How do your eating intentions at the start of the day usually compare to how the day ends?', options: [
     { text: 'They are roughly consistent', code: '' },
