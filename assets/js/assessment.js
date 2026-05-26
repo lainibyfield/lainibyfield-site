@@ -69,78 +69,7 @@ const questions = [
     { text: 'More emotional ups and downs tied to eating', code: 'O' },
     { text: 'My energy drops significantly after certain foods or meals', code: '' }
   ]},
-  { i{ id: 'q11', text: 'You just ate, and 45 minutes later you are back in the kitchen. What is most likely?'onst questions = [
-  { id: 'q01', text: 'Which of these sounds most like you?', options: [
-    { text: 'Cravings hit at certain times or situations', code: 'T' },
-    { text: 'I do not notice until I am already eating', code: 'D' },
-    { text: 'I want specific textures or flavors', code: 'S' },
-    { text: 'I crave food more when stressed', code: 'O' },
-    { text: 'My eating feels fairly steady', code: '' }
-  ]},
-  { id: 'q02', text: 'Trying to eat better:', options: [
-    { text: 'I get bored', code: 'S' },
-    { text: 'I forget', code: 'D' },
-    { text: 'It feels emotionally hard', code: 'O' },
-    { text: 'It works until routine breaks', code: 'T' },
-    { text: 'It works until I am around other people', code: 'G' },
-    { text: 'Eating generally goes the way I intend', code: '' }
-  ]},
-  { id: 'q03', text: 'Eating feels hardest when:', options: [
-    { text: 'I need a pick-me-up', code: 'S' },
-    { text: 'I am distracted', code: 'D' },
-    { text: 'I am overwhelmed', code: 'O' },
-    { text: 'My routine is off', code: 'T' },
-    { text: 'I am eating with others', code: 'G' },
-    { text: 'Eating stays pretty manageable for me', code: '' }
-  ]},
-  { id: 'q04', text: 'If you have a lot of free time at home, what happens?', options: [
-    { text: 'I snack as something to do', code: 'S' },
-    { text: 'I eat while distracted', code: 'D' },
-    { text: 'I want to go out or find someone to eat with', code: 'G' },
-    { text: 'I eat randomly \u2014 without my usual structure I lose track', code: 'T' },
-    { text: 'I find other things to do — food rarely crosses my mind', code: '' }
-  ]},
-  { id: 'q05', text: 'You are watching a show at night. What usually happens with food?', options: [
-    { text: 'I keep searching for something better to eat', code: 'S' },
-    { text: 'I finish the snack without noticing — my hand just moves', code: 'D' },
-    { text: 'It feels like a reward I would usually share', code: 'G' },
-    { text: 'I eat because it is my scheduled wind-down time', code: 'T' },
-    { text: 'Watching and eating stay separate for me', code: '' }
-  ]},
-  { id: 'q06', text: 'Think about a time you overate. What was true?', options: [
-    { text: 'It tasted good so I kept going', code: 'S' },
-    { text: 'I am not sure — I do not always notice when it is happening', code: 'D' },
-    { text: 'I had not eaten enough earlier', code: 'F' },
-    { text: 'I was at a social event and it felt like participation', code: 'G' },
-    { text: 'My eating stays pretty even overall', code: '' }
-  ]},
-  { id: 'q07', text: 'Which best describes you?', options: [
-    { text: 'Biological female', code: 'BF' },
-    { text: 'Biological male', code: '' },
-    { text: 'Prefer not to say', code: '' },
-    { text: 'Not sure / intersex', code: '' }
-  ]},
-  { id: 'q08', text: 'Which best describes your stage?', options: [
-    { text: 'Under 35', code: '' },
-    { text: '35\u201340', code: 'BF' },
-    { text: '40\u201350 with cycle changes', code: 'P' },
-    { text: '40\u201350', code: '' },
-    { text: '50+', code: 'P' }
-  ]},
-  { id: 'q09', text: 'Lately, setting aside any intentional changes, which feels most true about your body?', options: [
-    { text: 'About the same', code: '' },
-    { text: 'I get hungry more quickly', code: 'F' },
-    { text: 'I can eat the same but gain more easily', code: 'P' },
-    { text: 'Hunger feels unpredictable', code: 'O' }
-  ]},
-  { id: 'q10', text: 'Over the past 1–2 years, setting aside any intentional changes you have made, have you noticed:', options: [
-    { text: 'No real changes', code: '' },
-    { text: 'Slight energy or sleep shifts', code: 'P' },
-    { text: 'More weight around my midsection without a big diet change', code: 'P' },
-    { text: 'More emotional ups and downs tied to eating', code: 'O' },
-    { text: 'My energy drops significantly after certain foods or meals', code: '' }
-  ]},
-  { id: 'q11', text: 'You just ate, but 45 minutes later you are back in the kitchen \u2014 with food in your hand or looking in the refrigerator. What happened?', options: [
+  { id: 'q11', text: 'You just ate, and 45 minutes later you are back in the kitchen. What is most likely?', options: [
     { text: 'I went in for something else \u2014 dishes, water, another errand', code: '' },
     { text: 'Something stressed me out', code: 'O' },
     { text: 'I walked in without really deciding to \u2014 the kitchen just drew me in', code: 'D' },
@@ -271,7 +200,7 @@ const questions = [
     { text: 'I feel relieved and eat something comforting', code: 'O' },
     { text: 'I feel good about how the event went and stick to my plan', code: 'T' },
     { text: 'I rarely eat carefully at social events in the first place', code: 'G' },
-    { text: 'I focus on friends and family at social events — food is rarely my concern', code: '' }
+    { text: 'I focus on friends and family at social events \u2014 food is rarely my concern', code: '' }
   ]},
   { id: 'q29', text: 'When a meal gets delayed or pushed back, what usually happens?', options: [
     { text: 'I eat more than usual at the next opportunity', code: 'T' },
@@ -801,8 +730,8 @@ function buildPayload() {
       secondaryCode
     },
     flags: {
-      fueling:         scores.F >= 2,
-      highOutput:      scores.HO >= 2,
+      fueling:         scores.F >= 3,
+      highOutput:      scores.F >= 3 && scores.HO >= 2,
       // RC contributes to clinical flag total — restriction cycling is a clinical signal
       // RC also stored separately so content layer can use it distinctly
       clinical:        (scores.C + scores.RC) >= 2,
