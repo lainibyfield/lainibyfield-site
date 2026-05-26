@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fueling Calendar — Free Resource | Laini Byfield</title>
+  <meta name="description" content="A free 21-day timing tool for anyone whose eating is affected by gaps in intake — whether or not you have an identified pattern.">
+
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site.css">
+
+  <style>
+    .fueling-intro {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--ink);
+      line-height: 1.35;
+      margin-bottom: 2.5rem;
+      max-width: 620px;
+      border-left: 2px solid var(--accent-light);
+      padding-left: 1.8rem;
+    }
+
+    .who-section {
+      margin: 3rem 0;
+    }
+
+    .who-section h2 {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      margin-bottom: 1.5rem;
+    }
+
+    .who-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .who-card {
+      background: var(--cream);
+      border: 1px solid rgba(212, 201, 184, 0.6);
+      padding: 1.6rem;
+    }
+
+    .who-card-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      color: var(--accent-light);
+      display: block;
+      margin-bottom: 0.8rem;
+      text-transform: uppercase;
+    }
+
+    .who-card p {
+      font-size: 0.92rem;
+      color: var(--ink-light);
+      line-height: 1.75;
+    }
+
+    .signal-note {
+      border: 1px solid var(--rule);
+      padding: 1.6rem 1.8rem;
+      background: var(--warm-white);
+      margin: 2.5rem 0;
+      max-width: 640px;
+    }
+
+    .signal-note .kicker {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+
+    .signal-note p {
+      font-size: 0.95rem;
+      color: var(--ink-light);
+      line-height: 1.8;
+      margin-bottom: 0.8rem;
+    }
+
+    .signal-note p:last-child { margin-bottom: 0; }
+
+    .download-block {
+      margin: 3rem 0;
+      padding: 2.5rem;
+      background: var(--ink);
+      color: var(--warm-white);
+      max-width: 640px;
+    }
+
+    .download-block .kicker {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .download-block h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-weight: 300;
+      color: var(--warm-white);
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .download-block p {
+      font-size: 0.92rem;
+      color: rgba(250, 247, 242, 0.8);
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .download-block .btn-primary {
+      background: var(--accent-light);
+      color: var(--ink);
+    }
+
+    .download-block .btn-primary:hover {
+      background: var(--warm-white);
+    }
+
+    .ho-section {
+      margin: 3rem 0;
+      padding-top: 3rem;
+      border-top: 1px solid var(--rule);
+    }
+
+    .ho-section h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-weight: 300;
+      color: var(--ink);
+      margin-bottom: 1rem;
+    }
+
+    .ho-section h2 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .ho-section .body-text { max-width: 560px; }
+
+    .nav-note {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--rule);
+      font-size: 0.85rem;
+      color: var(--muted);
+      max-width: 560px;
+    }
+
+    .nav-note a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .nav-note a:hover { text-decoration: underline; }
+
+    @media (max-width: 768px) {
+      .who-cards { grid-template-columns: 1fr; }
+    }
+  
+  /* ── HIGH CONTRAST MODE ────────────────────────────────────────────────── */
+  body.high-contrast {
+    --cream: #ffffff;
+    --warm-white: #f5f3f0;
+    --ink: #111111;
+    --ink-light: #2a2520;
+    --muted: #4a4540;
+    --accent: #6b4e2e;
+    --accent-light: #9e7a52;
+    --rule: #9e9080;
+  }
+  body.high-contrast nav {
+    background: #f5f3f0;
+    border-bottom-color: #9e9080;
+  }
+  .contrast-toggle {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 200;
+    background: var(--ink);
+    color: var(--warm-white);
+    border: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0.5rem 0.85rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  .contrast-toggle:hover { opacity: 1; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-name">Laini Byfield</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="assessment.html">Inventory</a></li>
+    <li><a href="methodology.html">Methodology</a></li>
+  </ul>
+</nav>
+
+<div class="page-shell">
+
+  <div class="page-hero">
+    <p class="eyebrow">Free Resource</p>
+    <h1>The Fueling <em>Calendar</em></h1>
+    <p class="page-sub">A 21-day timing tool. No pattern required. Free, permanently.</p>
+  </div>
+
+  <div class="rule"></div>
+
+  <div style="max-width: 800px; margin-top: 4rem;">
+
+    <p class="fueling-intro">Some of what feels like overeating is your body catching up. Delayed meals, light intake, or uneven eating earlier in the day can create stronger hunger later — hunger that is harder to manage because it arrived late.</p>
+
+    <p class="body-text">This calendar is not a diet. It is a timing tool. It does not tell you what to eat. It creates a structure that prevents the deficit from building in the first place — because once it builds, managing it is harder than preventing it.</p>
+
+    <p class="body-text">It is free because timing is foundational. Behavioral pattern work is more effective when the physiological layer is not in the way.</p>
+
+    <!-- WHO THIS IS FOR -->
+    <div class="who-section">
+      <h2>Who this is for</h2>
+      <div class="who-cards">
+        <div class="who-card">
+          <span class="who-card-num">01 — Oriented eaters</span>
+          <p>No strong behavioral pattern driving your eating. You may simply forget to eat or de-prioritize it in a busy day. The deficit builds quietly, without urgency, until it does not.</p>
+        </div>
+        <div class="who-card">
+          <span class="who-card-num">02 — Pattern + Fueling signal</span>
+          <p>You have an identified behavioral pattern — Soother, Drifter, Stabilizer, Seeker, or Social. Your pattern fires harder and earlier when a timing deficit is already in place. This removes the accelerant.</p>
+        </div>
+        <div class="who-card">
+          <span class="who-card-num">03 — High-output individuals</span>
+          <p>Your output level may be outpacing your intake. The math catches up — usually at night, usually with eating that feels urgent or hard to stop. That is not a discipline problem. It is a morning problem.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIGNAL NOTE -->
+    <div class="signal-note">
+      <span class="kicker">If you came here from your inventory result</span>
+      <p>Your primary pattern is still the behavioral driver. The Fueling signal your result identified means timing deficits are amplifying your pattern — making it fire harder and earlier than it otherwise would.</p>
+      <p>Start here. When the physiological layer is stable, your pattern work becomes more targeted and more effective. You may find that some of what felt like your pattern was partly the deficit.</p>
+      <p>Your pattern calendar is still the right tool for the underlying behavior. This calendar is the first step.</p>
+    </div>
+
+    <!-- DOWNLOAD BLOCK — standard calendar -->
+    <div class="download-block">
+      <span class="kicker">21-Day Fueling Calendar</span>
+      <h2>Standard — Timing-Based</h2>
+      <p>For anyone whose eating is affected by gaps in intake. Builds a timing structure that prevents the deficit from building — not a meal plan, not a calorie target. A rhythm.</p>
+      <a href="calendars/fueling-calendar.pdf" target="_blank" class="btn-primary">Download — Free</a>
+    </div>
+
+    <!-- HIGH OUTPUT SECTION -->
+    <div class="ho-section">
+      <h2>High-Output <em>Variant</em></h2>
+      <p class="body-text">If your output level is high — four or more days a week of high-intensity or long-duration training — the standard calendar may not account for the demand your output creates. The high-output variant is built for that gap.</p>
+      <p class="body-text" style="margin-top:1rem;">You are disciplined and willing to put in the work. The output side of your system is well-developed. The intake side may just need the same level of attention. When output drops — injury, travel, schedule change — the eating pattern does not automatically adjust. That is when things tend to feel out of control. It is almost always a fueling problem, not a discipline problem.</p>
+
+      <div class="download-block" style="margin-top:2rem;">
+        <span class="kicker">21-Day Fueling Calendar — High Output</span>
+        <h2>For High-Volume Training</h2>
+        <p>Accounts for output volume. Structured around intake that matches what you are burning — on hard days, on rest days, and when output shifts unexpectedly.</p>
+        <a href="calendars/fueling-calendar.pdf" target="_blank" class="btn-primary">Download — Free</a>
+      </div>
+    </div>
+
+    <!-- NAV NOTE -->
+    <div class="nav-note">
+      <p>If you have not taken the Behavioral Eating Pattern Inventory, <a href="assessment.html">start there</a>. It identifies the behavioral pattern underneath the timing issue — which is the next layer of work once the fueling structure is in place.</p>
+      <p style="margin-top:0.8rem;">If you have a pattern result and want support applying it, the <a href="index.html#coaching">protocol and coaching options</a> are available from the home page.</p>
+    </div>
+
+
+    <!-- Volunteer note -->
+    <div style="max-width:640px;margin:3rem 0 0;padding-top:1.5rem;border-top:1px solid var(--rule);">
+      <p style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent-light);">Volunteer testing</p>
+      <p style="font-size:0.88rem;color:var(--ink-light);line-height:1.8;margin-top:0.5rem;">If you are here as a volunteer tester, complete your calendar evaluation and get early access to the protocol when it launches. <a href="volunteer.html" style="color:var(--accent);">Complete your evaluation →</a></p>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Laini Byfield, NBC-HWC &nbsp;·&nbsp; Pilates Footworks LLC</p>
+  <p>lainibyfield.com</p>
+</footer>
+
+
+<button class="contrast-toggle" id="contrastToggle" aria-label="Toggle high contrast">A</button>
+
+<script>
+(function() {
+  const btn = document.getElementById('contrastToggle');
+  const KEY = 'lainiHighContrast';
+  function apply(on) {
+    document.body.classList.toggle('high-contrast', on);
+    btn.textContent = on ? 'A·' : 'A';
+    btn.title = on ? 'Standard contrast' : 'Higher contrast';
+  }
+  apply(localStorage.getItem(KEY) === '1');
+  btn.addEventListener('click', function() {
+    const next = !document.body.classList.contains('high-contrast');
+    localStorage.setItem(KEY, next ? '1' : '0');
+    apply(next);
+  });
+})();
+</script>
+
+</body>
+</html>

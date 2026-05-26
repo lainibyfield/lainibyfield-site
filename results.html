@@ -245,6 +245,40 @@
     .resources-box {
       background: #f5f0e8;
     }
+
+  /* ── HIGH CONTRAST MODE ────────────────────────────────────────────────── */
+  body.high-contrast {
+    --cream: #ffffff;
+    --warm-white: #f5f3f0;
+    --ink: #111111;
+    --ink-light: #2a2520;
+    --muted: #4a4540;
+    --accent: #6b4e2e;
+    --accent-light: #9e7a52;
+    --rule: #9e9080;
+  }
+  body.high-contrast nav {
+    background: #f5f3f0;
+    border-bottom-color: #9e9080;
+  }
+  .contrast-toggle {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 200;
+    background: var(--ink);
+    color: var(--warm-white);
+    border: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0.5rem 0.85rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  .contrast-toggle:hover { opacity: 1; }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
@@ -267,7 +301,7 @@
     </section>
 
     <div id="noResultState" class="empty-state hidden-input">
-      <p>No assessment result was found.</p>
+      <p>No inventory result was found.</p>
       <a href="assessment.html" class="btn-primary no-animation">Take the Assessment</a>
     </div>
 
@@ -275,5 +309,26 @@
       <div class="result-main" id="resultMain"></div>
     </section>
   </main>
+
+<button class="contrast-toggle" id="contrastToggle" aria-label="Toggle high contrast">A</button>
+
+<script>
+(function() {
+  const btn = document.getElementById('contrastToggle');
+  const KEY = 'lainiHighContrast';
+  function apply(on) {
+    document.body.classList.toggle('high-contrast', on);
+    btn.textContent = on ? 'A·' : 'A';
+    btn.title = on ? 'Standard contrast' : 'Higher contrast';
+  }
+  apply(localStorage.getItem(KEY) === '1');
+  btn.addEventListener('click', function() {
+    const next = !document.body.classList.contains('high-contrast');
+    localStorage.setItem(KEY, next ? '1' : '0');
+    apply(next);
+  });
+})();
+</script>
+
 </body>
 </html>

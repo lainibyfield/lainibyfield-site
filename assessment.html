@@ -534,6 +534,54 @@
   }
   .hidden-input { display: none !important; }
   .unanswered-flag { outline: 2px solid #c0392b; outline-offset: 4px; border-radius: 2px; }
+
+  /* ── HIGH CONTRAST MODE ────────────────────────────────────────────────── */
+  body.high-contrast {
+    --cream: #ffffff;
+    --warm-white: #f5f3f0;
+    --ink: #111111;
+    --ink-light: #2a2520;
+    --muted: #4a4540;
+    --accent: #6b4e2e;
+    --accent-light: #9e7a52;
+    --rule: #9e9080;
+  }
+  body.high-contrast nav {
+    background: #f5f3f0;
+    border-bottom-color: #9e9080;
+  }
+  body.high-contrast .question-card,
+  body.high-contrast .option-row {
+    background: #ffffff;
+    border-color: #9e9080;
+  }
+  body.high-contrast .option-row:hover {
+    background: #f0ede8;
+  }
+
+  /* Toggle button */
+  .contrast-toggle {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 200;
+    background: var(--ink);
+    color: var(--warm-white);
+    border: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0.5rem 0.85rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  .contrast-toggle:hover { opacity: 1; }
+  body.high-contrast .contrast-toggle {
+    background: var(--ink);
+    color: var(--warm-white);
+  }
   </style>
 </head>
 <body>
@@ -551,8 +599,25 @@
 <div class="page-hero">
   <p class="eyebrow">Anonymous &nbsp;&middot;&nbsp; No login required</p>
   <h1>Do you eat when you are <em>not hungry?</em></h1>
-  <p class="page-sub">Choose the answer that feels most like you, most of the time. There are no right answers — the goal is pattern recognition, not perfection.</p>
   <p class="note-small">This inventory is anonymous unless you choose to share your results.</p>
+
+  <!-- Prior code entry — retakers know immediately, first-timers skip past naturally -->
+  <div class="prior-code-section" id="priorCodeSection">
+    <div class="prior-code-inner">
+      <p class="prior-code-label">RETAKING AFTER YOUR 21-DAY PROTOCOL?</p>
+      <p class="prior-code-hint">Enter your pattern code from your first result to compare what changed.</p>
+      <div class="prior-code-row">
+        <input type="text" id="priorCodeInput" class="prior-code-input"
+               placeholder="e.g. SO-18-12-8-6-2614"
+               maxlength="24"
+               autocomplete="off"
+               autocorrect="off"
+               autocapitalize="characters" />
+        <button type="button" id="priorCodeClear" class="prior-code-clear hidden-input">&times;</button>
+      </div>
+      <p class="prior-code-saved hidden-input" id="priorCodeSaved">Code saved — your results will include a comparison.</p>
+    </div>
+  </div>
 
   <div class="hero-cards">
     <div class="hero-card">
@@ -596,24 +661,13 @@
     <p style="font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-style: italic; color: var(--ink-light); line-height: 1.75; border-left: 2px solid var(--accent-light); padding-left: 1.4rem;">Some questions may feel familiar in an uncomfortable way. Some questions may feel familiar in an affirming way. That recognition — whatever form it takes — is useful information, not a verdict. The questions describe patterns, not diagnoses.</p>
   </div>
 
-  <!-- Prior code entry — for day-21 retakes -->
-  <div class="prior-code-section" id="priorCodeSection">
-    <div class="prior-code-inner">
-      <p class="prior-code-label">RETAKING AFTER YOUR 21-DAY PROTOCOL?</p>
-      <p class="prior-code-hint">Enter your pattern code from your first result to compare what changed.</p>
-      <div class="prior-code-row">
-        <input type="text" id="priorCodeInput" class="prior-code-input"
-               placeholder="e.g. SO-18-12-8-6-2614"
-               maxlength="24"
-               autocomplete="off"
-               autocorrect="off"
-               autocapitalize="characters" />
-        <button type="button" id="priorCodeClear" class="prior-code-clear hidden-input">&times;</button>
-      </div>
-      <p class="prior-code-saved hidden-input" id="priorCodeSaved">Code saved — your results will include a comparison.</p>
+
+  <!-- Directive — positioned at moment of action, not in hero -->
+  <div style="max-width: 640px; margin: 2rem auto 1.5rem auto; padding: 0 1.2rem;">
+    <div style="border-top: 1px solid var(--rule); padding-top: 1.2rem;">
+      <p style="font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); font-weight: 400;">Choose the answer that feels most like you, most of the time.</p>
     </div>
   </div>
-
 
 <div id="questionContainer"></div>
 
@@ -621,7 +675,7 @@
   <p id="prescreenExitText"></p>
   <div class="prescreen-exit-actions">
     <button class="btn-exit-result" id="prescreenResultBtn">View my result</button>
-    <button class="btn-exit-continue" id="prescreenContinueBtn">Continue the full assessment</button>
+    <button class="btn-exit-continue" id="prescreenContinueBtn">Continue the full inventory</button>
   </div>
 </div>
 
@@ -635,6 +689,32 @@
 </div>
 
 <script src="assets/js/assessment.js" defer></script>
+
+<button class="contrast-toggle" id="contrastToggle" aria-label="Toggle high contrast">A</button>
+
+<script>
+// ── CONTRAST TOGGLE ───────────────────────────────────────────────────────────
+// Uses localStorage — persists across pages, never touches answer sessionStorage
+(function() {
+  const btn = document.getElementById('contrastToggle');
+  const KEY = 'lainiHighContrast';
+
+  function apply(on) {
+    document.body.classList.toggle('high-contrast', on);
+    btn.textContent = on ? 'A·' : 'A';
+    btn.title = on ? 'Standard contrast' : 'Higher contrast';
+  }
+
+  // Apply saved preference immediately
+  apply(localStorage.getItem(KEY) === '1');
+
+  btn.addEventListener('click', function() {
+    const next = !document.body.classList.contains('high-contrast');
+    localStorage.setItem(KEY, next ? '1' : '0');
+    apply(next);
+  });
+})();
+</script>
 
 </body>
 </html>

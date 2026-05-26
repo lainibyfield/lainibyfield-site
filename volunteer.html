@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>21-Day Calendar Test — Volunteer | Laini Byfield</title>
+  <meta name="description" content="Volunteer to test the 21-day behavioral eating pattern calendar. Free download, no email required.">
+  <meta name="robots" content="noindex, nofollow">
+
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site.css">
+
+  <!-- EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>emailjs.init('ja72ibtYoc-e1mSZ1');</script>
+
+  <style>
+    .disclosure-block {
+      border: 1px solid var(--rule);
+      padding: 1.6rem 1.8rem;
+      background: var(--cream);
+      margin-bottom: 3rem;
+      max-width: 640px;
+    }
+
+    .disclosure-block .kicker {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+
+    .disclosure-block p {
+      font-size: 0.88rem;
+      color: var(--ink-light);
+      line-height: 1.8;
+      margin-bottom: 0.6rem;
+    }
+
+    .disclosure-block p:last-child { margin-bottom: 0; }
+
+    .steps-list {
+      list-style: none;
+      margin: 2rem 0;
+      max-width: 560px;
+    }
+
+    .steps-list li {
+      display: flex;
+      gap: 1.2rem;
+      align-items: baseline;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--rule);
+      font-size: 0.95rem;
+      color: var(--ink-light);
+      line-height: 1.7;
+    }
+
+    .steps-list li:last-child { border-bottom: none; }
+
+    .step-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      color: var(--accent-light);
+      min-width: 28px;
+      text-transform: uppercase;
+    }
+
+    /* Code entry section */
+    .code-section {
+      margin: 3rem 0;
+      max-width: 560px;
+    }
+
+    .code-section h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-weight: 300;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+
+    .code-section h2 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .code-input-row {
+      display: flex;
+      gap: 0.75rem;
+      margin: 1.2rem 0;
+      align-items: stretch;
+    }
+
+    .code-input {
+      flex: 1;
+      padding: 0.85rem 1rem;
+      border: 1px solid var(--rule);
+      background: var(--warm-white);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--ink);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .code-input:focus { border-color: var(--accent); }
+    .code-input::placeholder { color: var(--muted); text-transform: none; letter-spacing: 0; }
+    .code-input.error { border-color: #c0392b; }
+
+    .code-error {
+      font-size: 0.82rem;
+      color: #c0392b;
+      font-weight: 600;
+      margin-top: 0.4rem;
+      display: none;
+    }
+
+    /* Calendar delivery section */
+    #calendarSection { display: none; margin: 2.5rem 0; }
+
+    .pattern-card {
+      background: var(--cream);
+      border: 1px solid rgba(212, 201, 184, 0.6);
+      padding: 1.8rem;
+      max-width: 560px;
+      margin-bottom: 1.5rem;
+    }
+
+    .pattern-card .kicker {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+
+    .pattern-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 300;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+
+    .pattern-card p {
+      font-size: 0.92rem;
+      color: var(--ink-light);
+      line-height: 1.75;
+      margin-bottom: 1.2rem;
+    }
+
+    .fueling-card {
+      background: var(--ink);
+      color: var(--warm-white);
+      border: none;
+      padding: 1.6rem;
+      max-width: 560px;
+      margin-bottom: 1.2rem;
+    }
+
+    .fueling-card .kicker {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+
+    .fueling-card p {
+      font-size: 0.9rem;
+      color: rgba(250, 247, 242, 0.85);
+      line-height: 1.75;
+      margin-bottom: 1rem;
+    }
+
+    .fueling-card .btn-primary {
+      background: var(--accent-light);
+      color: var(--ink);
+    }
+
+    .fueling-card .btn-primary:hover { background: var(--warm-white); }
+
+    .clinical-note {
+      border-left: 3px solid #c0392b;
+      padding: 1.2rem 1.5rem;
+      background: var(--cream);
+      max-width: 560px;
+      margin: 2rem 0;
+    }
+
+    .clinical-note p {
+      font-size: 0.92rem;
+      color: var(--ink-light);
+      line-height: 1.8;
+      margin-bottom: 0.6rem;
+    }
+
+    .clinical-note p:last-child { margin-bottom: 0; }
+
+    /* Calendar self-select (no code) */
+    #selfSelectSection { display: none; margin: 2.5rem 0; }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.2rem;
+      max-width: 640px;
+      margin: 1.5rem 0;
+    }
+
+    .calendar-tile {
+      background: var(--cream);
+      border: 1px solid rgba(212, 201, 184, 0.6);
+      padding: 1.4rem;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.15s;
+      text-decoration: none;
+    }
+
+    .calendar-tile:hover {
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .calendar-tile .tile-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .calendar-tile .tile-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 300;
+      color: var(--ink);
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    .calendar-tile .tile-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* Feedback section */
+    #feedbackSection {
+      display: none;
+      margin: 3rem 0;
+      padding-top: 3rem;
+      border-top: 1px solid var(--rule);
+      max-width: 560px;
+    }
+
+    #feedbackSection h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+      font-weight: 300;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+
+    .feedback-q {
+      margin: 1.8rem 0;
+    }
+
+    .feedback-q label {
+      display: block;
+      font-size: 0.92rem;
+      color: var(--ink-light);
+      margin-bottom: 0.7rem;
+      line-height: 1.6;
+    }
+
+    .feedback-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .feedback-option {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.7rem 0.9rem;
+      border: 1px solid var(--rule);
+      background: var(--warm-white);
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .feedback-option:hover { border-color: var(--accent-light); }
+
+    .feedback-option input { accent-color: var(--accent); }
+
+    .feedback-option span {
+      font-size: 0.92rem;
+      color: var(--ink-light);
+    }
+
+    .days-input {
+      width: 80px;
+      padding: 0.7rem 0.9rem;
+      border: 1px solid var(--rule);
+      background: var(--warm-white);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--ink);
+      outline: none;
+    }
+
+    .days-input:focus { border-color: var(--accent); }
+
+    textarea.feedback-text {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      border: 1px solid var(--rule);
+      background: var(--warm-white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.92rem;
+      color: var(--ink);
+      line-height: 1.7;
+      resize: vertical;
+      min-height: 90px;
+      outline: none;
+    }
+
+    textarea.feedback-text:focus { border-color: var(--accent); }
+
+    .feedback-submit-row {
+      margin-top: 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .feedback-sent {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      display: none;
+    }
+
+    /* Retake section */
+    .retake-block {
+      margin: 3rem 0;
+      padding: 1.8rem;
+      background: var(--cream);
+      border: 1px solid rgba(212, 201, 184, 0.6);
+      max-width: 560px;
+    }
+
+    .retake-block .kicker {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+
+    .retake-block p {
+      font-size: 0.92rem;
+      color: var(--ink-light);
+      line-height: 1.8;
+      margin-bottom: 1.2rem;
+    }
+
+    @media (max-width: 600px) {
+      .calendar-grid { grid-template-columns: 1fr; }
+      .code-input-row { flex-direction: column; }
+    }
+  
+  /* ── HIGH CONTRAST MODE ────────────────────────────────────────────────── */
+  body.high-contrast {
+    --cream: #ffffff;
+    --warm-white: #f5f3f0;
+    --ink: #111111;
+    --ink-light: #2a2520;
+    --muted: #4a4540;
+    --accent: #6b4e2e;
+    --accent-light: #9e7a52;
+    --rule: #9e9080;
+  }
+  body.high-contrast nav {
+    background: #f5f3f0;
+    border-bottom-color: #9e9080;
+  }
+  .contrast-toggle {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 200;
+    background: var(--ink);
+    color: var(--warm-white);
+    border: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0.5rem 0.85rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  .contrast-toggle:hover { opacity: 1; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-name">Laini Byfield</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="assessment.html">Inventory</a></li>
+  </ul>
+</nav>
+
+<div class="page-shell">
+
+  <div class="page-hero">
+    <p class="eyebrow">Volunteer Testing — 21-Day Calendar</p>
+    <h1>Test the <em>Calendar</em></h1>
+    <p class="page-sub">Use it for 21 days. Tell me what felt accurate and what did not. That is the whole ask.</p>
+  </div>
+
+  <div class="rule"></div>
+
+  <div style="max-width: 800px; margin-top: 4rem;">
+
+    <!-- DISCLOSURE -->
+    <div class="disclosure-block">
+      <span class="kicker">Before you begin</span>
+      <p>This is a voluntary testing phase for the 21-day behavioral eating pattern calendar. Participation is anonymous. No identifying information is collected or stored.</p>
+      <p>By downloading the calendar you are agreeing to use it and optionally share feedback after 21 days. You can withdraw at any time. Data collected — pattern codes and feedback responses — is used for instrument validation and will inform future versions of the tool.</p>
+      <p>This instrument is a behavioral self-report tool. It is not a clinical screener, a diagnostic tool, or a medical assessment.</p>
+    </div>
+
+    <!-- WHAT YOU ARE DOING -->
+    <p class="eyebrow" style="margin-bottom:1.5rem;">What you are doing</p>
+    <ul class="steps-list">
+      <li><span class="step-num">01</span> Take the Behavioral Eating Pattern Inventory — or enter your code below if you already have one.</li>
+      <li><span class="step-num">02</span> Download your pattern calendar. Free. No email required.</li>
+      <li><span class="step-num">03</span> Use it for 21 days — or as many as you can manage.</li>
+      <li><span class="step-num">04</span> Come back and retake the inventory. Enter your original code to see what changed.</li>
+      <li><span class="step-num">05</span> Answer four feedback questions. Optional but useful.</li>
+    </ul>
+
+    <!-- CODE ENTRY -->
+    <div class="code-section">
+      <h2>Enter your <em>pattern code</em></h2>
+      <p class="body-text">Your code is on your results page — look for the section labeled "Your Pattern Code." It looks like this: <span style="font-family:'DM Mono',monospace;font-size:0.85rem;color:var(--accent);">TX-1-3-0-8-9-2622</span></p>
+      <p class="small-muted" style="margin-bottom:0.5rem;">If you do not have a code yet, <a href="assessment.html" style="color:var(--accent);">take the inventory first</a> — or scroll down to select your calendar manually.</p>
+
+      <div class="code-input-row">
+        <input
+          type="text"
+          id="codeInput"
+          class="code-input"
+          placeholder="e.g. TX-1-3-0-8-9-2622"
+          maxlength="30"
+          autocomplete="off"
+          autocorrect="off"
+          spellcheck="false"
+        >
+        <button class="btn-primary" onclick="handleCodeSubmit()">Get My Calendar</button>
+      </div>
+      <p class="code-error" id="codeError">Please enter a valid pattern code.</p>
+    </div>
+
+    <!-- CALENDAR DELIVERY (code-routed) -->
+    <div id="calendarSection"></div>
+
+    <!-- SELF-SELECT (no code) -->
+    <div id="selfSelectSection">
+      <p class="eyebrow" style="margin-bottom:1.2rem;">Select your pattern</p>
+      <p class="body-text">Choose the pattern that matches your inventory result. If you are unsure, <a href="assessment.html" style="color:var(--accent);">take the inventory</a>.</p>
+
+      <div class="calendar-grid">
+        <a class="calendar-tile" href="calendars/seeker-calendar.pdf" target="_blank" onclick="logManualDownload('Seeker')">
+          <span class="tile-label">Pattern</span>
+          <span class="tile-name">Seeker</span>
+          <span class="tile-desc">Eating driven by the search for something more satisfying.</span>
+        </a>
+        <a class="calendar-tile" href="calendars/soother-calendar.pdf" target="_blank" onclick="logManualDownload('Soother')">
+          <span class="tile-label">Pattern</span>
+          <span class="tile-name">Soother</span>
+          <span class="tile-desc">Food used to manage emotional states or reduce stress.</span>
+        </a>
+        <a class="calendar-tile" href="calendars/drifter-calendar.pdf" target="_blank" onclick="logManualDownload('Drifter')">
+          <span class="tile-label">Pattern</span>
+          <span class="tile-name">Drifter</span>
+          <span class="tile-desc">Eating happens without a clear decision — absorbed into the day.</span>
+        </a>
+        <a class="calendar-tile" href="calendars/stabilizer-calendar.pdf" target="_blank" onclick="logManualDownload('Stabilizer')">
+          <span class="tile-label">Pattern</span>
+          <span class="tile-name">Stabilizer</span>
+          <span class="tile-desc">Eating structured around routine — disruption creates risk.</span>
+        </a>
+        <a class="calendar-tile" href="calendars/social-calendar.pdf" target="_blank" onclick="logManualDownload('Social')">
+          <span class="tile-label">Pattern</span>
+          <span class="tile-name">Social</span>
+          <span class="tile-desc">Eating shaped by who is present and the context of the meal.</span>
+        </a>
+        <a class="calendar-tile" href="fueling-calendar.html" onclick="logManualDownload('Fueling')">
+          <span class="tile-label">Signal</span>
+          <span class="tile-name">Fueling</span>
+          <span class="tile-desc">Timing gaps create stronger hunger later. Free calendar — no pattern required.</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- FEEDBACK SECTION -->
+    <div id="feedbackSection">
+      <h2>After 21 days</h2>
+      <p class="body-text">Four questions. Takes about two minutes. Helps improve the instrument for the next person.</p>
+
+      <div class="feedback-q">
+        <label>1. Did the inventory result feel accurate to you?</label>
+        <div class="feedback-options">
+          <label class="feedback-option"><input type="radio" name="q1" value="Yes, very accurate"> <span>Yes, very accurate</span></label>
+          <label class="feedback-option"><input type="radio" name="q1" value="Mostly accurate"> <span>Mostly accurate</span></label>
+          <label class="feedback-option"><input type="radio" name="q1" value="Partially — some fit, some didn't"> <span>Partially — some fit, some did not</span></label>
+          <label class="feedback-option"><input type="radio" name="q1" value="No, it did not feel accurate"> <span>No, it did not feel accurate</span></label>
+        </div>
+      </div>
+
+      <div class="feedback-q">
+        <label>2. Did the calendar copy feel like your experience?</label>
+        <div class="feedback-options">
+          <label class="feedback-option"><input type="radio" name="q2" value="Yes, it described my pattern well"> <span>Yes, it described my pattern well</span></label>
+          <label class="feedback-option"><input type="radio" name="q2" value="Some of it did"> <span>Some of it did</span></label>
+          <label class="feedback-option"><input type="radio" name="q2" value="Not really"> <span>Not really</span></label>
+        </div>
+      </div>
+
+      <div class="feedback-q">
+        <label>3. How many days did you use the calendar? <span style="color:var(--muted)">(0–21)</span></label>
+        <input type="number" class="days-input" id="daysUsed" min="0" max="21" placeholder="0">
+      </div>
+
+      <div class="feedback-q">
+        <label>4. Did anything about the calendar not make sense or feel off? <span style="color:var(--muted)">(optional)</span></label>
+        <textarea class="feedback-text" id="openFeedback" placeholder="Anything that felt wrong, confusing, or like it missed something about your experience."></textarea>
+      </div>
+
+      <div class="feedback-submit-row">
+        <button class="btn-primary" onclick="submitFeedback()">Send Feedback</button>
+        <span class="feedback-sent" id="feedbackSent">✓ Received — thank you.</span>
+      </div>
+    </div>
+
+    <!-- RETAKE -->
+    <div class="retake-block" id="retakeBlock" style="display:none;">
+      <span class="kicker">After 21 days</span>
+      <p>Retake the inventory and enter your original code on the start page to see what changed. The comparison block will show you how your scores shifted across patterns.</p>
+      <a href="assessment.html" class="btn-secondary">Retake the inventory</a>
+    </div>
+
+    <!-- SHOW SELF-SELECT LINK -->
+    <p style="margin-top:2rem;font-size:0.85rem;color:var(--muted);">
+      Don't have a code? <a href="#" onclick="showSelfSelect(); return false;" style="color:var(--accent);">Select your pattern calendar manually →</a>
+    </p>
+
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Laini Byfield, NBC-HWC &nbsp;·&nbsp; Pilates Footworks LLC</p>
+  <p>lainibyfield.com</p>
+</footer>
+
+<script>
+// ── CALENDAR ROUTING ──────────────────────────────────────────────────────────
+
+const EMAILJS_SERVICE  = 'service_cx3vbrj';
+const EMAILJS_TEMPLATE = 'template_eglunlh';
+
+// ── WEEK DETECTION ────────────────────────────────────────────────────────────
+// Code suffix is YYWW (last 4 digits) — year 2-digit + ISO week number
+// Works across year rollover by converting to absolute weeks
+
+function getCurrentYYWW() {
+  const now = new Date();
+  const year = String(now.getFullYear()).slice(-2);
+  const start = new Date(now.getFullYear(), 0, 1);
+  const week = Math.ceil(((now - start) / 86400000 + start.getDay() + 1) / 7);
+  return { yy: parseInt(year), ww: week };
+}
+
+function weeksElapsed(codeStr) {
+  // Extract last 4 digits from code e.g. "TX-1-3-0-8-9-2622" → "2622"
+  const suffix = codeStr.slice(-4);
+  const codeYY = parseInt(suffix.slice(0, 2));
+  const codeWW = parseInt(suffix.slice(2));
+  const { yy: currYY, ww: currWW } = getCurrentYYWW();
+  // Use absolute weeks to handle year rollover (max 53 weeks/year)
+  const codeAbs = codeYY * 53 + codeWW;
+  const currAbs = currYY * 53 + currWW;
+  return Math.max(0, currAbs - codeAbs);
+}
+
+const calendarMap = {
+  S:  { name: 'Seeker',     path: 'calendars/seeker-calendar.pdf',     desc: 'Eating driven by the search for something more satisfying. The calendar tracks when the search is loudest and what context surrounds it.' },
+  O:  { name: 'Soother',    path: 'calendars/soother-calendar.pdf',    desc: 'Food used to manage emotional states or reduce stress. The calendar reflects the emotional context around eating — not a judgment, a mirror.' },
+  D:  { name: 'Drifter',    path: 'calendars/drifter-calendar.pdf',    desc: 'Eating happens without a clear decision — absorbed into the day. The calendar makes the moments of drift visible.' },
+  T:  { name: 'Stabilizer', path: 'calendars/stabilizer-calendar.pdf', desc: 'Eating structured around routine — disruption creates risk. The calendar tracks where routine holds and where it breaks.' },
+  G:  { name: 'Social',     path: 'calendars/social-calendar.pdf',     desc: 'Eating shaped by who is present and the context of the meal. The calendar reflects the social contexts that shift your eating.' },
+};
+
+let resolvedCode  = null;
+let resolvedPattern = null;
+let hasFuelingSignal = false;
+let isClinical = false;
+
+// Pre-fill code from URL parameter
+window.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+  if (code) {
+    document.getElementById('codeInput').value = code.toUpperCase();
+    handleCodeSubmit();
+  }
+  // Show feedback section if ?retake=1
+  if (params.get('retake') === '1') {
+    document.getElementById('feedbackSection').style.display = 'block';
+  }
+});
+
+function parseCode(raw) {
+  const code = raw.trim().toUpperCase();
+  const valid = /^[A-Z]{1,3}-\d+-\d+-\d+-\d+-\d+-\d{4}$/.test(code);
+  if (!valid) return null;
+  const prefix = code.split('-')[0];
+  return { code, prefix };
+}
+
+function getPatternFromPrefix(prefix) {
+  // Clinical prefix — no calendar
+  if (prefix.startsWith('CL')) return { clinical: true };
+
+  // NP / Oriented — no behavioral calendar
+  if (prefix.startsWith('NP')) return { oriented: true };
+
+  // HO or FU prefix (legacy codes) — treat as Fueling signal only, look for secondary
+  if (prefix === 'HO' || prefix === 'FU') return { fuelingOnly: true };
+
+  // Standard: first letter is primary pattern
+  const primary = prefix[0];
+  // Second letter is secondary (X = none)
+  const secondary = prefix.length > 1 && prefix[1] !== 'X' ? prefix[1] : null;
+  return { primary, secondary };
+}
+
+function handleCodeSubmit() {
+  const raw = document.getElementById('codeInput').value;
+  const errorEl = document.getElementById('codeError');
+  const input = document.getElementById('codeInput');
+
+  const parsed = parseCode(raw);
+  if (!parsed) {
+    input.classList.add('error');
+    errorEl.style.display = 'block';
+    return;
+  }
+
+  input.classList.remove('error');
+  errorEl.style.display = 'none';
+  resolvedCode = parsed.code;
+
+  const patternInfo = getPatternFromPrefix(parsed.prefix);
+  renderCalendarSection(patternInfo, parsed.code);
+}
+
+function renderCalendarSection(patternInfo, code) {
+  const section = document.getElementById('calendarSection');
+  section.style.display = 'block';
+  section.innerHTML = '';
+
+  // Parse F score from code to check Fueling signal (position 1 in hyphen-split = S score)
+  // Code format: [Primary][Secondary]-S-O-D-T-G-YYWW
+  // F score is not stored in the code — but FU/HO prefix legacy codes signal it
+  // For current codes: Fueling signal must be inferred from prefix or flag
+  const parts = code.split('-');
+  const prefix = parts[0];
+  const legacyFueling = prefix === 'FU' || prefix === 'HO';
+
+  if (patternInfo.clinical) {
+    isClinical = true;
+    section.innerHTML = `
+      <div class="clinical-note">
+        <p>Your result included a clinical flag. The pattern calendars are not the right starting point for you.</p>
+        <p>The calendars are designed for behavioral pattern work — they are most useful when the behavioral layer is ready to be worked with directly. Based on your result, there may be something that benefits from more specific support first.</p>
+        <p>If you are already working with a clinical provider, reach out directly: <a href="mailto:hello@lainibyfield.com" style="color:var(--accent);">hello@lainibyfield.com</a>. We can talk through whether the calendar makes sense as a complement to that support.</p>
+      </div>
+    `;
+    return;
+  }
+
+  let html = '';
+
+  // Fueling signal first if legacy code or if we add future flag detection
+  if (legacyFueling) {
+    hasFuelingSignal = true;
+    html += `
+      <div class="fueling-card">
+        <span class="kicker">Start here — Fueling Signal</span>
+        <p>Your result included a Fueling signal. Before working with your pattern calendar, stabilize the timing layer first. The Fueling Calendar is free and does not require a pattern to be useful.</p>
+        <a href="fueling-calendar.html" class="btn-primary" target="_blank">Get the Fueling Calendar — Free</a>
+      </div>
+    `;
+  }
+
+  if (patternInfo.oriented) {
+    html += `
+      <div class="pattern-card">
+        <span class="kicker">Oriented Pattern</span>
+        <h3>Your eating is already oriented.</h3>
+        <p>No behavioral pattern calendar is needed. If your result also showed a Fueling signal, the Fueling Calendar above is the right tool.</p>
+        <p>If something shifts — a stressful period, a life change, significant weight change — the inventory will still be here.</p>
+      </div>
+      <div class="pattern-card" style="background:var(--warm-white); border-color:var(--accent-light);">
+        <span class="kicker">A different way to contribute</span>
+        <h3 style="font-size:1.3rem;">Review the workbook draft</h3>
+        <p>Oriented readers make useful reviewers — you can read the material without a pattern driving how you interpret it. If you are willing to give input on the current draft, email <a href="mailto:hello@lainibyfield.com" style="color:var(--accent);">hello@lainibyfield.com</a> and the draft will be sent to you directly.</p>
+        <p style="font-size:0.85rem;color:var(--muted);">The draft is watermarked. Input on clarity, language, and anything that feels off is what is useful at this stage.</p>
+        <a href="mailto:hello@lainibyfield.com?subject=Workbook%20Draft%20Review&body=I%20took%20the%20inventory%20and%20got%20an%20Oriented%20result.%20I%20would%20like%20to%20review%20the%20workbook%20draft." class="btn-secondary" style="display:inline-block;margin-top:0.5rem;">Request the Draft</a>
+      </div>
+    `;
+    showRetakeAndFeedback(code);
+    section.innerHTML = html;
+    logDownload(code, 'Oriented', false);
+    return;
+  }
+
+  // Primary pattern calendar
+  const primaryKey = patternInfo.fuelingOnly ? null : patternInfo.primary;
+  if (primaryKey && calendarMap[primaryKey]) {
+    const cal = calendarMap[primaryKey];
+    resolvedPattern = cal.name;
+    html += `
+      <div class="pattern-card">
+        <span class="kicker">Your Pattern Calendar — ${cal.name}</span>
+        <h3>${cal.name} Pattern</h3>
+        <p>${cal.desc}</p>
+        <a href="${cal.path}" target="_blank" class="btn-primary" onclick="logDownload('${code}', '${cal.name}', ${hasFuelingSignal})">Download Calendar — Free</a>
+      </div>
+    `;
+  }
+
+  // Secondary pattern note if present
+  if (patternInfo.secondary && calendarMap[patternInfo.secondary]) {
+    const sec = calendarMap[patternInfo.secondary];
+    html += `
+      <div class="pattern-card" style="background:var(--warm-white);">
+        <span class="kicker">Secondary Pattern — ${sec.name}</span>
+        <h3 style="font-size:1.25rem;">${sec.name}</h3>
+        <p style="font-size:0.88rem;">${sec.desc}</p>
+        <p style="font-size:0.85rem;color:var(--muted);">Your secondary pattern shapes how your primary shows up. Start with your primary calendar. If you want to explore the secondary, the calendar is also available.</p>
+        <a href="${sec.path}" target="_blank" class="btn-secondary" style="display:inline-block;margin-top:0.5rem;" onclick="logDownload('${code}', '${sec.name} (secondary)', false)">Download Secondary Calendar — Free</a>
+      </div>
+    `;
+  }
+
+  showRetakeAndFeedback(code);
+  section.innerHTML = html;
+}
+
+function showRetakeAndFeedback(code) {
+  document.getElementById('retakeBlock').style.display = 'block';
+  sessionStorage.setItem('volunteerCode', code);
+
+  const elapsed = weeksElapsed(code);
+  const { ww: currWW } = getCurrentYYWW();
+
+  if (elapsed >= 3) {
+    // 3+ weeks elapsed — show evaluation form
+    document.getElementById('feedbackSection').style.display = 'block';
+  } else if (elapsed >= 1) {
+    // 1-2 weeks — show continue message
+    const weeksLeft = 3 - elapsed;
+    const returnWeek = currWW + weeksLeft;
+    document.getElementById('continueMessage').textContent =
+      `You are on week ${elapsed + 1} of your calendar. Come back in ${weeksLeft} week${weeksLeft > 1 ? 's' : ''} to complete your evaluation and get early access to the protocol.`;
+    document.getElementById('continueSection').style.display = 'block';
+  } else {
+    // Just downloaded — show the come-back message inline
+    document.getElementById('continueMessage').textContent =
+      'Come back to this page with your code in 3 weeks to complete your evaluation and get early access to the protocol.';
+    document.getElementById('continueSection').style.display = 'block';
+  }
+}
+
+function showSelfSelect() {
+  document.getElementById('selfSelectSection').style.display = 'block';
+  document.getElementById('selfSelectSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ── EMAILJS LOGGING ───────────────────────────────────────────────────────────
+
+function logDownload(code, pattern, fuelingFlag) {
+  emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, {
+    to_email: 'hello@lainibyfield.com',
+    subject: 'Volunteer Calendar Download',
+    message: `Pattern code: ${code}\nPattern: ${pattern}\nFueling signal: ${fuelingFlag ? 'Yes' : 'No'}\nTimestamp: ${new Date().toISOString()}`
+  }).catch(() => {}); // Silent fail — never block the download
+}
+
+function logManualDownload(pattern) {
+  emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, {
+    to_email: 'hello@lainibyfield.com',
+    subject: 'Volunteer Manual Calendar Download',
+    message: `Pattern: ${pattern} (self-selected, no code)\nTimestamp: ${new Date().toISOString()}`
+  }).catch(() => {});
+}
+
+function submitFeedback() {
+  const q1 = document.querySelector('input[name="q1"]:checked');
+  const q2 = document.querySelector('input[name="q2"]:checked');
+  const days = document.getElementById('daysUsed').value;
+  const open = document.getElementById('openFeedback').value;
+  const email = document.getElementById('optinEmail').value.trim();
+  const code = sessionStorage.getItem('volunteerCode') || resolvedCode || 'unknown';
+  const elapsed = weeksElapsed(code);
+
+  emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, {
+    to_email: 'hello@lainibyfield.com',
+    subject: 'Volunteer Calendar Evaluation',
+    message: [
+      `Pattern code: ${code}`,
+      `Weeks since inventory: ${elapsed}`,
+      `Q1 — Day phrases described pattern: ${q1 ? q1.value : 'not answered'}`,
+      `Q2 — Cue key felt accurate: ${q2 ? q2.value : 'not answered'}`,
+      `Q3 — Days used: ${days || 'not answered'}`,
+      `Q4 — Open feedback: ${open || 'none'}`,
+      `Protocol opt-in email: ${email || 'not provided'}`,
+      `Timestamp: ${new Date().toISOString()}`
+    ].join('\n')
+  }).then(() => {
+    document.getElementById('feedbackSent').style.display = 'inline';
+    // Disable submit button after send
+    document.querySelector('#feedbackSection .btn-primary').disabled = true;
+    document.querySelector('#feedbackSection .btn-primary').style.opacity = '0.5';
+  }).catch(() => {
+    document.getElementById('feedbackSent').textContent = 'Something went wrong — email hello@lainibyfield.com directly.';
+    document.getElementById('feedbackSent').style.display = 'inline';
+  });
+}
+</script>
+
+
+<button class="contrast-toggle" id="contrastToggle" aria-label="Toggle high contrast">A</button>
+
+<script>
+(function() {
+  const btn = document.getElementById('contrastToggle');
+  const KEY = 'lainiHighContrast';
+  function apply(on) {
+    document.body.classList.toggle('high-contrast', on);
+    btn.textContent = on ? 'A·' : 'A';
+    btn.title = on ? 'Standard contrast' : 'Higher contrast';
+  }
+  apply(localStorage.getItem(KEY) === '1');
+  btn.addEventListener('click', function() {
+    const next = !document.body.classList.contains('high-contrast');
+    localStorage.setItem(KEY, next ? '1' : '0');
+    apply(next);
+  });
+})();
+</script>
+
+</body>
+</html>
