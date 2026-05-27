@@ -4,7 +4,7 @@ const questions = [
     { text: 'I do not notice until I am already eating', code: 'D' },
     { text: 'I want specific textures or flavors', code: 'S' },
     { text: 'I crave food more when stressed', code: 'O' },
-    { text: 'My eating feels fairly steady', code: '' }
+    { text: 'None of these feel familiar', code: '' }
   ]},
   { id: 'q02', text: 'Trying to eat better:', options: [
     { text: 'I get bored', code: 'S' },
@@ -12,7 +12,7 @@ const questions = [
     { text: 'It feels emotionally hard', code: 'O' },
     { text: 'It works until routine breaks', code: 'T' },
     { text: 'It works until I am around other people', code: 'G' },
-    { text: 'Eating generally goes the way I intend', code: '' }
+    { text: 'I do not find it particularly hard', code: '' }
   ]},
   { id: 'q03', text: 'Eating feels hardest when:', options: [
     { text: 'I need a pick-me-up', code: 'S' },
@@ -41,7 +41,7 @@ const questions = [
     { text: 'I am not sure — I do not always notice when it is happening', code: 'D' },
     { text: 'I had not eaten enough earlier', code: 'F' },
     { text: 'I was at a social event and it felt like participation', code: 'G' },
-    { text: 'My eating stays pretty even overall', code: '' }
+    { text: 'I do not think this happens to me', code: '' }
   ]},
   { id: 'q07', text: 'Which best describes you?', options: [
     { text: 'Biological female', code: 'BF' },
@@ -67,15 +67,14 @@ const questions = [
     { text: 'Slight energy or sleep shifts', code: 'P' },
     { text: 'More weight around my midsection without a big diet change', code: 'P' },
     { text: 'More emotional ups and downs tied to eating', code: 'O' },
-    { text: 'My energy drops significantly after certain foods or meals', code: '' }
+    { text: 'My energy drops significantly after certain foods or meals', code: 'M' }
   ]},
-  { id: 'q11', text: 'You just ate, and 45 minutes later you are back in the kitchen. What is most likely?', options: [
-    { text: 'I went in for something else \u2014 dishes, water, another errand', code: '' },
+  { id: 'q11', text: 'You just ate, but 45 minutes later you are back in the kitchen \u2014 with food in your hand or looking in the refrigerator. What happened?', options: [
     { text: 'Something stressed me out', code: 'O' },
     { text: 'I walked in without really deciding to \u2014 the kitchen just drew me in', code: 'D' },
     { text: 'I did not eat enough of the right things earlier', code: 'F' },
     { text: 'I wanted something more satisfying', code: 'S' },
-    { text: 'My kitchen trips have a clear purpose', code: '' }
+    { text: 'It would be unusual for me to do that', code: '' }
   ]},
   { id: 'q12', text: 'After a stressful moment, what usually happens with eating?', options: [
     { text: 'Want something crunchy or distracting', code: 'S' },
@@ -98,16 +97,16 @@ const questions = [
     { text: 'I wanted something better later', code: 'S' },
     { text: 'I was absorbed in something else and forgot', code: 'D' },
     { text: 'I was not in the mood earlier', code: 'O' },
-    { text: 'My hunger stays consistent through the day', code: '' }
+    { text: 'I do not usually get very hungry late in the day', code: '' }
   ]},
 
 
-  { id: 'q15', text: 'When eating feels off track, what is usually happening?', options: [
+  { id: 'q15', text: 'If your eating feels off, what is usually happening?', options: [
     { text: 'I had not eaten enough or on schedule', code: 'F' },
     { text: 'I kept looking for something better', code: 'S' },
     { text: 'I was on autopilot', code: 'D' },
     { text: 'I was overwhelmed', code: 'O' },
-    { text: 'My eating stays pretty consistent', code: '' }
+    { text: 'My eating rarely feels off', code: '' }
   ]},
   { id: 'q16', text: 'When eating goes off plan, what usually caused it?', options: [
     { text: 'I wanted something more interesting', code: 'S' },
@@ -144,7 +143,7 @@ const questions = [
     { text: 'I prioritize a specific refuel to recover my energy', code: 'HO' },
     { text: 'I stick to my next scheduled meal to keep my rhythm', code: 'T' },
     { text: 'I enjoy a reward meal \u2014 often sharing it with others', code: 'G' },
-    { text: 'My eating stays consistent regardless of activity level', code: '' },
+    { text: 'I do not usually change my eating based on my activity', code: '' },
     { text: 'I do not eat, or eat very little, to preserve the calorie deficit from the workout', code: 'RC' }
   ]},
   { id: 'q21', text: 'What do you think would make the biggest difference to how you eat?', options: [
@@ -152,14 +151,14 @@ const questions = [
     { text: 'Better options available', code: 'S' },
     { text: 'Paying more attention', code: 'D' },
     { text: 'Managing stress better', code: 'O' },
-    { text: 'My eating already works well for me', code: '' }
+    { text: 'I think my eating is fine', code: '' }
   ]},
   { id: 'q22', text: 'Sometimes eating more than planned is because:', options: [
     { text: 'I did not eat enough earlier', code: 'F' },
     { text: 'It tasted good', code: 'S' },
     { text: 'I am not sure — it happens before I decide', code: 'D' },
     { text: 'Everyone around me was eating and it felt normal', code: 'G' },
-    { text: 'My eating stays close to what I planned', code: '' }
+    { text: 'This does not happen to me', code: '' }
   ]},
   { id: 'q23', text: 'When your day is structured:', options: [
     { text: 'Food is less interesting', code: 'S' },
@@ -207,7 +206,7 @@ const questions = [
     { text: 'I get irritable or distracted until I eat', code: 'O' },
     { text: 'I do not notice much', code: 'D' },
     { text: 'I look for something to tide me over', code: 'S' },
-    { text: 'Delays sort themselves out — my eating adjusts', code: '' }
+    { text: 'This does not affect me much', code: '' }
   ]},
   { id: 'q30', text: 'When does eating feel most manageable, if there is a difference?', options: [
     { text: 'My day goes roughly as planned', code: 'T' },
@@ -221,14 +220,14 @@ const questions = [
     { text: 'Follows my mood more than usual', code: 'O' },
     { text: 'Becomes more automatic \u2014 I eat whatever is around', code: 'D' },
     { text: 'Involves more unplanned meals out or social eating', code: 'G' },
-    { text: 'My eating stays pretty steady regardless', code: '' }
+    { text: 'Varies but my eating stays about the same either way', code: '' }
   ]},
   { id: 'q32', text: 'The last time your eating felt off, what was different about that day?', options: [
     { text: 'I was in a different place or situation', code: 'D' },
     { text: 'My routine had broken down', code: 'T' },
     { text: 'Something was emotionally harder', code: 'O' },
     { text: 'I was with others or at an event', code: 'G' },
-    { text: 'My eating feels reliable most days', code: '' }
+    { text: 'My eating does not usually feel off', code: '' }
   ]},
   { id: 'q33', text: 'How do your eating intentions at the start of the day usually compare to how the day ends?', options: [
     { text: 'They are roughly consistent', code: '' },
@@ -337,7 +336,7 @@ function showPrescreenExit(type) {
       primaryCode: type === 'seeker' ? 'S' : 'NP',
       secondaryCode: type === 'seeker' ? 'O' : 'NP'
     },
-    flags: { fueling: false, highOutput: false, clinical: false, perimenopause: false },
+    flags: { fueling: false, highOutput: false, clinical: false, perimenopause: false, metabolic: false },
     investmentLevel: 'lower',
     layer1Answers: layer1Codes,
     npReturnFromFull: false,
@@ -650,7 +649,7 @@ function answeredCount() {
 }
 
 function getScores() {
-  const scores = { S: 0, O: 0, D: 0, T: 0, F: 0, G: 0, C: 0, RC: 0, P: 0, BF: 0, H: 0, HO: 0, PURGE: 0, NEUTRAL: 0 };
+  const scores = { S: 0, O: 0, D: 0, T: 0, F: 0, G: 0, C: 0, RC: 0, P: 0, BF: 0, H: 0, HO: 0, M: 0, PURGE: 0, NEUTRAL: 0 };
 
   // Purging answer text — exact match to Q36 option
   const PURGE_TEXT = 'I find ways to get rid of it — including making myself sick';
@@ -739,6 +738,7 @@ function buildPayload() {
       clinicalHigh:    (scores.C + scores.RC) >= 5 || scores.PURGE >= 1,
       restrictionCycling: scores.RC >= 2,
       perimenopause:   scores.BF >= 1 && scores.P >= 2,
+      metabolic:       scores.M >= 1,
       noPattern:       neutralRatio > primaryNormalized * NP_MULTIPLIER
     },
     investmentLevel: scores.H >= 2 ? 'higher' : scores.H === 1 ? 'moderate' : 'lower',

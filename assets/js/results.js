@@ -346,6 +346,14 @@ function renderPerimenopauseBox() {
   `);
 }
 
+function renderMetabolicBox() {
+  return createBox('Worth ruling out', `
+    <p>One of your responses pointed to noticeable energy shifts around eating — like a drop in energy after certain foods or meals.</p>
+    <p>That is not a behavioral pattern, and it is not something this inventory can interpret. It can have physical causes worth ruling out.</p>
+    <p class="result-note">Consider checking in with your physician about basic labs, and speaking with a registered dietitian. Understanding what is happening physically makes any behavioral work more effective — and some of what feels like an eating challenge may have a medical explanation that is straightforward to address.</p>
+  `);
+}
+
 function renderFuelingAddOn() {
   return createBox('There may also be a fueling issue here', `
     <p>Some of your responses suggest your body may be catching up after inconsistent intake earlier in the day.</p>
@@ -486,6 +494,7 @@ function buildGoogleFormUrl(payload, primaryLabel, secondaryLabel) {
     'entry.ENTRY_ID_FUELING_FLAG': payload.flags.fueling ? 'Yes' : 'No',
     'entry.ENTRY_ID_CLINICAL_FLAG': payload.flags.clinical ? 'Yes' : 'No',
     'entry.ENTRY_ID_PERIMENOPAUSE_FLAG': payload.flags.perimenopause ? 'Yes' : 'No',
+    'entry.ENTRY_ID_METABOLIC_FLAG': payload.flags.metabolic ? 'Yes' : 'No',
     'entry.ENTRY_ID_INVESTMENT_LEVEL': payload.investmentLevel
   });
 
@@ -1068,6 +1077,10 @@ function initResults() {
     html += renderPerimenopauseBox();
   }
 
+  if (payload.flags.metabolic) {
+    html += renderMetabolicBox();
+  }
+
   html += renderCTA(payload, patternCode);
 
   // Append pattern code block after CTA
@@ -1421,6 +1434,7 @@ function generateProviderPDF(payload, tier) {
       rule(y); y += 16;
       label('Note for Provider', y); y += 14;
 
+      let providerShown = false;
       if (tier === 'warning') {
         let noteText = 'Several responses indicated patterns consistent with restriction, compensation, or emotional distress around eating. These were present at a level that warrants attention alongside behavioral coaching.';
         if (payload.flags.restrictionCycling) {
@@ -1428,6 +1442,7 @@ function generateProviderPDF(payload, tier) {
         }
         const h3 = body(noteText, y);
         y += h3 + 16;
+        providerShown = true;
       } else {
         let noteText = 'Some responses indicated mild signals around emotional distress or compensatory behavior. These were noted in the inventory result and shared with the respondent.';
         if (payload.flags.restrictionCycling) {
@@ -1435,6 +1450,14 @@ function generateProviderPDF(payload, tier) {
         }
         const h3 = body(noteText, y);
         y += h3 + 16;
+        providerShown = true;
+      }
+
+      if (payload.flags.metabolic) {
+        const metNote = 'A response indicated noticeable energy shifts around eating (e.g. post-meal energy drops). This is non-behavioral and may warrant basic metabolic labs and referral to a registered dietitian. The respondent was advised to consider this.';
+        const hm = body(metNote, y);
+        y += hm + 16;
+        providerShown = true;
       }
     }
 
