@@ -261,24 +261,43 @@
     background: #f5f3f0;
     border-bottom-color: #9e9080;
   }
-  .contrast-toggle {
-    position: fixed;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    z-index: 200;
-    background: var(--ink);
-    color: var(--warm-white);
-    border: none;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    padding: 0.5rem 0.85rem;
+  
+  /* Accessibility contrast toggle — nav-based, labeled */
+  .contrast-control {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: none;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 0.35rem 0.7rem;
     cursor: pointer;
-    opacity: 0.7;
-    transition: opacity 0.2s;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    transition: border-color 0.2s, color 0.2s;
+    white-space: nowrap;
   }
-  .contrast-toggle:hover { opacity: 1; }
+  .contrast-control:hover { border-color: var(--accent); color: var(--ink); }
+  .contrast-control .contrast-icon {
+    width: 13px; height: 13px;
+    border-radius: 50%;
+    border: 1.5px solid currentColor;
+    background: linear-gradient(90deg, currentColor 50%, transparent 50%);
+    display: inline-block;
+    flex-shrink: 0;
+  }
+  body.high-contrast .contrast-control {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+  @media (max-width: 600px) {
+    .contrast-control .contrast-label-text { display: none; }
+    .contrast-control { padding: 0.4rem; }
+  }
+
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
@@ -291,7 +310,8 @@
       <li><a href="index.html#about">About</a></li>
       <li><a href="index.html#contact">Contact</a></li>
     </ul>
-  </nav>
+    <button class="contrast-control" id="contrastToggle" aria-label="Toggle higher contrast mode" aria-pressed="false"><span class="contrast-icon"></span><span class="contrast-label-text">Contrast</span></button>
+</nav>
 
   <main class="page-shell">
     <section class="page-hero">
@@ -310,16 +330,18 @@
     </section>
   </main>
 
-<button class="contrast-toggle" id="contrastToggle" aria-label="Toggle high contrast">A</button>
+
 
 <script>
 (function() {
   const btn = document.getElementById('contrastToggle');
+  if (!btn) return;
   const KEY = 'lainiHighContrast';
+  const labelEl = btn.querySelector('.contrast-label-text');
   function apply(on) {
     document.body.classList.toggle('high-contrast', on);
-    btn.textContent = on ? 'A·' : 'A';
-    btn.title = on ? 'Standard contrast' : 'Higher contrast';
+    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    if (labelEl) labelEl.textContent = on ? 'Contrast On' : 'Contrast';
   }
   apply(localStorage.getItem(KEY) === '1');
   btn.addEventListener('click', function() {
@@ -329,6 +351,5 @@
   });
 })();
 </script>
-
 </body>
 </html>
