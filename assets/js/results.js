@@ -1081,11 +1081,13 @@ function initResults() {
     html += renderMetabolicBox();
   }
 
+  // Generate pattern code before CTA (CTA links to volunteer with code)
+  const patternCode = generatePatternCode(payload, primaryLabel);
+  sessionStorage.setItem('lainiPatternCode', patternCode);
+
   html += renderCTA(payload, patternCode);
 
   // Append pattern code block after CTA
-  const patternCode = generatePatternCode(payload, primaryLabel);
-  sessionStorage.setItem('lainiPatternCode', patternCode);
   const priorCode = sessionStorage.getItem('lainiPriorCode') || null;
 
   let comparisonHtml = '';
