@@ -719,3 +719,134 @@ footer p {
     font-size: 1.5rem;
   }
 }
+/* ============================================================
+   HIGH CONTRAST ACCESSIBILITY MODE
+   Append to the END of site.css so it overrides :root defaults.
+   Activated by adding class "high-contrast" to <body>.
+   ============================================================ */
+
+body.high-contrast {
+  --cream: #ffffff;
+  --warm-white: #ffffff;
+  --ink: #000000;
+  --ink-light: #1a1a1a;
+  --muted: #2e2e2e;
+  --accent: #5a3d1e;
+  --accent-light: #6b4e2e;
+  --rule: #6b6b6b;
+  --result-bg: #ffffff;
+}
+
+/* Force backgrounds white where hardcoded or layered */
+body.high-contrast,
+body.high-contrast .page-shell,
+body.high-contrast .hero,
+body.high-contrast section {
+  background: #ffffff !important;
+}
+
+body.high-contrast nav {
+  background: #ffffff !important;
+  border-bottom-color: #6b6b6b !important;
+}
+
+/* Text — push to near-black for body, true black for headings */
+body.high-contrast p,
+body.high-contrast li,
+body.high-contrast .body-text,
+body.high-contrast .hero-sub,
+body.high-contrast .page-sub,
+body.high-contrast .option-text,
+body.high-contrast .question-text,
+body.high-contrast label,
+body.high-contrast .info-card p,
+body.high-contrast .result-box p {
+  color: #1a1a1a !important;
+}
+
+body.high-contrast h1,
+body.high-contrast h2,
+body.high-contrast h3,
+body.high-contrast h4,
+body.high-contrast .nav-name,
+body.high-contrast .result-title,
+body.high-contrast .assessment-heading,
+body.high-contrast .page-heading {
+  color: #000000 !important;
+}
+
+/* Muted text darkened to meet contrast minimums */
+body.high-contrast .small-muted,
+body.high-contrast .note-small,
+body.high-contrast .helper-text,
+body.high-contrast .privacy-note,
+body.high-contrast .progress-text,
+body.high-contrast .nav-links a,
+body.high-contrast .metric-label {
+  color: #2e2e2e !important;
+}
+
+/* Cards and option rows — white fill, strong borders */
+body.high-contrast .option-row,
+body.high-contrast .question-card,
+body.high-contrast .result-box,
+body.high-contrast .pillar,
+body.high-contrast .info-card,
+body.high-contrast .summary-card,
+body.high-contrast .credential-block {
+  background: #ffffff !important;
+  border-color: #6b6b6b !important;
+}
+
+body.high-contrast .option-row:hover {
+  background: #eeeeee !important;
+  border-color: #000000 !important;
+}
+
+/* CTA box stays dark — invert it cleanly for contrast */
+body.high-contrast .cta-box {
+  background: #000000 !important;
+}
+body.high-contrast .cta-box p,
+body.high-contrast .cta-box .result-title,
+body.high-contrast .cta-box .result-subtitle,
+body.high-contrast .cta-box .helper-text,
+body.high-contrast .cta-box .result-kicker {
+  color: #ffffff !important;
+}
+
+/* The contrast toggle control itself */
+.contrast-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: none;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 0.35rem 0.7rem;
+  cursor: pointer;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: border-color 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+.contrast-control:hover { border-color: var(--accent); color: var(--ink); }
+.contrast-control .contrast-icon {
+  width: 13px; height: 13px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  background: linear-gradient(90deg, currentColor 50%, transparent 50%);
+  display: inline-block;
+  flex-shrink: 0;
+}
+body.high-contrast .contrast-control {
+  border-color: #000000;
+  color: #000000;
+}
+@media (max-width: 600px) {
+  .contrast-control .contrast-label-text { display: none; }
+  .contrast-control { padding: 0.4rem; }
+}
