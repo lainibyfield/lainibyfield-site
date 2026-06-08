@@ -19,7 +19,7 @@ const resultCopy = {
       'Change tasks completely, not just location \u2014 move from screen to something hands-on, go outside briefly, or pick up something that requires actual focus. Novelty is what your brain wants. A different room with the same phone in your hand is not novelty.'
     ],
     decide: 'Was I looking for stimulation or actually hungry?',
-    eat: 'If you still want food, eat something with texture and substance; not something you will keep chasing.'
+    eat: 'eat something with texture and substance; not something you will keep chasing.'
   },
   O: {
     title: 'Your results suggest a Soother pattern.',
@@ -33,7 +33,7 @@ const resultCopy = {
       'Drink something warm first — tea, broth, or coffee — then decide. Warmth does some of the same regulating work that food does. If you still want to eat after finishing it, eat. If the edge is off, you have your answer.'
     ],
     decide: 'Do I need relief or food?',
-    eat: 'If you still want food after you settle, have a warm, intentional meal; not a snack eaten standing up.'
+    eat: 'have a warm, intentional meal; not a snack eaten standing up.'
   },
   D: {
     title: 'Your results suggest a Drifter pattern.',
@@ -58,10 +58,10 @@ const resultCopy = {
     toolsTitle: 'When your day gets off track:',
     tools: [
       'Eat a default meal you do not have to think about — something you can prepare without decisions, like the same breakfast you always make or a meal you keep on rotation. The goal is to remove choice from a moment when choice is the problem.',
-      'Reset with your next planned eating time, not “later” — pick a specific time, not a vague intention. If dinner is at 7, eat at 7. The structure you already have is the tool.'
+      'Reset with your next planned eating time, not "later" — pick a specific time, not a vague intention. If dinner is at 7, eat at 7. The structure you already have is the tool.'
     ],
     decide: 'Am I off schedule or actually hungry?',
-    eat: 'If you still want food, eat at your next anchor time; not continuously throughout the gap.'
+    eat: 'eat at your next anchor time; not continuously throughout the gap.'
   },
   FUELING: {
     title: 'Your results suggest a Fueling Pattern.',
@@ -172,23 +172,16 @@ const secondaryNotes = {
   'T+O': 'Stabilizer patterns with Soother tendencies often show up as eating that is tied to emotional rhythm as much as time. Meals may feel like emotional anchors -- comforting as much as nutritional -- which makes disruption to the schedule feel more unsettling than it should.',
   'T+D': 'Stabilizer patterns with Drifter tendencies often look like eating that follows a schedule but happens without much awareness within that schedule. Timing is consistent but mindfulness is low -- meals happen on time but often automatically.',
 
-
   // Social as secondary for primary patterns
   'S+G': 'Seeker patterns with Social tendencies mean stimulation-seeking is amplified in social contexts. The food at a gathering is more interesting, more varied, and harder to stop eating than what you would choose alone. The Seeker brain and the social permission reinforce each other.',
-
   'O+G': 'Soother patterns with Social tendencies can mean emotional eating that is specifically activated by social dynamics — family tension, performance anxiety, the pressure to be on. The table provides both the trigger and the remedy.',
-
   'D+G': 'Drifter patterns with Social tendencies mean automatic eating is most pronounced in social settings. The conversation, the noise, the movement of food around the table — eating happens in the background of all of it without a clear decision point.',
-
   'T+G': 'Stabilizer patterns with Social tendencies mean the structure that usually protects eating disappears entirely in social contexts. The schedule, the portions, the familiar routine — none of it travels to someone else\'s table.',
 
   // Social as primary with secondaries
   'G+S': 'Social patterns with Seeker tendencies mean the most challenging social environments are ones with highly stimulating food — tasting menus, shared plates, food that is genuinely exciting. The social permission and the sensory pull work together.',
-
   'G+O': 'Social patterns with Soother tendencies mean social eating is particularly vulnerable when the gathering itself is emotionally charged. Family events, celebrations with complicated history, meals where the emotional stakes are high.',
-
   'G+D': 'Social patterns with Drifter tendencies mean social eating often happens without awareness — the conversation takes over, the food keeps appearing, and there is no clear moment of decision. It is over before it registered.',
-
   'G+T': 'Social patterns with Stabilizer tendencies mean the structure that usually works completely disappears at a social table. The plan that holds at home has no foothold when the environment is someone else\'s.',
 
   // Fueling + Social
@@ -196,15 +189,11 @@ const secondaryNotes = {
 
   // Fueling secondary combinations -- results page explanations
   'FU+S': 'The deficit creates real hunger and the Seeker pattern shapes what fills it. By the time hunger arrives it is strong enough that only something stimulating works -- crunchy, layered, highly palatable foods that are also engineered to keep you eating past full. The hunger was legitimate. The food choice turns catch-up eating into overcompensation. Getting ahead of the deficit is not about discipline -- it is about making sure the Seeker pattern never gets a genuinely hungry brain to work with.',
-
   'FU+O': 'The deficit builds physical pressure and the Soother pattern adds emotional weight on top of it. Late-day hunger does not arrive as simple hunger -- it arrives as a need to decompress and settle. Some comfort foods are benign -- like tea. The ones that compound the problem are heavy and calorie-dense, chosen when the need is strongest and awareness is lowest. The awareness is the intervention. Noticing that you are reaching for comfort rather than fuel -- even once -- changes what you reach for.',
-
   'FU+D': 'The deficit builds without much awareness and the catch-up eating happens the same way -- automatically, past the point of need, without a clear decision point. A handful becomes a bag. A snack becomes an unplanned meal. The Drifter pattern on a depleted brain does not stop on its own. The interruption has to be physical -- stop, plate it, sit down. A full intentional meal addresses the deficit. The plate addresses the pattern.'
 };
 
 function getSecondaryNote(primaryCode, secondaryCode) {
-  // For Fueling results, use FU prefix for combination lookup
-  const fueling_primary = primaryCode === null || primaryCode === undefined;
   const key = primaryCode + '+' + secondaryCode;
   return secondaryNotes[key] || null;
 }
@@ -258,7 +247,6 @@ function renderPrimaryBlock(copy, secondaryLabel, payload, isFueling) {
   ` : '';
 
   return primaryBox + `
-
     ${createBox('What is happening', `<p>${copy.happening}</p>`)}
     ${createBox('What this says about you', `<p>${copy.strength}</p>`)}
     ${createBox('Where things get off track', `<p>${copy.offTrack}</p>`)}
@@ -287,17 +275,21 @@ function renderFuelingSignalBox(payload) {
 
   const title = isHO ? 'High-Output Fueling Signal' : 'Fueling Signal';
 
+  // Variability note — shown on all fueling signal variants
+  const variabilityNote = `
+    <p class="result-note" style="margin-top:1rem;">This signal reflects both your habits and your current day. If today was typical for you, this is likely a habitual pattern. If your eating was unusually irregular before you took this inventory, consider retaking on a more representative day to see whether it holds.</p>
+  `;
+
   let body = '';
 
   if (isNP) {
-    // Oriented + Fueling: no behavioral pattern, but timing deficits accumulate quietly
     body = `
       <p>Your eating is already oriented — no strong behavioral pattern is driving it. Your responses also show a Fueling signal.</p>
       <p>${fCopy.happening}</p>
       <p>Oriented eaters can still underfuel without noticing. When there is no behavioral pattern demanding food, timing deficits build quietly. The Fueling Calendar is designed for exactly this. It does not require a pattern to be useful.</p>
+      ${variabilityNote}
     `;
   } else if (isHO) {
-    // High-Output: fold HO copy into callout, name the accelerant relationship
     body = `
       <p>${hoCopy.happening}</p>
       <p>${hoCopy.strength}</p>
@@ -307,9 +299,9 @@ function renderFuelingSignalBox(payload) {
         ${hoCopy.tools.map(t => `<li>${t}</li>`).join('')}
       </ul>
       <p style="margin-top:0.8rem;"><strong>Ask yourself:</strong> ${hoCopy.decide}</p>
+      ${variabilityNote}
     `;
   } else {
-    // Standard Fueling signal on a behavioral primary
     body = `
       <p>${fCopy.happening}</p>
       <p>${fCopy.strength}</p>
@@ -319,6 +311,7 @@ function renderFuelingSignalBox(payload) {
       </ul>
       <p style="margin-top:0.8rem;"><strong>Ask yourself:</strong> ${fCopy.decide}</p>
       <p style="margin-top:0.5rem;">Your primary pattern is still the driver. The Fueling signal is the accelerant — it does not cause the pattern, but it removes the margin you would otherwise have to catch it. Fix the timing first.</p>
+      ${variabilityNote}
     `;
   }
 
@@ -333,23 +326,51 @@ function renderFuelingSignalBox(payload) {
   `;
 }
 
-function renderPerimenopauseBox() {
-  return createBox('Additional context', `
-    <p>Some of your responses suggest hormonal changes may also be affecting appetite, energy, and weight patterns.</p>
-    <p>This can look like increased hunger, less predictable appetite, or less margin for inconsistency. This does not replace your main pattern; it adds context to it.</p>
-    <ul class="result-points">
-      <li>Keep meals intentional, not reactive</li>
-      <li>Watch for small calorie creep over time</li>
-      <li>Prioritize protein and structure, especially earlier in the day</li>
-    </ul>
-    <p class="result-note">If you have not already spoken with your doctor about these changes, it is worth doing. Hormonal shifts during this stage are treatable and manageable — and understanding what is happening physiologically makes the behavioral strategies here more effective, not less necessary.</p>
-  `);
+// ── PERIMENOPAUSE / MENOPAUSE BOXES ───────────────────────────────────────────
+// Split by age group. Q08 captures: 40–50 with cycle changes (perimenopause)
+// vs 50+ (menopause/post-menopause). Payload flag perimenopause fires for both.
+// Use payload.scores.P_AGE or age group indicator to differentiate if available;
+// otherwise fall back to single box. Both versions suppress standalone M flag.
+
+function renderPerimenopauseBox(payload) {
+  // Determine age group from payload if available
+  // Q08 options: 'peri' = 40–50 with cycle changes, 'meno' = 50+
+  // Falls back to generic if age group not distinguished in payload
+  const ageGroup = payload && payload.scores && payload.scores.P_AGE
+    ? payload.scores.P_AGE
+    : null;
+
+  if (ageGroup === 'meno') {
+    // 50+ — menopause / post-menopause
+    return createBox('Hormonal context', `
+      <p>You selected that you are over 50. For biological females in this range, menopause and post-menopause physiology affect weight distribution and metabolism regardless of eating behavior.</p>
+      <p>If your body has changed in ways that feel disconnected from what you are eating, that is a recognized physiological pattern — not a failure of discipline.</p>
+      <ul class="result-points">
+        <li>Keep meals intentional, not reactive</li>
+        <li>Watch for gradual calorie creep over time</li>
+        <li>Prioritize protein and structure, especially earlier in the day</li>
+      </ul>
+      <p class="result-note">A conversation with your doctor about where you are in this transition is worth having before focusing exclusively on behavioral change. Understanding what is happening physiologically makes the behavioral strategies here more effective, not less necessary.</p>
+    `);
+  } else {
+    // 40–50 with cycle changes — perimenopause
+    return createBox('Hormonal context', `
+      <p>You selected that you are between 40 and 50 and have noticed cycle changes. For biological females in this range, perimenopause can affect weight distribution, hunger signals, and energy — independently of eating behavior.</p>
+      <p>This is not always recognized for what it is because the changes can be gradual. If this is new or surprising, it is not a failure of discipline — it is a physiological shift that has not yet been named.</p>
+      <ul class="result-points">
+        <li>Keep meals intentional, not reactive</li>
+        <li>Watch for gradual calorie creep over time</li>
+        <li>Prioritize protein and structure, especially earlier in the day</li>
+      </ul>
+      <p class="result-note">If you have not already spoken with your doctor about these changes, it is worth doing. Hormonal shifts during perimenopause are treatable and manageable — and understanding what is happening physiologically makes the behavioral strategies here more effective, not less necessary.</p>
+    `);
+  }
 }
 
 function renderMetabolicBox() {
   return createBox('Worth ruling out', `
     <p>One of your responses pointed to noticeable energy shifts around eating — like a drop in energy after certain foods or meals.</p>
-    <p>That is not a behavioral pattern, and it is not something this inventory can interpret. It can have physical causes worth ruling out.</p>
+    <p>That is not a behavioral pattern, and it is not something this inventory can interpret. It can have physical causes worth ruling out — thyroid function, insulin sensitivity, testosterone levels, and other metabolic factors can all produce this presentation.</p>
     <p class="result-note">Consider checking in with your physician about basic labs, and speaking with a registered dietitian. Understanding what is happening physically makes any behavioral work more effective — and some of what feels like an eating challenge may have a medical explanation that is straightforward to address.</p>
   `);
 }
@@ -385,8 +406,6 @@ function renderCTA(payload, patternCode) {
     </div>
   `;
 }
-
-
 
 function renderClinicalResult(payload) {
   const hasProvider = payload.flags.hasProvider;
@@ -501,11 +520,7 @@ function buildGoogleFormUrl(payload, primaryLabel, secondaryLabel) {
   return `${base}?usp=pp_url&${params.toString()}`;
 }
 
-
 function generatePatternCode(payload, primaryLabel) {
-  // Code format: [Primary][Secondary]-[S][O][D][T]-W[week]
-  // Example: SO-18-12-8-6-W14
-  // Human readable, copyable, encodes enough to match longitudinally
   const p = payload.types.primaryCode || 'X';
   const s = payload.types.secondaryCode || 'X';
   const scores = payload.scores;
@@ -515,8 +530,6 @@ function generatePatternCode(payload, primaryLabel) {
   const T = scores.T || 0;
   const G = scores.G || 0;
 
-  // YYWW format — last two digits of year + zero-padded week number
-  // Crosses year boundaries correctly. Anonymous — no exact date stored.
   const now = new Date();
   const start = new Date(now.getFullYear(), 0, 1);
   const week = Math.ceil(((now - start) / 86400000 + start.getDay() + 1) / 7);
@@ -524,7 +537,6 @@ function generatePatternCode(payload, primaryLabel) {
   const ww = String(week).padStart(2, '0');
   const yyWW = yy + ww;
 
-  // Primary letter always reflects behavioral pattern — Fueling and HO are signals, not patterns
   const primary = payload.flags.clinicalHigh ? 'CL'
     : (payload.prescreenExit === 'noPattern' || payload.types.primaryCode === 'NP' || payload.flags.noPattern) ? 'NP'
     : (scores.S + scores.O + scores.D + scores.T + (scores.G || 0)) <= 8 ? 'NP'
@@ -539,49 +551,24 @@ function generatePatternCode(payload, primaryLabel) {
 
 // ─────────────────────────────────────────────────────────────────────────────
 // DATA DESTINATION CONFIGURATION
-// Activate ONE or MORE of the three options below.
-// All three can run simultaneously — they are independent.
 // ─────────────────────────────────────────────────────────────────────────────
 
-// OPTION A — Airtable
-// 1. Create a free account at airtable.com
-// 2. Create a Base called "Assessment Results"
-// 3. Add these fields: Timestamp, PatternCode, Primary, Secondary,
-//    S, O, D, T, Fueling, Clinical, Perimenopause, Investment, SubmissionType
-// 4. Go to airtable.com/create/tokens → create a Personal Access Token
-//    with scopes: data.records:write, schema.bases:read
-// 5. Find your Base ID in the URL: airtable.com/[BASE_ID]/...
-// 6. Replace the placeholder values below
 const AIRTABLE_TOKEN   = 'YOUR_AIRTABLE_PERSONAL_ACCESS_TOKEN';
 const AIRTABLE_BASE_ID = 'YOUR_AIRTABLE_BASE_ID';
-const AIRTABLE_TABLE   = 'Assessment Results'; // must match your table name exactly
+const AIRTABLE_TABLE   = 'Assessment Results';
 
-// OPTION B — Google Sheets via Apps Script
-// 1. Create a Google Sheet with columns matching the Airtable fields above
-// 2. In the sheet: Extensions → Apps Script → paste the script from the
-//    comment block at the bottom of this file
-// 3. Deploy as web app: Execute as Me, Anyone can access
-// 4. Copy the web app URL and paste below
 const APPS_SCRIPT_URL  = 'YOUR_APPS_SCRIPT_WEB_APP_URL';
 
-// OPTION C — EmailJS to dedicated data inbox
-// Uses the same EmailJS account as the coaching request
-// Create a second template for anonymous data — no personal info, just scores
-// Route it to a dedicated address like data@lainibyfield.com
-const EMAILJS_DATA_SERVICE_ID  = 'service_cx3vbrj';     // same as coaching
-const EMAILJS_DATA_TEMPLATE_ID = 'YOUR_EMAILJS_DATA_TEMPLATE_ID'; // activate when upgrading
-const EMAILJS_COACHING_TEMPLATE_ID = 'template_6964man'; // coaching request to Laini // separate template
-const EMAILJS_PUBLIC_KEY       = 'ja72ibtYoc-e1mSZ1';      // same as coaching
+const EMAILJS_DATA_SERVICE_ID  = 'service_cx3vbrj';
+const EMAILJS_DATA_TEMPLATE_ID = 'YOUR_EMAILJS_DATA_TEMPLATE_ID';
+const EMAILJS_COACHING_TEMPLATE_ID = 'template_6964man';
+const EMAILJS_PUBLIC_KEY       = 'ja72ibtYoc-e1mSZ1';
 
-// Initialize EmailJS — required for v4 before any send calls
 if (typeof emailjs !== 'undefined') {
   emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-
 function buildAnonymousRecord(payload, primaryLabel, secondaryLabel, code) {
-  // Shared data structure used by all three destinations
   const resultLabel = payload.flags.clinical
     ? 'Different starting point'
     : payload.flags.highOutput ? 'High-Output Fueling'
@@ -611,9 +598,7 @@ function buildAnonymousRecord(payload, primaryLabel, secondaryLabel, code) {
 }
 
 function submitToAirtable(record) {
-  // OPTION A — only runs if token is configured
   if (AIRTABLE_TOKEN.includes('YOUR_')) return;
-
   fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE)}`, {
     method: 'POST',
     headers: {
@@ -621,26 +606,22 @@ function submitToAirtable(record) {
       'Content-Type':  'application/json'
     },
     body: JSON.stringify({ fields: record })
-  }).catch(() => {}); // silent — never interrupts the user
+  }).catch(() => {});
 }
 
 function submitToGoogleSheet(record) {
-  // OPTION B — only runs if Apps Script URL is configured
   if (APPS_SCRIPT_URL.includes('YOUR_')) return;
-
   fetch(APPS_SCRIPT_URL, {
     method: 'POST',
-    mode:   'no-cors', // Apps Script requires no-cors from external origins
+    mode:   'no-cors',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(record)
   }).catch(() => {});
 }
 
 function submitToEmailJSData(record) {
-  // OPTION C — only runs if EmailJS data template is configured
   if (EMAILJS_DATA_TEMPLATE_ID.includes('YOUR_')) return;
   if (typeof emailjs === 'undefined') return;
-
   emailjs.send(
     EMAILJS_DATA_SERVICE_ID,
     EMAILJS_DATA_TEMPLATE_ID,
@@ -666,16 +647,11 @@ function submitToEmailJSData(record) {
 }
 
 function silentAnonymousSubmit(payload, primaryLabel, secondaryLabel) {
-  // Fires once when result renders — silent, no user action required
-  // Routes to whichever destinations are configured above
   const code   = generatePatternCode(payload, primaryLabel);
   const record = buildAnonymousRecord(payload, primaryLabel, secondaryLabel, code);
-
-  // Activate whichever destinations are configured above
-  // by uncommenting the corresponding line:
-  // submitToAirtable(record);      // Option A — uncomment when Airtable is configured
-  // submitToGoogleSheet(record);   // Option B — uncomment when Apps Script is deployed
-  // submitToEmailJSData(record);   // Option C — uncomment when EmailJS data template is ready
+  // submitToAirtable(record);
+  // submitToGoogleSheet(record);
+  // submitToEmailJSData(record);
 }
 
 /*
@@ -688,8 +664,6 @@ function silentAnonymousSubmit(payload, primaryLabel, secondaryLabel) {
  *   try {
  *     const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
  *     const data  = JSON.parse(e.postData.contents);
- *
- *     // Add header row if sheet is empty
  *     if (sheet.getLastRow() === 0) {
  *       sheet.appendRow([
  *         'Timestamp','PatternCode','Primary','Secondary',
@@ -697,13 +671,11 @@ function silentAnonymousSubmit(payload, primaryLabel, secondaryLabel) {
  *         'Investment','SubmissionType'
  *       ]);
  *     }
- *
  *     sheet.appendRow([
  *       data.Timestamp, data.PatternCode, data.Primary, data.Secondary,
  *       data.S, data.O, data.D, data.T, data.Fueling, data.Clinical,
  *       data.Perimenopause, data.Investment, data.SubmissionType
  *     ]);
- *
  *     return ContentService
  *       .createTextOutput(JSON.stringify({ status: 'ok' }))
  *       .setMimeType(ContentService.MimeType.JSON);
@@ -716,19 +688,10 @@ function silentAnonymousSubmit(payload, primaryLabel, secondaryLabel) {
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
-
-
-
 function sendResultsEmail(email, payload, primaryLabel, secondaryLabel, patternCode) {
-  // EmailJS — configure YOUR_SERVICE_ID, YOUR_TEMPLATE_ID, YOUR_PUBLIC_KEY
-  // Template variables: to_email, pattern_name, pattern_code,
-  //                     pattern_description, secondary_name, scores_summary
-  // Uses the EmailJS constants defined at the top of this file
-  // YOUR_EMAILJS_SERVICE_ID and YOUR_EMAILJS_PUBLIC_KEY are shared
-  // YOUR_EMAILJS_TEMPLATE_ID is the coaching/results template (different from data template)
   const serviceId   = 'service_cx3vbrj';
-  const templateId  = 'template_eglunlh';   // template for sending results TO the user
-  const publicKey   = EMAILJS_PUBLIC_KEY;            // shared with data submission
+  const templateId  = 'template_eglunlh';
+  const publicKey   = EMAILJS_PUBLIC_KEY;
 
   if (serviceId.includes('YOUR_')) {
     return Promise.reject('EmailJS not configured yet');
@@ -777,7 +740,7 @@ function initResults() {
 
   const payload = JSON.parse(raw);
   window.__assessmentPayload = payload;
-  // Backwards compatibility — old payloads won't have clinicalHigh or restrictionCycling
+
   if (payload.flags && payload.flags.clinicalHigh === undefined) {
     const c    = payload.scores ? (payload.scores.C  || 0) : 0;
     const rc   = payload.scores ? (payload.scores.RC || 0) : 0;
@@ -787,6 +750,7 @@ function initResults() {
     payload.flags.clinicalHigh       = payload.flags.clinical && (total >= 5 || purge >= 1);
     payload.flags.restrictionCycling = rc >= 2;
   }
+
   const primaryLabel = typeLabels[payload.types.primaryCode];
   const secondaryLabel = typeLabels[payload.types.secondaryCode];
 
@@ -795,7 +759,6 @@ function initResults() {
 
   let html = '';
 
-  // Human-readable pattern names for comparison block — defined here so available to all paths
   const codeToName = {
     'S': 'Seeker', 'O': 'Soother', 'D': 'Drifter', 'T': 'Stabilizer',
     'G': 'Social', 'FU': 'Fueling', 'HO': 'High-Output Fueling',
@@ -811,14 +774,12 @@ function initResults() {
 
   // ── PRESCREEN EXITS ───────────────────────────────────────────────────────
   if (payload.prescreenExit === 'noPattern' || payload.types.primaryCode === 'NP' || payload.flags.noPattern) {
-    // NP result — no products, no CTA to purchase
     const npFromPrescreen = payload.prescreenExit === 'noPattern' || payload.types.primaryCode === 'NP';
     const npFromScoring = payload.flags.noPattern;
 
     pageTitle.innerHTML = 'Oriented Pattern';
     pageIntro.textContent = 'Your eating is already oriented. Food does what it\u2019s supposed to \u2014 nothing more, nothing less. You know where you are.';
 
-    // Main body copy
     html += `
       <div class="result-block" style="background:#f5f0e8;border-left:3px solid #7a5c3e;padding:1.5rem;margin:1rem 0;border-radius:4px;">
         <p>When you think about food, you\u2019re hungry. And when you are, your hunger tends to match what your body actually needs. That\u2019s the result this instrument is designed to help other people work toward.</p>
@@ -826,7 +787,6 @@ function initResults() {
         <p style="margin-bottom:0;">If you have goals around weight or body composition, those are worth pursuing. They\u2019re most effectively addressed through nutrition, your physician, an exercise coach, or a physiologist \u2014 where the focus is on what your body needs.</p>
       </div>`;
 
-    // Sub-threshold secondary signal — show when a pattern score is meaningful but didn't qualify
     if (npFromScoring) {
       const patternNames = { S: 'Seeker', O: 'Soother', D: 'Drifter', T: 'Stabilizer', G: 'Social' };
       const patternSignals = {
@@ -852,7 +812,6 @@ function initResults() {
       }
     }
 
-    // Clinical flag acknowledgment
     if (payload.flags.clinical && !payload.flags.clinicalHigh) {
       html += `
         <div class="result-block" style="background:#fdf8f2;border-left:3px solid #c4a882;padding:1.2rem 1.5rem;margin:1rem 0;border-radius:4px;">
@@ -861,7 +820,6 @@ function initResults() {
       html += renderProviderPDFButton('mild');
     }
 
-    // Early exit continue prompt — only for prescreen NP (6 questions only)
     if (npFromPrescreen && !npFromScoring) {
       html += `
         <div class="result-block" style="background:#faf7f2;border:1px solid #d4c9b8;padding:1.5rem;margin:1.5rem 0;border-radius:4px;text-align:center;">
@@ -872,7 +830,6 @@ function initResults() {
 
     resultMain.innerHTML = html;
 
-    // Append pattern code block and email send row — same as all other result paths
     const npPatternCode = generatePatternCode(payload, 'NP');
     const npCodeBlock = document.createElement('div');
     npCodeBlock.className = 'pattern-code-block';
@@ -891,7 +848,6 @@ function initResults() {
     `;
     resultMain.appendChild(npCodeBlock);
 
-    // Wire up email send for NP path
     const npEmailBtn    = document.getElementById('resultEmailBtn');
     const npEmailInput  = document.getElementById('resultEmailInput');
     const npEmailStatus = document.getElementById('emailSendStatus');
@@ -929,7 +885,6 @@ function initResults() {
 
     silentAnonymousSubmit(payload, 'Oriented Pattern', '');
 
-    // Comparison block for NP path — same logic as main path
     const npPriorCode = sessionStorage.getItem('lainiPriorCode') || null;
     if (npPriorCode && npPriorCode !== npPatternCode) {
       const npParts = npPriorCode.split('-');
@@ -945,7 +900,6 @@ function initResults() {
         const npCurD = payload.scores.D || 0;
         const npCurT = payload.scores.T || 0;
         const npCurG = payload.scores.G || 0;
-
         const npCurrentPrefix = npPatternCode.split('-')[0];
         const npPatternChanged = npPriorPattern !== npCurrentPrefix;
         const npPriorName = patternName(npPriorPattern);
@@ -1002,8 +956,7 @@ function initResults() {
   }
 
   if (payload.prescreenExit === 'seeker') {
-    // Early Seeker exit — show Seeker result normally
-    // Falls through to normal rendering below with primaryCode S
+    // Early Seeker exit — falls through to normal rendering below
   }
 
   if (isLowScore(payload.scores)) {
@@ -1014,7 +967,6 @@ function initResults() {
   } else if (payload.flags.clinical) {
 
     if (payload.flags.clinicalHigh) {
-      // ELEVATED — C >= 5 or purging present
       pageTitle.innerHTML = 'Your responses suggest a <em>different starting point</em>.';
       pageIntro.textContent = 'Some of what came up in your results goes beyond what behavioral coaching is designed to address on its own. This is not a judgment — it is information worth taking seriously.';
       if (primaryLabel && resultCopy[payload.types.primaryCode]) {
@@ -1024,7 +976,6 @@ function initResults() {
       html += renderProviderPDFButton('elevated');
 
     } else if (payload.flags.clinicalWarning) {
-      // WARNING — C = 3 or 4
       const warnCopy = resultCopy[payload.types.primaryCode] || resultCopy.CLINICAL;
       if (primaryLabel && warnCopy && warnCopy.happening) {
         pageTitle.innerHTML = `Your results suggest a <em>${primaryLabel} pattern</em> — with something that should be acknowledged.`;
@@ -1040,7 +991,6 @@ function initResults() {
       html += renderProviderPDFButton('warning');
 
     } else {
-      // MILD — C = 2
       const clinicalCopy = resultCopy[payload.types.primaryCode] || resultCopy.CLINICAL;
       if (primaryLabel && clinicalCopy && clinicalCopy.happening) {
         pageTitle.innerHTML = `Your results suggest a <em>${primaryLabel} pattern</em> — with something else worth acknowledging.`;
@@ -1061,33 +1011,32 @@ function initResults() {
 
   } else {
     // ── STANDARD BEHAVIORAL PATH ─────────────────────────────────────────────
-    // Primary always comes from S/O/D/T/G/NP — Fueling is a signal, not a pattern
     const copy = resultCopy[payload.types.primaryCode];
     pageTitle.innerHTML = `Your results suggest a <em>${primaryLabel}</em> pattern.`;
     pageIntro.textContent = 'The point is not to judge the pattern. The point is to understand it well enough to respond differently.';
     html += renderPrimaryBlock(copy, secondaryLabel, payload);
 
-    // Fueling / HO signal — injected after primary result if signal fires
     if (payload.flags.fueling || payload.flags.highOutput) {
       html += renderFuelingSignalBox(payload);
     }
   }
 
+  // ── HORMONAL / METABOLIC FLAGS ────────────────────────────────────────────
+  // Perimenopause fires first. Metabolic flag suppressed if perimenopause
+  // already rendered — physician conversation is already covered.
   if (payload.flags.perimenopause) {
-    html += renderPerimenopauseBox();
+    html += renderPerimenopauseBox(payload);
   }
 
-  if (payload.flags.metabolic) {
+  if (payload.flags.metabolic && !payload.flags.perimenopause) {
     html += renderMetabolicBox();
   }
 
-  // Generate pattern code before CTA (CTA links to volunteer with code)
   const patternCode = generatePatternCode(payload, primaryLabel);
   sessionStorage.setItem('lainiPatternCode', patternCode);
 
   html += renderCTA(payload, patternCode);
 
-  // Append pattern code block after CTA
   const priorCode = sessionStorage.getItem('lainiPriorCode') || null;
 
   let comparisonHtml = '';
@@ -1105,7 +1054,6 @@ function initResults() {
       const curD = payload.scores.D || 0;
       const curT = payload.scores.T || 0;
       const curG = payload.scores.G || 0;
-
       const currentPatternPrefix = patternCode.split('-')[0];
       const patternChanged = priorPattern !== currentPatternPrefix;
       const priorName = patternName(priorPattern);
@@ -1175,7 +1123,6 @@ function initResults() {
 
   resultMain.innerHTML = html;
 
-  // Email send button
   const emailBtn   = document.getElementById('resultEmailBtn');
   const emailInput = document.getElementById('resultEmailInput');
   const emailStatus = document.getElementById('emailSendStatus');
@@ -1213,7 +1160,6 @@ function initResults() {
     });
   }
 
-  // Silent anonymous submission — fires once on result render
   silentAnonymousSubmit(payload, primaryLabel, secondaryLabel);
 
   const sendResultsLink = document.getElementById('sendResultsLink');
@@ -1221,16 +1167,14 @@ function initResults() {
     sendResultsLink.addEventListener('click', (event) => {
       event.preventDefault();
 
-      // Prompt for email before sending coaching request
       const email = prompt('Enter your email address and we will be in touch:');
       if (!email || !email.includes('@')) {
         alert('Please enter a valid email address.');
         return;
       }
 
-      // Send coaching request to Laini via EmailJS
       const serviceId  = 'service_cx3vbrj';
-      const templateId = EMAILJS_COACHING_TEMPLATE_ID; // template_6964man
+      const templateId = EMAILJS_COACHING_TEMPLATE_ID;
       const publicKey  = EMAILJS_PUBLIC_KEY;
 
       const templateParams = {
@@ -1410,7 +1354,6 @@ function generateProviderPDF(payload, tier) {
       }
 
     } else if (!primaryName && payload.flags.clinical && !payload.flags.clinicalHigh) {
-      // NP + mild clinical — no pattern to name, acknowledge the flag
       label('Assessment Result', y); y += 14;
       heading('Oriented Pattern', y); y += 20;
       const h1 = body('No primary behavioral eating pattern emerged from this inventory. Food appears to function as intended — without significant friction or behavioral override. This is the result the instrument is designed to help other people work toward.', y);
@@ -1436,7 +1379,6 @@ function generateProviderPDF(payload, tier) {
       rule(y); y += 16;
       label('Note for Provider', y); y += 14;
 
-      let providerShown = false;
       if (tier === 'warning') {
         let noteText = 'Several responses indicated patterns consistent with restriction, compensation, or emotional distress around eating. These were present at a level that warrants attention alongside behavioral coaching.';
         if (payload.flags.restrictionCycling) {
@@ -1444,7 +1386,6 @@ function generateProviderPDF(payload, tier) {
         }
         const h3 = body(noteText, y);
         y += h3 + 16;
-        providerShown = true;
       } else {
         let noteText = 'Some responses indicated mild signals around emotional distress or compensatory behavior. These were noted in the inventory result and shared with the respondent.';
         if (payload.flags.restrictionCycling) {
@@ -1452,14 +1393,12 @@ function generateProviderPDF(payload, tier) {
         }
         const h3 = body(noteText, y);
         y += h3 + 16;
-        providerShown = true;
       }
 
       if (payload.flags.metabolic) {
         const metNote = 'A response indicated noticeable energy shifts around eating (e.g. post-meal energy drops). This is non-behavioral and may warrant basic metabolic labs and referral to a registered dietitian. The respondent was advised to consider this.';
         const hm = body(metNote, y);
         y += hm + 16;
-        providerShown = true;
       }
     }
 
@@ -1472,7 +1411,6 @@ function generateProviderPDF(payload, tier) {
     const h5 = body('This summary was generated and shared by the respondent. No personally identifiable information was retained by the inventory system. The respondent chose to share this document.', y);
     y += h5 + 16;
 
-    // QR CODE
     const qrSize = 54;
     const qrX = W - MR - qrSize;
     const qrY = H - 85;
@@ -1484,7 +1422,6 @@ function generateProviderPDF(payload, tier) {
       doc.setTextColor(MUTED);
       doc.text('Laini Byfield, NBC-HWC  ·  lainibyfield.com  ·  hello@lainibyfield.com  ·  NPI Type 1: 171400000X', ML, H - 38);
       doc.text('Scan for full methodology and scope of practice  ·  lainibyfield.com/methodology.html', ML, H - 26);
-      // Pattern code — small, greyed, bottom center for clinical reference
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(6.5);
       doc.setTextColor(180, 170, 160);
@@ -1493,8 +1430,6 @@ function generateProviderPDF(payload, tier) {
         const pageW = doc.internal.pageSize.getWidth();
         doc.text(codeText, pageW / 2, H - 14, { align: 'center' });
       }
-
-      // Open in new tab — prevents Chrome on iOS from hijacking to chrome://downloads
       const blobUrl = doc.output('bloburl');
       window.open(blobUrl, '_blank');
     }

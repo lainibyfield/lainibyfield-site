@@ -27,18 +27,18 @@ const questions = [
     { text: 'I eat while distracted', code: 'D' },
     { text: 'I want to go out or find someone to eat with', code: 'G' },
     { text: 'I eat randomly \u2014 without my usual structure I lose track', code: 'T' },
-    { text: 'I find other things to do — food rarely crosses my mind', code: '' }
+    { text: 'I find other things to do \u2014 food rarely crosses my mind', code: '' }
   ]},
   { id: 'q05', text: 'You are watching a show at night. What usually happens with food?', options: [
     { text: 'I keep searching for something better to eat', code: 'S' },
-    { text: 'I finish the snack without noticing — my hand just moves', code: 'D' },
+    { text: 'I finish the snack without noticing \u2014 my hand just moves', code: 'D' },
     { text: 'It feels like a reward I would usually share', code: 'G' },
     { text: 'I eat because it is my scheduled wind-down time', code: 'T' },
     { text: 'Watching and eating stay separate for me', code: '' }
   ]},
   { id: 'q06', text: 'Think about a time you overate. What was true?', options: [
     { text: 'It tasted good so I kept going', code: 'S' },
-    { text: 'I am not sure — I do not always notice when it is happening', code: 'D' },
+    { text: 'I am not sure \u2014 I do not always notice when it is happening', code: 'D' },
     { text: 'I had not eaten enough earlier', code: 'F' },
     { text: 'I was at a social event and it felt like participation', code: 'G' },
     { text: 'I do not think this happens to me', code: '' }
@@ -62,14 +62,15 @@ const questions = [
     { text: 'I can eat the same but gain more easily', code: 'P' },
     { text: 'Hunger feels unpredictable', code: 'O' }
   ]},
-  { id: 'q10', text: 'Over the past 1–2 years, setting aside any intentional changes you have made, have you noticed:', options: [
+  { id: 'q10', text: 'Over the past 1\u20132 years, setting aside any intentional changes you have made, have you noticed:', options: [
     { text: 'No real changes', code: '' },
     { text: 'Slight energy or sleep shifts', code: 'P' },
     { text: 'More weight around my midsection without a big diet change', code: 'P' },
     { text: 'More emotional ups and downs tied to eating', code: 'O' },
     { text: 'My energy drops significantly after certain foods or meals', code: 'M' }
   ]},
-  { id: 'q11', text: 'You just ate, but 45 minutes later you are back in the kitchen \u2014 with food in your hand or looking in the refrigerator. What happened?', options: [
+  // Q11 — stem changed to recalled pattern framing (tester-flagged: state-sensitive)
+  { id: 'q11', text: 'Think about a time this has happened \u2014 you ate, but 45 minutes later you were back in the kitchen with food in your hand or looking in the refrigerator. What was usually happening when it did?', options: [
     { text: 'Something stressed me out', code: 'O' },
     { text: 'I walked in without really deciding to \u2014 the kitchen just drew me in', code: 'D' },
     { text: 'I did not eat enough of the right things earlier', code: 'F' },
@@ -80,7 +81,7 @@ const questions = [
     { text: 'Want something crunchy or distracting', code: 'S' },
     { text: 'Realize you ate without planning to', code: 'D' },
     { text: 'Want something warm or calming', code: 'O' },
-    { text: 'My appetite disappears — sadness, grief, or stress shuts it down', code: 'O' },
+    { text: 'My appetite disappears \u2014 sadness, grief, or stress shuts it down', code: 'O' },
     { text: 'Try to reset your day', code: 'T' },
     { text: 'My eating stays steady through stress', code: '' }
   ]},
@@ -92,15 +93,14 @@ const questions = [
     { text: 'My timing got off', code: 'F' },
     { text: 'I was with others and went along with the group', code: 'G' }
   ]},
+  // Q14 — option C sharpened (tester-flagged: A and C too similar)
   { id: 'q14', text: 'You feel very hungry late in the day. Why?', options: [
     { text: 'I kept putting off eating', code: 'F' },
     { text: 'I wanted something better later', code: 'S' },
-    { text: 'I was absorbed in something else and forgot', code: 'D' },
+    { text: 'I was in the middle of something and time just passed', code: 'D' },
     { text: 'I was not in the mood earlier', code: 'O' },
     { text: 'I do not usually get very hungry late in the day', code: '' }
   ]},
-
-
   { id: 'q15', text: 'If your eating feels off, what is usually happening?', options: [
     { text: 'I had not eaten enough or on schedule', code: 'F' },
     { text: 'I kept looking for something better', code: 'S' },
@@ -124,8 +124,8 @@ const questions = [
     { text: 'All of the above \u2014 I feel like I have tried everything', code: 'H' }
   ]},
   { id: 'q18', text: 'When it comes to your eating patterns, where are you right now?', options: [
-    { text: 'My eating feels fine — I am here out of curiosity', code: '' },
-    { text: 'I have already made significant changes — I am focused on maintaining them', code: '' },
+    { text: 'My eating feels fine \u2014 I am here out of curiosity', code: '' },
+    { text: 'I have already made significant changes \u2014 I am focused on maintaining them', code: '' },
     { text: 'I am not focused on changing my eating right now', code: '' },
     { text: 'I am just starting to pay attention to how I eat', code: '' },
     { text: 'I have tried a few approaches but nothing has stuck', code: '' },
@@ -153,11 +153,13 @@ const questions = [
     { text: 'Managing stress better', code: 'O' },
     { text: 'I think my eating is fine', code: '' }
   ]},
+  // Q22 — new Social option added for relational offer mechanism (tester-flagged)
   { id: 'q22', text: 'Sometimes eating more than planned is because:', options: [
     { text: 'I did not eat enough earlier', code: 'F' },
     { text: 'It tasted good', code: 'S' },
-    { text: 'I am not sure — it happens before I decide', code: 'D' },
+    { text: 'I am not sure \u2014 it happens before I decide', code: 'D' },
     { text: 'Everyone around me was eating and it felt normal', code: 'G' },
+    { text: 'Someone offered it and it felt easier to accept than decline', code: 'G' },
     { text: 'This does not happen to me', code: '' }
   ]},
   { id: 'q23', text: 'When your day is structured:', options: [
@@ -167,7 +169,7 @@ const questions = [
     { text: 'Eating feels easier', code: 'T' },
     { text: 'My eating stays consistent regardless of structure', code: '' }
   ]},
-  { id: 'q24', text: 'If food is entirely up to you — nothing prepared, no occasion, no one else involved — what usually happens?', options: [
+  { id: 'q24', text: 'If food is entirely up to you \u2014 nothing prepared, no occasion, no one else involved \u2014 what usually happens?', options: [
     { text: 'I eat when I feel hungry', code: '' },
     { text: 'I often forget to eat or realize later I never did', code: 'G' },
     { text: 'I eat out of habit or on a regular schedule regardless', code: 'T' },
@@ -216,7 +218,7 @@ const questions = [
     { text: 'My eating feels manageable in general', code: '' }
   ]},
   { id: 'q31', text: 'When your week is unpredictable, your eating:', options: [
-    { text: 'Follows the disruption — inconsistent days mean inconsistent eating', code: 'T' },
+    { text: 'Follows the disruption \u2014 inconsistent days mean inconsistent eating', code: 'T' },
     { text: 'Follows my mood more than usual', code: 'O' },
     { text: 'Becomes more automatic \u2014 I eat whatever is around', code: 'D' },
     { text: 'Involves more unplanned meals out or social eating', code: 'G' },
@@ -245,17 +247,18 @@ const questions = [
     { text: 'My main thought is how little I can get away with eating', code: 'RC' },
     { text: 'I have a menu or schedule \u2014 I eat what is planned', code: 'T' }
   ]},
-  { id: 'q35', text: 'When eating feels out of control:', options: [
-    { text: 'It passes', code: '' },
-    { text: 'I feel unsettled but it resolves', code: '' },
-    { text: 'I feel guilt or pressure', code: 'C' },
-    { text: 'I do not realize it until afterward — it felt good in the moment', code: 'O' },
-    { text: 'I feel I need to fix it', code: 'RC' }
+  // Q35 — stem rewritten to conditional; two neutrals added (tester-flagged: presupposes out-of-control eating)
+  { id: 'q35', text: 'If there has ever been a time when eating felt hard to stop or out of your control, what was most likely happening beforehand?', options: [
+    { text: 'I cannot think of a time when this has happened to me', code: '' },
+    { text: 'It passes \u2014 I notice it but it resolves on its own', code: '' },
+    { text: 'I feel guilt or pressure afterward', code: 'C' },
+    { text: 'I do not realize it until afterward \u2014 it felt good in the moment', code: 'O' },
+    { text: 'I feel I need to fix it \u2014 compensate or restrict afterward', code: 'RC' }
   ]},
   { id: 'q36', text: 'When you feel like you have eaten too much, what usually follows?', options: [
     { text: 'I move on without much thought', code: '' },
     { text: 'I return to my usual structure or timing', code: 'T' },
-    { text: 'I compensate — eating less, exercising more, or both', code: 'RC' },
+    { text: 'I compensate \u2014 eating less, exercising more, or both', code: 'RC' },
     { text: 'I find ways to get rid of it \u2014 including making myself sick', code: 'C' },
     { text: 'I feel I have failed and it affects how I eat for the rest of the day', code: 'C' },
     { text: 'I feel low and disconnected for a while afterward', code: '' }
@@ -271,9 +274,9 @@ let container, seeResultsBtn, clearBtn, formMessage;
 // Layer 2: Q4-6 — Seeker quick-screen. 2+ S answers = early Seeker exit.
 // Layer 3: Q7-36 — Full assessment.
 
-const LAYER1 = [0, 1, 2];     // indices into questions array
-const LAYER2 = [3, 4, 5];     // indices into questions array
-const LAYER3_START = 6;        // index where full assessment begins
+const LAYER1 = [0, 1, 2];
+const LAYER2 = [3, 4, 5];
+const LAYER3_START = 6;
 
 let currentLayer = 1;
 let prescreenComplete = false;
@@ -302,11 +305,9 @@ function allAnswered(indices) {
 }
 
 function showLayer(indices) {
-  // Hide all question blocks first
   document.querySelectorAll('.question-block').forEach(b => {
     b.style.display = 'none';
   });
-  // Show only the blocks for this layer
   indices.forEach(i => {
     const block = document.querySelectorAll('.question-block')[i];
     if (block) block.style.display = 'block';
@@ -320,7 +321,6 @@ function showAllQuestions() {
 }
 
 function showPrescreenExit(type) {
-  // Collect Layer 1 answers anonymously — codes only, no text, no session ID
   const layer1Codes = [0, 1, 2].map(i => {
     const q = questions[i];
     const sel = document.querySelector(`input[name="${q.id}"]:checked`);
@@ -343,7 +343,6 @@ function showPrescreenExit(type) {
     answers: collectSelectedAnswers()
   };
 
-  // Show inline exit message with choice — do not hard redirect
   const exitMsg      = document.getElementById('prescreenExitMsg');
   const exitText     = document.getElementById('prescreenExitText');
   const exitContBtn  = document.getElementById('prescreenContinueBtn');
@@ -360,9 +359,8 @@ function showPrescreenExit(type) {
         'This may reflect where you are right now. You can view this as your result, ' +
         'or continue the full assessment to see if a more specific pattern emerges.';
     }
-    // Move exit message to appear directly after Q6 in the DOM
     const allBlocks = document.querySelectorAll('.question-block');
-    const q6Block = allBlocks[5]; // Q6 is index 5
+    const q6Block = allBlocks[5];
     if (q6Block && q6Block.parentNode) {
       q6Block.parentNode.insertBefore(exitMsg, q6Block.nextSibling);
     }
@@ -381,7 +379,6 @@ function showPrescreenExit(type) {
       exitContBtn.onclick = () => {
         exitMsg.style.display = 'none';
         if (type === 'seeker') {
-          // Continue from Seeker exit — go to full assessment, scroll to Q7
           currentLayer = 3;
           prescreenComplete = true;
           showAllQuestions();
@@ -393,7 +390,6 @@ function showPrescreenExit(type) {
             else window.scrollTo({ top: 0, behavior: 'smooth' });
           }, 100);
         } else {
-          // Continue from NP exit — go to Layer 2, scroll to Q4
           currentLayer = 2;
           showLayer(LAYER2);
           updatePrescreenProgress(2);
@@ -407,14 +403,12 @@ function showPrescreenExit(type) {
       };
     }
   } else {
-    // Fallback if exit elements missing
     localStorage.setItem('lainiAssessmentResult', JSON.stringify(exitPayload));
     window.location.href = 'results.html';
   }
 }
 
 function buildContinueBtn() {
-  // Add a Continue button between layers
   let btn = document.getElementById('continueBtn');
   if (!btn) {
     btn = document.createElement('button');
@@ -435,7 +429,6 @@ function buildContinueBtn() {
       letter-spacing: 0.04em;
     `;
     btn.addEventListener('click', handleContinue);
-    // Insert into form-actions div, before the submit button
     const formActions = document.getElementById('seeResultsBtn').parentNode;
     formActions.insertBefore(btn, document.getElementById('seeResultsBtn'));
   }
@@ -444,7 +437,6 @@ function buildContinueBtn() {
 
 function handleContinue() {
   if (currentLayer === 1) {
-    // Check Layer 1 — if 2+ neutral, exit to No Strong Pattern
     if (!allAnswered(LAYER1)) {
       formMessage.textContent = 'Please answer all three questions to continue.';
       return;
@@ -454,7 +446,6 @@ function handleContinue() {
       showPrescreenExit('noPattern');
       return;
     }
-    // Move to Layer 2 — disable button briefly to prevent double-fire
     currentLayer = 2;
     formMessage.textContent = '';
     const continueBtn = document.getElementById('continueBtn');
@@ -474,8 +465,6 @@ function handleContinue() {
       }
     }, 100);
   } else if (currentLayer === 2) {
-    // Check Layer 2 — count S answers across ALL of Q1-6 combined
-    // Q1-3 already have S options — a strong Seeker should get credit
     if (!allAnswered(LAYER2)) {
       formMessage.textContent = 'Please answer all three questions to continue.';
       return;
@@ -483,18 +472,15 @@ function handleContinue() {
     const seekerCountL1 = countCodeAnswers(LAYER1, 'S');
     const seekerCountL2 = countCodeAnswers(LAYER2, 'S');
     const totalSeekerCount = seekerCountL1 + seekerCountL2;
-    // Exit only if 4+ S answers across Q1-6 combined — strong signal required
     if (totalSeekerCount >= 4) {
       showPrescreenExit('seeker');
       return;
     }
-    // Move to Layer 3 — full assessment
     currentLayer = 3;
     prescreenComplete = true;
     formMessage.textContent = '';
     showAllQuestions();
     updatePrescreenProgress(3);
-    // Scroll to Q7 — first question of full assessment, not Q1
     setTimeout(() => {
       const allBlocks = document.querySelectorAll('.question-block');
       const q7 = allBlocks[6];
@@ -505,12 +491,9 @@ function handleContinue() {
 }
 
 function updatePrescreenProgress(layer) {
-  // Progress bar always shows full question count so respondent
-  // understands the scope — layer transitions are transparent
   const totalEl = document.getElementById('totalCount');
   if (totalEl) totalEl.textContent = questions.length;
 
-  // Update layer indicator dots
   const dots = [
     document.getElementById('dot1'),
     document.getElementById('dot2'),
@@ -527,7 +510,6 @@ function updatePrescreenProgress(layer) {
   });
   if (layerLabel) layerLabel.textContent = labels[layer - 1] || '';
 
-  // Show/hide submit and continue buttons
   const submitBtn = document.getElementById('seeResultsBtn');
   const continueBtn = document.getElementById('continueBtn');
   if (submitBtn)  submitBtn.style.display  = (layer === 3) ? 'block' : 'none';
@@ -535,19 +517,15 @@ function updatePrescreenProgress(layer) {
 }
 
 function initPrescreen() {
-  // Start with Layer 1 only
   buildContinueBtn();
   showLayer(LAYER1);
   updatePrescreenProgress(1);
   document.getElementById('continueBtn').style.display = 'block';
-  // Hide the main submit button until Layer 3
   const submitBtn = document.getElementById('seeResultsBtn');
   if (submitBtn) submitBtn.style.display = 'none';
 }
 
 // ── TEXT-TO-SPEECH ────────────────────────────────────────────────────────────
-// Session-only. No persistence. Tap the speaker icon to read a question or answer.
-// Uses Web Speech API — built into all modern mobile browsers, no library needed.
 
 function speakText(text) {
   if (!window.speechSynthesis) return;
@@ -634,7 +612,6 @@ function renderQuestions() {
     container.appendChild(block);
   });
 
-  // Single delegated listener on container — prevents event bubbling into radio inputs
   container.addEventListener('click', (e) => {
     const btn = e.target.closest('.tts-btn');
     if (!btn) return;
@@ -651,21 +628,18 @@ function answeredCount() {
 function getScores() {
   const scores = { S: 0, O: 0, D: 0, T: 0, F: 0, G: 0, C: 0, RC: 0, P: 0, BF: 0, H: 0, HO: 0, M: 0, PURGE: 0, NEUTRAL: 0 };
 
-  // Purging answer text — exact match to Q36 option
-  const PURGE_TEXT = 'I find ways to get rid of it — including making myself sick';
+  const PURGE_TEXT = 'I find ways to get rid of it \u2014 including making myself sick';
 
   questions.forEach((question) => {
-    const selected = document.querySelector(`input[name="${question.id}"]`+':checked');
+    const selected = document.querySelector(`input[name="${question.id}"]` + ':checked');
     if (!selected) return;
     const code = selected.value;
     if (code && Object.prototype.hasOwnProperty.call(scores, code)) {
       scores[code] += 1;
     }
-    // Count neutral answers (empty code) across all questions
     if (code === '') {
       scores.NEUTRAL += 1;
     }
-    // Detect purging answer specifically — hard clinical trigger
     const label = selected.closest('label');
     if (label && label.textContent.trim().includes('making myself sick')) {
       scores.PURGE += 1;
@@ -676,19 +650,15 @@ function getScores() {
 }
 
 function getTopTypes(scores) {
-  // Normalize by number of questions each code appears in
-  // O reduced from 21 to 19 — two O answers recoded to neutral (Q35 opt4, Q36 opt6)
   const questionCounts = { S: 19, O: 19, D: 21, T: 19, G: 19 };
 
   const ranked = ['S', 'O', 'D', 'T', 'G']
     .map((key) => [key, scores[key] / questionCounts[key]])
     .sort((a, b) => b[1] - a[1]);
 
-  const primaryScore  = ranked[0][1];
+  const primaryScore   = ranked[0][1];
   const secondaryScore = ranked[1][1];
 
-  // Secondary only counts if it scores at least 60% of the primary normalized score
-  // AND at least 0.15 normalized — prevents noise from being named a pattern
   const secondaryCode = (secondaryScore >= primaryScore * 0.6 && secondaryScore >= 0.15)
     ? ranked[1][0]
     : null;
@@ -715,11 +685,13 @@ function buildPayload() {
   const questionCounts = { S: 19, O: 19, D: 21, T: 19, G: 19 };
   const primaryNormalized = scores[primaryCode] / (questionCounts[primaryCode] || 1);
   const neutralRatio = scores.NEUTRAL / 36;
-  // noPattern: fires when neutral ratio exceeds primary normalized score
-  // No multiplier — if you answered neutrally more often than your strongest pattern,
-  // the pattern is signaling but not driving. That's Oriented.
-  // Calibrate against real population data as testing expands.
   const NP_MULTIPLIER = 1.0;
+
+  // Capture age group for perimenopause copy differentiation in results.js
+  // Q08: '40–50 with cycle changes' = perimenopause, '50+' = menopause/post-menopause
+  const q08Selected = document.querySelector('input[name="q08"]:checked');
+  const q08Text = q08Selected ? (q08Selected.dataset.text || '') : '';
+  const periAgeGroup = q08Text.includes('50+') ? 'meno' : 'peri';
 
   const payload = {
     completedAt: new Date().toISOString(),
@@ -729,18 +701,17 @@ function buildPayload() {
       secondaryCode
     },
     flags: {
-      fueling:         scores.F >= 3,
-      highOutput:      scores.F >= 3 && scores.HO >= 2,
-      // RC contributes to clinical flag total — restriction cycling is a clinical signal
-      // RC also stored separately so content layer can use it distinctly
-      clinical:        (scores.C + scores.RC) >= 2,
-      clinicalWarning: ((scores.C + scores.RC) >= 3 && (scores.C + scores.RC) <= 4) && scores.PURGE === 0,
-      clinicalHigh:    (scores.C + scores.RC) >= 5 || scores.PURGE >= 1,
+      fueling:            scores.F >= 3,
+      highOutput:         scores.F >= 3 && scores.HO >= 2,
+      clinical:           (scores.C + scores.RC) >= 2,
+      clinicalWarning:    ((scores.C + scores.RC) >= 3 && (scores.C + scores.RC) <= 4) && scores.PURGE === 0,
+      clinicalHigh:       (scores.C + scores.RC) >= 5 || scores.PURGE >= 1,
       restrictionCycling: scores.RC >= 2,
-      perimenopause:   scores.BF >= 1 && scores.P >= 2,
-      metabolic:       scores.M >= 1,
-      noPattern:       neutralRatio > primaryNormalized * NP_MULTIPLIER
+      perimenopause:      scores.BF >= 1 && scores.P >= 2,
+      metabolic:          scores.M >= 1,
+      noPattern:          neutralRatio > primaryNormalized * NP_MULTIPLIER
     },
+    periAgeGroup,
     investmentLevel: scores.H >= 2 ? 'higher' : scores.H === 1 ? 'moderate' : 'lower',
     answers: collectSelectedAnswers()
   };
@@ -749,7 +720,6 @@ function buildPayload() {
 }
 
 function handleSubmit() {
-  // Safety net: if user is on layer 3 but prescreenComplete was lost, set it now
   if (!prescreenComplete && currentLayer === 3) {
     prescreenComplete = true;
   }
@@ -761,7 +731,6 @@ function handleSubmit() {
   if (count !== questions.length) {
     formMessage.textContent = `Please answer all ${questions.length} questions before viewing your results. You have completed ${count}.`;
 
-    // Highlight unanswered visible blocks and scroll to the first one
     const allBlocks = document.querySelectorAll('.question-block');
     let firstUnanswered = null;
 
@@ -783,7 +752,6 @@ function handleSubmit() {
     return;
   }
 
-  // Clear highlights on successful submit
   document.querySelectorAll('.unanswered-flag').forEach(b => b.classList.remove('unanswered-flag'));
   formMessage.textContent = '';
   buildPayload();
@@ -791,54 +759,43 @@ function handleSubmit() {
 }
 
 function handleClear() {
-  // Uncheck all answers
   document.querySelectorAll('input[type="radio"]').forEach((input) => {
     input.checked = false;
   });
   formMessage.textContent = '';
 
-  // Reset prescreen state back to Layer 1
   currentLayer = 1;
   prescreenComplete = false;
 
-  // Hide exit message if showing
   const exitMsg = document.getElementById('prescreenExitMsg');
   if (exitMsg) exitMsg.style.display = 'none';
 
-  // Reset answered count display
   const answeredEl = document.getElementById('answeredCount');
   if (answeredEl) answeredEl.textContent = '0';
 
-  // Remove answered styling from all blocks
   document.querySelectorAll('.question-block').forEach(b => {
     b.classList.remove('answered');
   });
 
-  // Show Layer 1 only and reset progress
   showLayer(LAYER1);
   updatePrescreenProgress(1);
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Wait for DOM to be ready before rendering and initialising
 document.addEventListener('DOMContentLoaded', () => {
-  // Assign DOM references
   container     = document.getElementById('questionContainer');
   seeResultsBtn = document.getElementById('seeResultsBtn');
   clearBtn      = document.getElementById('clearBtn');
   formMessage   = document.getElementById('formMessage');
 
-  // Ensure exit message is hidden on fresh load
   const exitMsgInit = document.getElementById('prescreenExitMsg');
   if (exitMsgInit) exitMsgInit.style.display = 'none';
 
-  // Prior code handling
   const priorCodeInput  = document.getElementById('priorCodeInput');
   const priorCodeClear  = document.getElementById('priorCodeClear');
   const priorCodeSaved  = document.getElementById('priorCodeSaved');
 
-  // Clear any stale state on page load
   if (priorCodeInput) priorCodeInput.value = '';
   if (priorCodeSaved) priorCodeSaved.classList.add('hidden-input');
   if (priorCodeClear) priorCodeClear.classList.add('hidden-input');
@@ -873,10 +830,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Live progress fill
-  const fill      = document.getElementById('progressFill');
+  const fill       = document.getElementById('progressFill');
   const answeredEl = document.getElementById('answeredCount');
-  const totalEl   = document.getElementById('totalCount');
+  const totalEl    = document.getElementById('totalCount');
 
   if (container) {
     container.addEventListener('change', (event) => {
@@ -894,7 +850,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Render and initialise
   renderQuestions();
   initPrescreen();
   seeResultsBtn.addEventListener('click', handleSubmit);
