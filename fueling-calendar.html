@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="site.css">
+  <link rel="stylesheet" href="assets/css/site.css">
 
   <style>
     .fueling-intro {
@@ -180,59 +180,6 @@
     @media (max-width: 768px) {
       .who-cards { grid-template-columns: 1fr; }
     }
-  
-  /* ── HIGH CONTRAST MODE ────────────────────────────────────────────────── */
-  body.high-contrast {
-    --cream: #ffffff;
-    --warm-white: #f5f3f0;
-    --ink: #111111;
-    --ink-light: #2a2520;
-    --muted: #4a4540;
-    --accent: #6b4e2e;
-    --accent-light: #9e7a52;
-    --rule: #9e9080;
-  }
-  body.high-contrast nav {
-    background: #f5f3f0;
-    border-bottom-color: #9e9080;
-  }
-  
-  /* Accessibility contrast toggle — nav-based, labeled */
-  .contrast-control {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    background: none;
-    border: 1px solid var(--rule);
-    border-radius: 999px;
-    padding: 0.35rem 0.7rem;
-    cursor: pointer;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ink-light);
-    transition: border-color 0.2s, color 0.2s;
-    white-space: nowrap;
-  }
-  .contrast-control:hover { border-color: var(--accent); color: var(--ink); }
-  .contrast-control .contrast-icon {
-    width: 13px; height: 13px;
-    border-radius: 50%;
-    border: 1.5px solid currentColor;
-    background: linear-gradient(90deg, currentColor 50%, transparent 50%);
-    display: inline-block;
-    flex-shrink: 0;
-  }
-  body.high-contrast .contrast-control {
-    border-color: var(--ink);
-    color: var(--ink);
-  }
-  @media (max-width: 600px) {
-    .contrast-control .contrast-label-text { display: none; }
-    .contrast-control { padding: 0.4rem; }
-  }
-
   </style>
 </head>
 <body>
@@ -244,7 +191,13 @@
     <li><a href="assessment.html">Inventory</a></li>
     <li><a href="methodology.html">Methodology</a></li>
   </ul>
-  <button class="contrast-control" id="contrastToggle" aria-label="Toggle higher contrast mode" aria-pressed="false"><span class="contrast-icon"></span><span class="contrast-label-text">Contrast</span></button>
+  <button class="contrast-control" id="contrastToggle" aria-label="Toggle high contrast mode" aria-pressed="false">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+      <circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M7 1a6 6 0 0 1 0 12V1z" fill="currentColor"/>
+    </svg>
+    <span class="contrast-label">Contrast</span>
+  </button>
 </nav>
 
 <div class="page-shell">
@@ -320,39 +273,33 @@
       <p style="margin-top:0.8rem;">If you have a pattern result and want support applying it, the <a href="index.html#coaching">protocol and coaching options</a> are available from the home page.</p>
     </div>
 
-
     <!-- Volunteer note -->
     <div style="max-width:640px;margin:3rem 0 0;padding-top:1.5rem;border-top:1px solid var(--rule);">
       <p style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent-light);">Volunteer testing</p>
-      <p style="font-size:0.88rem;color:var(--ink-light);line-height:1.8;margin-top:0.5rem;">If you are here as a volunteer tester, complete your calendar evaluation and get early access to the protocol when it launches. <a href="volunteer.html" style="color:var(--accent);">Complete your evaluation →</a></p>
+      <p style="font-size:0.88rem;color:var(--ink-light);line-height:1.8;margin-top:0.5rem;">If you are here as a volunteer tester, complete your calendar evaluation and get early access to the protocol when it launches. <a href="volunteer.html" style="color:var(--accent);">Complete your evaluation &rarr;</a></p>
     </div>
 
   </div>
 </div>
 
 <footer>
-  <p>© 2026 Laini Byfield, NBC-HWC &nbsp;·&nbsp; Pilates Footworks LLC</p>
+  <p>&copy; 2026 Laini Byfield, NBC-HWC &nbsp;&middot;&nbsp; Pilates Footworks LLC</p>
   <p>lainibyfield.com</p>
 </footer>
-
-
-
 
 <script>
 (function() {
   const btn = document.getElementById('contrastToggle');
   if (!btn) return;
-  const KEY = 'lainiHighContrast';
-  const labelEl = btn.querySelector('.contrast-label-text');
-  function apply(on) {
+  const apply = (on) => {
     document.body.classList.toggle('high-contrast', on);
-    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-    if (labelEl) labelEl.textContent = on ? 'Contrast On' : 'Contrast';
-  }
-  apply(localStorage.getItem(KEY) === '1');
-  btn.addEventListener('click', function() {
+    btn.setAttribute('aria-pressed', String(on));
+    btn.querySelector('.contrast-label').textContent = on ? 'Contrast On' : 'Contrast';
+  };
+  apply(localStorage.getItem('hc') === '1');
+  btn.addEventListener('click', () => {
     const next = !document.body.classList.contains('high-contrast');
-    localStorage.setItem(KEY, next ? '1' : '0');
+    localStorage.setItem('hc', next ? '1' : '0');
     apply(next);
   });
 })();

@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="site.css">
+  <link rel="stylesheet" href="assets/css/site.css">
 
   <!-- EmailJS -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -75,7 +75,6 @@
       text-transform: uppercase;
     }
 
-    /* Code entry section */
     .code-section {
       margin: 3rem 0;
       max-width: 560px;
@@ -127,7 +126,6 @@
       display: none;
     }
 
-    /* Calendar delivery section */
     #calendarSection { display: none; margin: 2.5rem 0; }
 
     .pattern-card {
@@ -213,7 +211,6 @@
 
     .clinical-note p:last-child { margin-bottom: 0; }
 
-    /* Calendar self-select (no code) */
     #selfSelectSection { display: none; margin: 2.5rem 0; }
 
     .calendar-grid {
@@ -263,7 +260,6 @@
       line-height: 1.6;
     }
 
-    /* Feedback section */
     #feedbackSection {
       display: none;
       margin: 3rem 0;
@@ -310,7 +306,6 @@
     }
 
     .feedback-option:hover { border-color: var(--accent-light); }
-
     .feedback-option input { accent-color: var(--accent); }
 
     .feedback-option span {
@@ -363,7 +358,6 @@
       display: none;
     }
 
-    /* Retake section */
     .retake-block {
       margin: 3rem 0;
       padding: 1.8rem;
@@ -393,59 +387,6 @@
       .calendar-grid { grid-template-columns: 1fr; }
       .code-input-row { flex-direction: column; }
     }
-  
-  /* ── HIGH CONTRAST MODE ────────────────────────────────────────────────── */
-  body.high-contrast {
-    --cream: #ffffff;
-    --warm-white: #f5f3f0;
-    --ink: #111111;
-    --ink-light: #2a2520;
-    --muted: #4a4540;
-    --accent: #6b4e2e;
-    --accent-light: #9e7a52;
-    --rule: #9e9080;
-  }
-  body.high-contrast nav {
-    background: #f5f3f0;
-    border-bottom-color: #9e9080;
-  }
-  
-  /* Accessibility contrast toggle — nav-based, labeled */
-  .contrast-control {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    background: none;
-    border: 1px solid var(--rule);
-    border-radius: 999px;
-    padding: 0.35rem 0.7rem;
-    cursor: pointer;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ink-light);
-    transition: border-color 0.2s, color 0.2s;
-    white-space: nowrap;
-  }
-  .contrast-control:hover { border-color: var(--accent); color: var(--ink); }
-  .contrast-control .contrast-icon {
-    width: 13px; height: 13px;
-    border-radius: 50%;
-    border: 1.5px solid currentColor;
-    background: linear-gradient(90deg, currentColor 50%, transparent 50%);
-    display: inline-block;
-    flex-shrink: 0;
-  }
-  body.high-contrast .contrast-control {
-    border-color: var(--ink);
-    color: var(--ink);
-  }
-  @media (max-width: 600px) {
-    .contrast-control .contrast-label-text { display: none; }
-    .contrast-control { padding: 0.4rem; }
-  }
-
   </style>
 </head>
 <body>
@@ -456,7 +397,13 @@
     <li><a href="index.html">Home</a></li>
     <li><a href="assessment.html">Inventory</a></li>
   </ul>
-  <button class="contrast-control" id="contrastToggle" aria-label="Toggle higher contrast mode" aria-pressed="false"><span class="contrast-icon"></span><span class="contrast-label-text">Contrast</span></button>
+  <button class="contrast-control" id="contrastToggle" aria-label="Toggle high contrast mode" aria-pressed="false">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+      <circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M7 1a6 6 0 0 1 0 12V1z" fill="currentColor"/>
+    </svg>
+    <span class="contrast-label">Contrast</span>
+  </button>
 </nav>
 
 <div class="page-shell">
@@ -578,7 +525,7 @@
       </div>
 
       <div class="feedback-q">
-        <label>3. How many days did you use the calendar? <span style="color:var(--muted)">(0–21)</span></label>
+        <label>3. How many days did you use the calendar? <span style="color:var(--muted)">(0&ndash;21)</span></label>
         <input type="number" class="days-input" id="daysUsed" min="0" max="21" placeholder="0">
       </div>
 
@@ -589,7 +536,7 @@
 
       <div class="feedback-submit-row">
         <button class="btn-primary" onclick="submitFeedback()">Send Feedback</button>
-        <span class="feedback-sent" id="feedbackSent">✓ Received — thank you.</span>
+        <span class="feedback-sent" id="feedbackSent">&check; Received — thank you.</span>
       </div>
     </div>
 
@@ -602,14 +549,14 @@
 
     <!-- SHOW SELF-SELECT LINK -->
     <p style="margin-top:2rem;font-size:0.85rem;color:var(--muted);">
-      Don't have a code? <a href="#" onclick="showSelfSelect(); return false;" style="color:var(--accent);">Select your pattern calendar manually →</a>
+      Don&rsquo;t have a code? <a href="#" onclick="showSelfSelect(); return false;" style="color:var(--accent);">Select your pattern calendar manually &rarr;</a>
     </p>
 
   </div>
 </div>
 
 <footer>
-  <p>© 2026 Laini Byfield, NBC-HWC &nbsp;·&nbsp; Pilates Footworks LLC</p>
+  <p>&copy; 2026 Laini Byfield, NBC-HWC &nbsp;&middot;&nbsp; Pilates Footworks LLC</p>
   <p>lainibyfield.com</p>
 </footer>
 
@@ -618,10 +565,6 @@
 
 const EMAILJS_SERVICE  = 'service_cx3vbrj';
 const EMAILJS_TEMPLATE = 'template_eglunlh';
-
-// ── WEEK DETECTION ────────────────────────────────────────────────────────────
-// Code suffix is YYWW (last 4 digits) — year 2-digit + ISO week number
-// Works across year rollover by converting to absolute weeks
 
 function getCurrentYYWW() {
   const now = new Date();
@@ -632,12 +575,10 @@ function getCurrentYYWW() {
 }
 
 function weeksElapsed(codeStr) {
-  // Extract last 4 digits from code e.g. "TX-1-3-0-8-9-2622" → "2622"
   const suffix = codeStr.slice(-4);
   const codeYY = parseInt(suffix.slice(0, 2));
   const codeWW = parseInt(suffix.slice(2));
   const { yy: currYY, ww: currWW } = getCurrentYYWW();
-  // Use absolute weeks to handle year rollover (max 53 weeks/year)
   const codeAbs = codeYY * 53 + codeWW;
   const currAbs = currYY * 53 + currWW;
   return Math.max(0, currAbs - codeAbs);
@@ -656,7 +597,6 @@ let resolvedPattern = null;
 let hasFuelingSignal = false;
 let isClinical = false;
 
-// Pre-fill code from URL parameter
 window.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
   const code = params.get('code');
@@ -664,7 +604,6 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('codeInput').value = code.toUpperCase();
     handleCodeSubmit();
   }
-  // Show feedback section if ?retake=1
   if (params.get('retake') === '1') {
     document.getElementById('feedbackSection').style.display = 'block';
   }
@@ -679,18 +618,10 @@ function parseCode(raw) {
 }
 
 function getPatternFromPrefix(prefix) {
-  // Clinical prefix — no calendar
   if (prefix.startsWith('CL')) return { clinical: true };
-
-  // NP / Oriented — no behavioral calendar
   if (prefix.startsWith('NP')) return { oriented: true };
-
-  // HO or FU prefix (legacy codes) — treat as Fueling signal only, look for secondary
   if (prefix === 'HO' || prefix === 'FU') return { fuelingOnly: true };
-
-  // Standard: first letter is primary pattern
   const primary = prefix[0];
-  // Second letter is secondary (X = none)
   const secondary = prefix.length > 1 && prefix[1] !== 'X' ? prefix[1] : null;
   return { primary, secondary };
 }
@@ -720,10 +651,6 @@ function renderCalendarSection(patternInfo, code) {
   section.style.display = 'block';
   section.innerHTML = '';
 
-  // Parse F score from code to check Fueling signal (position 1 in hyphen-split = S score)
-  // Code format: [Primary][Secondary]-S-O-D-T-G-YYWW
-  // F score is not stored in the code — but FU/HO prefix legacy codes signal it
-  // For current codes: Fueling signal must be inferred from prefix or flag
   const parts = code.split('-');
   const prefix = parts[0];
   const legacyFueling = prefix === 'FU' || prefix === 'HO';
@@ -742,7 +669,6 @@ function renderCalendarSection(patternInfo, code) {
 
   let html = '';
 
-  // Fueling signal first if legacy code or if we add future flag detection
   if (legacyFueling) {
     hasFuelingSignal = true;
     html += `
@@ -776,7 +702,6 @@ function renderCalendarSection(patternInfo, code) {
     return;
   }
 
-  // Primary pattern calendar
   const primaryKey = patternInfo.fuelingOnly ? null : patternInfo.primary;
   if (primaryKey && calendarMap[primaryKey]) {
     const cal = calendarMap[primaryKey];
@@ -791,7 +716,6 @@ function renderCalendarSection(patternInfo, code) {
     `;
   }
 
-  // Secondary pattern note if present
   if (patternInfo.secondary && calendarMap[patternInfo.secondary]) {
     const sec = calendarMap[patternInfo.secondary];
     html += `
@@ -817,20 +741,20 @@ function showRetakeAndFeedback(code) {
   const { ww: currWW } = getCurrentYYWW();
 
   if (elapsed >= 3) {
-    // 3+ weeks elapsed — show evaluation form
     document.getElementById('feedbackSection').style.display = 'block';
   } else if (elapsed >= 1) {
-    // 1-2 weeks — show continue message
     const weeksLeft = 3 - elapsed;
-    const returnWeek = currWW + weeksLeft;
-    document.getElementById('continueMessage').textContent =
+    const continueMsg = document.getElementById('continueMessage');
+    if (continueMsg) continueMsg.textContent =
       `You are on week ${elapsed + 1} of your calendar. Come back in ${weeksLeft} week${weeksLeft > 1 ? 's' : ''} to complete your evaluation and get early access to the protocol.`;
-    document.getElementById('continueSection').style.display = 'block';
+    const continueSection = document.getElementById('continueSection');
+    if (continueSection) continueSection.style.display = 'block';
   } else {
-    // Just downloaded — show the come-back message inline
-    document.getElementById('continueMessage').textContent =
+    const continueMsg = document.getElementById('continueMessage');
+    if (continueMsg) continueMsg.textContent =
       'Come back to this page with your code in 3 weeks to complete your evaluation and get early access to the protocol.';
-    document.getElementById('continueSection').style.display = 'block';
+    const continueSection = document.getElementById('continueSection');
+    if (continueSection) continueSection.style.display = 'block';
   }
 }
 
@@ -839,14 +763,12 @@ function showSelfSelect() {
   document.getElementById('selfSelectSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-// ── EMAILJS LOGGING ───────────────────────────────────────────────────────────
-
 function logDownload(code, pattern, fuelingFlag) {
   emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, {
     to_email: 'hello@lainibyfield.com',
     subject: 'Volunteer Calendar Download',
     message: `Pattern code: ${code}\nPattern: ${pattern}\nFueling signal: ${fuelingFlag ? 'Yes' : 'No'}\nTimestamp: ${new Date().toISOString()}`
-  }).catch(() => {}); // Silent fail — never block the download
+  }).catch(() => {});
 }
 
 function logManualDownload(pattern) {
@@ -862,7 +784,6 @@ function submitFeedback() {
   const q2 = document.querySelector('input[name="q2"]:checked');
   const days = document.getElementById('daysUsed').value;
   const open = document.getElementById('openFeedback').value;
-  const email = document.getElementById('optinEmail').value.trim();
   const code = sessionStorage.getItem('volunteerCode') || resolvedCode || 'unknown';
   const elapsed = weeksElapsed(code);
 
@@ -872,43 +793,37 @@ function submitFeedback() {
     message: [
       `Pattern code: ${code}`,
       `Weeks since inventory: ${elapsed}`,
-      `Q1 — Day phrases described pattern: ${q1 ? q1.value : 'not answered'}`,
-      `Q2 — Cue key felt accurate: ${q2 ? q2.value : 'not answered'}`,
+      `Q1 — Inventory result accurate: ${q1 ? q1.value : 'not answered'}`,
+      `Q2 — Calendar copy felt accurate: ${q2 ? q2.value : 'not answered'}`,
       `Q3 — Days used: ${days || 'not answered'}`,
       `Q4 — Open feedback: ${open || 'none'}`,
-      `Protocol opt-in email: ${email || 'not provided'}`,
       `Timestamp: ${new Date().toISOString()}`
     ].join('\n')
   }).then(() => {
     document.getElementById('feedbackSent').style.display = 'inline';
-    // Disable submit button after send
-    document.querySelector('#feedbackSection .btn-primary').disabled = true;
-    document.querySelector('#feedbackSection .btn-primary').style.opacity = '0.5';
+    const submitBtn = document.querySelector('#feedbackSection .btn-primary');
+    if (submitBtn) { submitBtn.disabled = true; submitBtn.style.opacity = '0.5'; }
   }).catch(() => {
-    document.getElementById('feedbackSent').textContent = 'Something went wrong — email hello@lainibyfield.com directly.';
-    document.getElementById('feedbackSent').style.display = 'inline';
+    const sentEl = document.getElementById('feedbackSent');
+    sentEl.textContent = 'Something went wrong — email hello@lainibyfield.com directly.';
+    sentEl.style.display = 'inline';
   });
 }
 </script>
-
-
-
 
 <script>
 (function() {
   const btn = document.getElementById('contrastToggle');
   if (!btn) return;
-  const KEY = 'lainiHighContrast';
-  const labelEl = btn.querySelector('.contrast-label-text');
-  function apply(on) {
+  const apply = (on) => {
     document.body.classList.toggle('high-contrast', on);
-    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-    if (labelEl) labelEl.textContent = on ? 'Contrast On' : 'Contrast';
-  }
-  apply(localStorage.getItem(KEY) === '1');
-  btn.addEventListener('click', function() {
+    btn.setAttribute('aria-pressed', String(on));
+    btn.querySelector('.contrast-label').textContent = on ? 'Contrast On' : 'Contrast';
+  };
+  apply(localStorage.getItem('hc') === '1');
+  btn.addEventListener('click', () => {
     const next = !document.body.classList.contains('high-contrast');
-    localStorage.setItem(KEY, next ? '1' : '0');
+    localStorage.setItem('hc', next ? '1' : '0');
     apply(next);
   });
 })();
