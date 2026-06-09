@@ -22,11 +22,13 @@ const questions = [
     { text: 'I am eating with others', code: 'G' },
     { text: 'Eating stays pretty manageable for me', code: '' }
   ]},
+  // Q04 — Fueling option added (tester-flagged: no answer for forgetting to eat / low food salience)
   { id: 'q04', text: 'If you have a lot of free time at home, what happens?', options: [
     { text: 'I snack as something to do', code: 'S' },
     { text: 'I eat while distracted', code: 'D' },
     { text: 'I want to go out or find someone to eat with', code: 'G' },
     { text: 'I eat randomly \u2014 without my usual structure I lose track', code: 'T' },
+    { text: 'I sometimes forget to eat or realize later I never did', code: 'F' },
     { text: 'I find other things to do \u2014 food rarely crosses my mind', code: '' }
   ]},
   { id: 'q05', text: 'You are watching a show at night. What usually happens with food?', options: [
@@ -93,8 +95,8 @@ const questions = [
     { text: 'My timing got off', code: 'F' },
     { text: 'I was with others and went along with the group', code: 'G' }
   ]},
-  // Q14 — option C sharpened (tester-flagged: A and C too similar)
-  { id: 'q14', text: 'You feel very hungry late in the day. Why?', options: [
+  // Q14 — stem made conditional + neutral exit added (tester-flagged: stem presupposes late hunger; forced framing for those it does not apply to)
+  { id: 'q14', text: 'If you ever feel very hungry late in the day, what is usually behind it?', options: [
     { text: 'I kept putting off eating', code: 'F' },
     { text: 'I wanted something better later', code: 'S' },
     { text: 'I was in the middle of something and time just passed', code: 'D' },
@@ -235,7 +237,7 @@ const questions = [
     { text: 'They are roughly consistent', code: '' },
     { text: 'I set a plan and mostly follow it', code: 'T' },
     { text: 'I start well but the evening pulls me off course', code: 'F' },
-    { text: 'I intend to eat very little and then lose control later', code: 'RC' },
+    { text: 'I eat very little early on purpose \u2014 and then later I give in and eat until I feel uncomfortably full', code: 'RC' },
     { text: 'I do not usually set intentions around eating', code: 'D' },
     { text: 'It depends entirely on what the day brings', code: '' }
   ]},
